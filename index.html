@@ -222,6 +222,41 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 @media(max-width:950px){.att-kpis{grid-template-columns:repeat(3,1fr)}.att-form-grid{grid-template-columns:repeat(2,1fr)}.att-item{grid-template-columns:90px 80px 1fr auto 20px}}
 @media(max-width:600px){.att-kpis{grid-template-columns:1fr 1fr}.att-form-grid{grid-template-columns:1fr}.att-field.full{grid-column:auto}.att-item{grid-template-columns:1fr auto}.att-item .att-type,.att-item .att-subject,.att-item .att-badge{grid-column:1/-1}}
 
+
+/* ===== Solicitações, Projetos e Histórico ===== */
+.solic-kpis,.proj-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-bottom:14px}
+.solic-kpi,.proj-kpi{border:1px solid #e3eaf2;border-radius:8px;padding:11px 12px;background:#fff}
+.solic-kpi-label,.proj-kpi-label{font-size:8px;color:#7b8ba0}
+.solic-kpi-value,.proj-kpi-value{font-size:18px;color:#123f68;font-weight:700;margin-top:4px}
+.mod-toolbar{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.mod-search{height:36px;flex:1;border:1px solid var(--line);border-radius:7px;padding:0 11px;font-size:10px;color:var(--text);outline:none}
+.mod-filter{height:36px;border:1px solid var(--line);border-radius:7px;padding:0 10px;font-size:10px;color:var(--text);background:#fff}
+.mod-list{display:flex;flex-direction:column;gap:7px}
+.mod-item{border:1px solid #e3eaf2;border-radius:8px;padding:11px 12px;background:#fff;display:grid;grid-template-columns:115px 1fr 125px 85px;gap:12px;align-items:center}
+.mod-code{font-size:10px;font-weight:700;color:#173e67}.mod-date{font-size:9px;color:#7b8ba0;margin-top:3px}
+.mod-name{font-size:11px;font-weight:700;color:#203f60}.mod-meta{font-size:9px;color:#7b8ba0;margin-top:3px}
+.mod-progress{height:6px;background:#edf2f7;border-radius:5px;overflow:hidden;margin-top:7px}.mod-progress span{display:block;height:100%;background:#1976d2;border-radius:5px}
+.mod-progress-label{font-size:8px;color:#71839a;margin-top:3px}
+.mod-empty{border:1px dashed #d7e0ea;border-radius:8px;padding:28px;text-align:center;color:#7b8ba0;font-size:10px}
+.mod-badge{display:inline-flex;padding:4px 8px;border-radius:15px;font-size:8px;font-weight:700;white-space:nowrap}
+.mod-open{background:#fff5dc;color:#9a6900}.mod-run{background:#e6f3ff;color:#1475c8}.mod-done{background:#e5f7ed;color:#16834f}.mod-late{background:#fff0f0;color:#d23a45}.mod-cancel{background:#f0f2f5;color:#697586}
+.mod-action{border:0;background:transparent;color:#1976d2;font-size:9px;font-weight:700;cursor:pointer}
+.mod-form-card{border:1px solid #e3eaf2;border-radius:8px;padding:15px;background:#fff;margin-bottom:15px}
+.mod-form-title{font-size:14px;font-weight:700;color:#123f68;margin:0 0 12px}
+.mod-form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.mod-field{display:flex;flex-direction:column;gap:5px}.mod-field label{font-size:9px;font-weight:700;color:#294968}.mod-field.full{grid-column:1/-1}
+.mod-field input,.mod-field select,.mod-field textarea{border:1px solid #dce4ed;border-radius:6px;padding:8px 9px;font-size:10px;color:var(--text);outline:none;background:#fff}.mod-field textarea{min-height:65px;resize:vertical}
+.mod-field input:focus,.mod-field select:focus,.mod-field textarea:focus{border-color:#79aee3;box-shadow:0 0 0 3px rgba(25,118,210,.08)}
+.mod-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.mod-feedback{font-size:9px;min-height:14px;margin-top:7px}
+.mod-client-lock{background:#f5f8fb!important;color:#71839a!important}
+.timeline{position:relative;margin:5px 0 0 8px;padding-left:23px}
+.timeline:before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:#dfe7ef}
+.timeline-item{position:relative;padding:0 0 17px 0}.timeline-dot{position:absolute;left:-23px;top:2px;width:12px;height:12px;border-radius:50%;background:#1976d2;border:3px solid #e7f1fb}
+.timeline-card{border:1px solid #e3eaf2;border-radius:8px;padding:11px 13px;background:#fff}
+.timeline-top{display:flex;justify-content:space-between;gap:10px}.timeline-type{font-size:9px;font-weight:700;color:#1976d2;text-transform:uppercase}.timeline-date{font-size:9px;color:#7b8ba0}.timeline-title{font-size:11px;font-weight:700;color:#203f60;margin-top:5px}.timeline-meta{font-size:9px;color:#7b8ba0;margin-top:4px}.timeline-desc{font-size:10px;color:#49627a;margin-top:6px;line-height:1.5}
+@media(max-width:950px){.solic-kpis,.proj-kpis{grid-template-columns:repeat(3,1fr)}.mod-form-grid{grid-template-columns:repeat(2,1fr)}.mod-item{grid-template-columns:100px 1fr 95px}}
+@media(max-width:600px){.solic-kpis,.proj-kpis{grid-template-columns:1fr 1fr}.mod-form-grid{grid-template-columns:1fr}.mod-field.full{grid-column:auto}.mod-item{grid-template-columns:1fr}.mod-toolbar{flex-wrap:wrap}}
+
 </style>
 
 <style id="mne-auth-style">
@@ -661,10 +696,76 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
           <div id="att-list" class="att-list"></div>
         </div>
         <div id="detail-pane-solicitacoes" class="client-detail-pane">
-          <div class="detail-empty"><strong>Solicitações</strong>Esta área será usada para acompanhar solicitações, responsáveis, prazos, prioridade e status.</div>
+          <div class="solic-kpis">
+            <div class="solic-kpi"><div class="solic-kpi-label">TOTAL</div><div id="solic-kpi-total" class="solic-kpi-value">0</div></div>
+            <div class="solic-kpi"><div class="solic-kpi-label">ABERTAS</div><div id="solic-kpi-abertas" class="solic-kpi-value">0</div></div>
+            <div class="solic-kpi"><div class="solic-kpi-label">EM ANDAMENTO</div><div id="solic-kpi-andamento" class="solic-kpi-value">0</div></div>
+            <div class="solic-kpi"><div class="solic-kpi-label">CONCLUÍDAS</div><div id="solic-kpi-concluidas" class="solic-kpi-value">0</div></div>
+            <div class="solic-kpi"><div class="solic-kpi-label">VENCIDAS</div><div id="solic-kpi-vencidas" class="solic-kpi-value">0</div></div>
+          </div>
+          <div id="solic-form-card" class="mod-form-card" style="display:none">
+            <h3 class="mod-form-title">Nova solicitação</h3>
+            <form id="solic-form">
+              <div class="mod-form-grid">
+                <div class="mod-field full"><label>Cliente</label><input id="solic-client" class="mod-client-lock" readonly></div>
+                <div class="mod-field full"><label for="solic-name">Nome da solicitação *</label><input id="solic-name" maxlength="200" required placeholder="Ex.: Revisão do relatório mensal"></div>
+                <div class="mod-field"><label for="solic-type">Tipo *</label><select id="solic-type" required><option value="">Selecione...</option><option>Informação</option><option>Documento</option><option>Revisão</option><option>Suporte</option><option>Alteração</option><option>Reunião</option><option>Outro</option></select></div>
+                <div class="mod-field"><label for="solic-responsible">Responsável</label><select id="solic-responsible"><option value="">Selecione...</option></select></div>
+                <div class="mod-field"><label for="solic-priority">Prioridade *</label><select id="solic-priority" required><option>Baixa</option><option selected>Média</option><option>Alta</option><option>Urgente</option></select></div>
+                <div class="mod-field"><label for="solic-status">Status *</label><select id="solic-status" required><option>Aberta</option><option>Em andamento</option><option>Pendente</option><option>Concluída</option><option>Cancelada</option></select></div>
+                <div class="mod-field"><label for="solic-start">Data de início</label><input id="solic-start" type="date"></div>
+                <div class="mod-field"><label for="solic-due">Data prevista</label><input id="solic-due" type="date"></div>
+                <div class="mod-field"><label for="solic-completion">Data de conclusão</label><input id="solic-completion" type="date"></div>
+                <div class="mod-field"><label for="solic-percent">% conclusão</label><input id="solic-percent" type="number" min="0" max="100" step="1" value="0"></div>
+                <div class="mod-field full"><label for="solic-description">Descrição</label><textarea id="solic-description" placeholder="Detalhe a solicitação..."></textarea></div>
+                <div class="mod-field full"><label for="solic-notes">Observações</label><textarea id="solic-notes" placeholder="Observações adicionais..."></textarea></div>
+              </div>
+              <div id="solic-feedback" class="mod-feedback"></div>
+              <div class="mod-actions"><button id="solic-cancel" class="secondary-btn" type="button">Cancelar</button><button class="primary-btn" type="submit">SALVAR SOLICITAÇÃO</button></div>
+            </form>
+          </div>
+          <div class="mod-toolbar">
+            <input id="solic-search" class="mod-search" type="search" placeholder="Buscar por nome, tipo ou responsável...">
+            <select id="solic-filter" class="mod-filter"><option value="">Todos os status</option><option>Aberta</option><option>Em andamento</option><option>Pendente</option><option>Concluída</option><option>Cancelada</option></select>
+            <button id="solic-new" class="primary-btn" type="button">+ NOVA SOLICITAÇÃO</button>
+          </div>
+          <div id="solic-list" class="mod-list"></div>
         </div>
         <div id="detail-pane-projetos" class="client-detail-pane">
-          <div class="detail-empty"><strong>Projetos do cliente</strong>Os projetos relacionados ao cliente aparecerão aqui, com prazo, responsável e status.</div>
+          <div class="proj-kpis">
+            <div class="proj-kpi"><div class="proj-kpi-label">TOTAL</div><div id="proj-kpi-total" class="proj-kpi-value">0</div></div>
+            <div class="proj-kpi"><div class="proj-kpi-label">EM ANDAMENTO</div><div id="proj-kpi-andamento" class="proj-kpi-value">0</div></div>
+            <div class="proj-kpi"><div class="proj-kpi-label">NÃO INICIADOS</div><div id="proj-kpi-naoiniciados" class="proj-kpi-value">0</div></div>
+            <div class="proj-kpi"><div class="proj-kpi-label">CONCLUÍDOS</div><div id="proj-kpi-concluidos" class="proj-kpi-value">0</div></div>
+            <div class="proj-kpi"><div class="proj-kpi-label">ATRASADOS</div><div id="proj-kpi-atrasados" class="proj-kpi-value">0</div></div>
+          </div>
+          <div id="proj-form-card" class="mod-form-card" style="display:none">
+            <h3 class="mod-form-title">Novo projeto</h3>
+            <form id="proj-form">
+              <div class="mod-form-grid">
+                <div class="mod-field full"><label>Cliente</label><input id="proj-client" class="mod-client-lock" readonly></div>
+                <div class="mod-field full"><label for="proj-name">Nome do projeto *</label><input id="proj-name" maxlength="200" required placeholder="Ex.: Programa de Excelência Operacional"></div>
+                <div class="mod-field"><label for="proj-type">Tipo *</label><select id="proj-type" required><option value="">Selecione...</option><option>Consultoria</option><option>Mentoria</option><option>Treinamento</option><option>Projeto de melhoria</option><option>Diagnóstico</option><option>Outro</option></select></div>
+                <div class="mod-field"><label for="proj-responsible">Responsável</label><select id="proj-responsible"><option value="">Selecione...</option></select></div>
+                <div class="mod-field"><label for="proj-priority">Prioridade *</label><select id="proj-priority" required><option>Baixa</option><option selected>Média</option><option>Alta</option><option>Urgente</option></select></div>
+                <div class="mod-field"><label for="proj-status">Status *</label><select id="proj-status" required><option>Não iniciado</option><option>Em andamento</option><option>Pendente</option><option>Concluído</option><option>Cancelado</option></select></div>
+                <div class="mod-field"><label for="proj-start">Data de início</label><input id="proj-start" type="date"></div>
+                <div class="mod-field"><label for="proj-due">Data prevista</label><input id="proj-due" type="date"></div>
+                <div class="mod-field"><label for="proj-completion">Data de conclusão</label><input id="proj-completion" type="date"></div>
+                <div class="mod-field"><label for="proj-percent">% conclusão</label><input id="proj-percent" type="number" min="0" max="100" step="1" value="0"></div>
+                <div class="mod-field full"><label for="proj-description">Descrição</label><textarea id="proj-description" placeholder="Descreva o projeto..."></textarea></div>
+                <div class="mod-field full"><label for="proj-notes">Observações</label><textarea id="proj-notes" placeholder="Observações adicionais..."></textarea></div>
+              </div>
+              <div id="proj-feedback" class="mod-feedback"></div>
+              <div class="mod-actions"><button id="proj-cancel" class="secondary-btn" type="button">Cancelar</button><button class="primary-btn" type="submit">SALVAR PROJETO</button></div>
+            </form>
+          </div>
+          <div class="mod-toolbar">
+            <input id="proj-search" class="mod-search" type="search" placeholder="Buscar por projeto, tipo ou responsável...">
+            <select id="proj-filter" class="mod-filter"><option value="">Todos os status</option><option>Não iniciado</option><option>Em andamento</option><option>Pendente</option><option>Concluído</option><option>Cancelado</option></select>
+            <button id="proj-new" class="primary-btn" type="button">+ NOVO PROJETO</button>
+          </div>
+          <div id="proj-list" class="mod-list"></div>
         </div>
         <div id="detail-pane-documentos" class="client-detail-pane">
           <h3 class="detail-section-title">Documentos principais</h3>
@@ -680,7 +781,8 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
           </div>
         </div>
         <div id="detail-pane-historico" class="client-detail-pane">
-          <div class="detail-empty"><strong>Histórico do relacionamento</strong>A linha do tempo reunirá atendimentos, solicitações, projetos, documentos e demais eventos do cliente.</div>
+          <div class="detail-empty" id="history-loading">Carregando histórico...</div>
+          <div id="history-list" class="timeline" style="display:none"></div>
         </div>
       </div>
       <div class="client-detail-footer">
@@ -1110,6 +1212,177 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     m.classList.remove('show'); m.setAttribute('aria-hidden','true');
   }
 
+
+  let solicitationCache = [];
+  let projectCache = [];
+
+  function dateTodayISO() { return todayISO(); }
+  function setFeedback(id, text, error=false) {
+    const el=document.getElementById(id); if(!el) return;
+    el.textContent=text||''; el.style.color=error?'#d92d3d':'#16834f';
+  }
+
+  async function loadModuleUsers(selectIds) {
+    await loadAttendanceUsers();
+    selectIds.forEach(id => {
+      const sel=document.getElementById(id);
+      if(!sel) return;
+      sel.innerHTML='<option value="">Selecione...</option>'+activeUsersCache.map(u=>`<option value="${escapeHtml(u.id)}">${escapeHtml(u.nome||u.email)}</option>`).join('');
+      const current=activeUsersCache.find(u=>String(u.id)===String(currentUser?.id));
+      if(current) sel.value=current.id;
+    });
+  }
+
+  function statusClass(status, late=false) {
+    if(late) return 'mod-late';
+    const s=String(status||'').toLowerCase();
+    if(s.includes('conclu')) return 'mod-done';
+    if(s.includes('andamento')) return 'mod-run';
+    if(s.includes('cancel')) return 'mod-cancel';
+    return 'mod-open';
+  }
+
+  function isLate(item) {
+    if(!item.data_prevista || ['Concluída','Concluído','Cancelada','Cancelado'].includes(item.status)) return false;
+    return new Date(item.data_prevista+'T23:59:59') < new Date();
+  }
+
+  async function loadSolicitations(clientId) {
+    const {data,error}=await supabase.from('solicitacoes')
+      .select('id,codigo,cliente_id,responsavel_id,nome,descricao,tipo,status,prioridade,data_inicio,data_prevista,data_conclusao,percentual_conclusao,observacoes,created_at,updated_at')
+      .eq('cliente_id',clientId).order('data_inicio',{ascending:false}).order('id',{ascending:false});
+    if(error){console.error(error);solicitationCache=[];renderSolicitations();return;}
+    solicitationCache=data||[];
+    renderSolicitations();
+  }
+
+  function renderSolicitations() {
+    const term=(document.getElementById('solic-search').value||'').toLowerCase().trim();
+    const filter=document.getElementById('solic-filter').value;
+    const rows=solicitationCache.filter(s=>{
+      const hay=[s.codigo,s.nome,s.descricao,s.tipo,s.status,s.prioridade,responsibleName(s.responsavel_id)].join(' ').toLowerCase();
+      return (!term||hay.includes(term))&&(!filter||s.status===filter);
+    });
+    const today=new Date(); today.setHours(23,59,59,999);
+    document.getElementById('solic-kpi-total').textContent=solicitationCache.length;
+    document.getElementById('solic-kpi-abertas').textContent=solicitationCache.filter(s=>['Aberta','Pendente'].includes(s.status)).length;
+    document.getElementById('solic-kpi-andamento').textContent=solicitationCache.filter(s=>s.status==='Em andamento').length;
+    document.getElementById('solic-kpi-concluidas').textContent=solicitationCache.filter(s=>s.status==='Concluída').length;
+    document.getElementById('solic-kpi-vencidas').textContent=solicitationCache.filter(s=>isLate(s)).length;
+    const list=document.getElementById('solic-list');
+    if(!rows.length){list.innerHTML=`<div class="mod-empty"><strong>${term||filter?'Nenhuma solicitação encontrada.':'Nenhuma solicitação cadastrada.'}</strong></div>`;return;}
+    list.innerHTML=rows.map(s=>`
+      <div class="mod-item">
+        <div><div class="mod-code">${escapeHtml(s.codigo||'MNE-SOL-—')}</div><div class="mod-date">${formatDateBR(s.data_inicio)}</div></div>
+        <div><div class="mod-name">${escapeHtml(s.nome)}</div><div class="mod-meta">${escapeHtml(s.tipo||'—')} · ${escapeHtml(responsibleName(s.responsavel_id))}</div><div class="mod-progress"><span style="width:${Math.max(0,Math.min(100,Number(s.percentual_conclusao)||0))}%"></span></div><div class="mod-progress-label">${Number(s.percentual_conclusao)||0}% concluída · Prazo: ${formatDateBR(s.data_prevista)}</div></div>
+        <span class="mod-badge ${statusClass(s.status,isLate(s))}">${isLate(s)?'VENCIDA':escapeHtml(s.status)}</span>
+        <button class="mod-action" type="button" data-solic-view="${escapeHtml(s.id)}">VER</button>
+      </div>`).join('');
+  }
+
+  async function saveSolicitation(e) {
+    e.preventDefault(); if(!selectedClientForDetail)return;
+    const payload={
+      cliente_id:selectedClientForDetail.id,
+      responsavel_id:document.getElementById('solic-responsible').value||null,
+      nome:document.getElementById('solic-name').value.trim(),
+      descricao:document.getElementById('solic-description').value.trim()||null,
+      tipo:document.getElementById('solic-type').value||null,
+      status:document.getElementById('solic-status').value,
+      prioridade:document.getElementById('solic-priority').value,
+      data_inicio:document.getElementById('solic-start').value||null,
+      data_prevista:document.getElementById('solic-due').value||null,
+      data_conclusao:document.getElementById('solic-completion').value||null,
+      percentual_conclusao:Number(document.getElementById('solic-percent').value)||0,
+      observacoes:document.getElementById('solic-notes').value.trim()||null
+    };
+    if(!payload.nome||!payload.status||!payload.prioridade){setFeedback('solic-feedback','Preencha os campos obrigatórios.',true);return;}
+    const btn=document.querySelector('#solic-form button[type="submit"]');btn.disabled=true;btn.textContent='SALVANDO...';
+    const {error}=await supabase.from('solicitacoes').insert(payload);
+    if(error){console.error(error);setFeedback('solic-feedback','Não foi possível salvar a solicitação. Verifique as permissões da tabela.',true);btn.disabled=false;btn.textContent='SALVAR SOLICITAÇÃO';return;}
+    btn.disabled=false;btn.textContent='SALVAR SOLICITAÇÃO';
+    document.getElementById('solic-form-card').style.display='none';
+    await loadSolicitations(selectedClientForDetail.id);
+    loadHistory(selectedClientForDetail.id);
+  }
+
+  function prepareSolicitationForm(client){
+    document.getElementById('solic-client').value=`${client.codigo||''} - ${client.nome_fantasia||client.razao_social||''}`;
+    document.getElementById('solic-name').value='';document.getElementById('solic-description').value='';
+    document.getElementById('solic-type').value='';document.getElementById('solic-priority').value='Média';document.getElementById('solic-status').value='Aberta';
+    document.getElementById('solic-start').value=todayISO();document.getElementById('solic-due').value='';document.getElementById('solic-completion').value='';document.getElementById('solic-percent').value=0;document.getElementById('solic-notes').value='';
+    setFeedback('solic-feedback','');loadModuleUsers(['solic-responsible']);document.getElementById('solic-form-card').style.display='block';document.getElementById('solic-name').focus();
+  }
+
+  async function loadProjects(clientId){
+    const {data,error}=await supabase.from('projetos')
+      .select('id,codigo,cliente_id,responsavel_id,nome,descricao,tipo,status,prioridade,data_inicio,data_prevista,data_conclusao,percentual_conclusao,observacoes,created_at,updated_at')
+      .eq('cliente_id',clientId).order('data_inicio',{ascending:false}).order('id',{ascending:false});
+    if(error){console.error(error);projectCache=[];renderProjects();return;}
+    projectCache=data||[];renderProjects();
+  }
+
+  function renderProjects(){
+    const term=(document.getElementById('proj-search').value||'').toLowerCase().trim(),filter=document.getElementById('proj-filter').value;
+    const rows=projectCache.filter(p=>{const hay=[p.codigo,p.nome,p.descricao,p.tipo,p.status,p.prioridade,responsibleName(p.responsavel_id)].join(' ').toLowerCase();return(!term||hay.includes(term))&&(!filter||p.status===filter);});
+    document.getElementById('proj-kpi-total').textContent=projectCache.length;
+    document.getElementById('proj-kpi-andamento').textContent=projectCache.filter(p=>p.status==='Em andamento').length;
+    document.getElementById('proj-kpi-naoiniciados').textContent=projectCache.filter(p=>p.status==='Não iniciado').length;
+    document.getElementById('proj-kpi-concluidos').textContent=projectCache.filter(p=>p.status==='Concluído').length;
+    document.getElementById('proj-kpi-atrasados').textContent=projectCache.filter(p=>isLate(p)).length;
+    const list=document.getElementById('proj-list');
+    if(!rows.length){list.innerHTML=`<div class="mod-empty"><strong>${term||filter?'Nenhum projeto encontrado.':'Nenhum projeto cadastrado.'}</strong></div>`;return;}
+    list.innerHTML=rows.map(p=>`
+      <div class="mod-item">
+        <div><div class="mod-code">${escapeHtml(p.codigo||'MNE-PRJ-—')}</div><div class="mod-date">${formatDateBR(p.data_inicio)}</div></div>
+        <div><div class="mod-name">${escapeHtml(p.nome)}</div><div class="mod-meta">${escapeHtml(p.tipo||'—')} · ${escapeHtml(responsibleName(p.responsavel_id))}</div><div class="mod-progress"><span style="width:${Math.max(0,Math.min(100,Number(p.percentual_conclusao)||0))}%"></span></div><div class="mod-progress-label">${Number(p.percentual_conclusao)||0}% concluído · Prazo: ${formatDateBR(p.data_prevista)}</div></div>
+        <span class="mod-badge ${statusClass(p.status,isLate(p))}">${isLate(p)?'ATRASADO':escapeHtml(p.status)}</span>
+        <button class="mod-action" type="button" data-proj-view="${escapeHtml(p.id)}">VER</button>
+      </div>`).join('');
+  }
+
+  async function saveProject(e){
+    e.preventDefault();if(!selectedClientForDetail)return;
+    const payload={
+      cliente_id:selectedClientForDetail.id,responsavel_id:document.getElementById('proj-responsible').value||null,
+      nome:document.getElementById('proj-name').value.trim(),descricao:document.getElementById('proj-description').value.trim()||null,
+      tipo:document.getElementById('proj-type').value||null,status:document.getElementById('proj-status').value,prioridade:document.getElementById('proj-priority').value,
+      data_inicio:document.getElementById('proj-start').value||null,data_prevista:document.getElementById('proj-due').value||null,data_conclusao:document.getElementById('proj-completion').value||null,
+      percentual_conclusao:Number(document.getElementById('proj-percent').value)||0,observacoes:document.getElementById('proj-notes').value.trim()||null
+    };
+    if(!payload.nome||!payload.status||!payload.prioridade){setFeedback('proj-feedback','Preencha os campos obrigatórios.',true);return;}
+    const btn=document.querySelector('#proj-form button[type="submit"]');btn.disabled=true;btn.textContent='SALVANDO...';
+    const {error}=await supabase.from('projetos').insert(payload);
+    if(error){console.error(error);setFeedback('proj-feedback','Não foi possível salvar o projeto. Verifique as permissões da tabela.',true);btn.disabled=false;btn.textContent='SALVAR PROJETO';return;}
+    btn.disabled=false;btn.textContent='SALVAR PROJETO';document.getElementById('proj-form-card').style.display='none';
+    await loadProjects(selectedClientForDetail.id);loadHistory(selectedClientForDetail.id);
+  }
+
+  function prepareProjectForm(client){
+    document.getElementById('proj-client').value=`${client.codigo||''} - ${client.nome_fantasia||client.razao_social||''}`;
+    document.getElementById('proj-name').value='';document.getElementById('proj-description').value='';document.getElementById('proj-type').value='';document.getElementById('proj-priority').value='Média';document.getElementById('proj-status').value='Não iniciado';
+    document.getElementById('proj-start').value=todayISO();document.getElementById('proj-due').value='';document.getElementById('proj-completion').value='';document.getElementById('proj-percent').value=0;document.getElementById('proj-notes').value='';
+    setFeedback('proj-feedback','');loadModuleUsers(['proj-responsible']);document.getElementById('proj-form-card').style.display='block';document.getElementById('proj-name').focus();
+  }
+
+  async function loadHistory(clientId){
+    const loading=document.getElementById('history-loading'),list=document.getElementById('history-list');
+    loading.style.display='block';loading.textContent='Carregando histórico...';list.style.display='none';
+    const [a,s,p]=await Promise.all([
+      supabase.from('atendimentos').select('id,codigo,data_atendimento,tipo,assunto,descricao,status,responsavel_id,created_at').eq('cliente_id',clientId),
+      supabase.from('solicitacoes').select('id,codigo,data_inicio,nome,descricao,status,responsavel_id,created_at').eq('cliente_id',clientId),
+      supabase.from('projetos').select('id,codigo,data_inicio,nome,descricao,status,responsavel_id,created_at').eq('cliente_id',clientId)
+    ]);
+    const events=[
+      ...(a.data||[]).map(x=>({date:x.data_atendimento||x.created_at,type:'ATENDIMENTO',code:x.codigo,title:x.assunto,desc:x.descricao,status:x.status,responsible:responsibleName(x.responsavel_id)})),
+      ...(s.data||[]).map(x=>({date:x.data_inicio||x.created_at,type:'SOLICITAÇÃO',code:x.codigo,title:x.nome,desc:x.descricao,status:x.status,responsible:responsibleName(x.responsavel_id)})),
+      ...(p.data||[]).map(x=>({date:x.data_inicio||x.created_at,type:'PROJETO',code:x.codigo,title:x.nome,desc:x.descricao,status:x.status,responsible:responsibleName(x.responsavel_id)}))
+    ].sort((x,y)=>String(y.date).localeCompare(String(x.date)));
+    if(!events.length){loading.innerHTML='<strong>Histórico do relacionamento</strong>Nenhum evento registrado ainda.';return;}
+    loading.style.display='none';list.style.display='block';
+    list.innerHTML=events.map(e=>`<div class="timeline-item"><span class="timeline-dot"></span><div class="timeline-card"><div class="timeline-top"><span class="timeline-type">${escapeHtml(e.type)} · ${escapeHtml(e.code||'')}</span><span class="timeline-date">${formatDateBR(e.date)}</span></div><div class="timeline-title">${escapeHtml(e.title||'—')}</div><div class="timeline-meta">${escapeHtml(e.status||'')} · ${escapeHtml(e.responsible||'Não informado')}</div>${e.desc?`<div class="timeline-desc">${escapeHtml(e.desc)}</div>`:''}</div></div>`).join('');
+  }
+
   function openClientDetail(client) {
     selectedClientForDetail = client;
     document.getElementById('detail-code').dataset.clientId = client.id;
@@ -1152,6 +1425,8 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     clientDetailModal.classList.add('show');
     clientDetailModal.setAttribute('aria-hidden','false');
     closeAttendanceForm();
+    document.getElementById('solic-form-card').style.display='none';
+    document.getElementById('proj-form-card').style.display='none';
     loadAttendances(client.id);
   }
 
@@ -1371,6 +1646,19 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     if (event.target.id === 'att-view-modal') closeAttendanceView();
   });
 
+
+  document.getElementById('solic-new').addEventListener('click',()=>{if(selectedClientForDetail)prepareSolicitationForm(selectedClientForDetail);});
+  document.getElementById('solic-cancel').addEventListener('click',()=>document.getElementById('solic-form-card').style.display='none');
+  document.getElementById('solic-form').addEventListener('submit',saveSolicitation);
+  document.getElementById('solic-search').addEventListener('input',renderSolicitations);
+  document.getElementById('solic-filter').addEventListener('change',renderSolicitations);
+
+  document.getElementById('proj-new').addEventListener('click',()=>{if(selectedClientForDetail)prepareProjectForm(selectedClientForDetail);});
+  document.getElementById('proj-cancel').addEventListener('click',()=>document.getElementById('proj-form-card').style.display='none');
+  document.getElementById('proj-form').addEventListener('submit',saveProject);
+  document.getElementById('proj-search').addEventListener('input',renderProjects);
+  document.getElementById('proj-filter').addEventListener('change',renderProjects);
+
   document.querySelectorAll('.client-detail-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       const key = tab.dataset.detailTab;
@@ -1380,6 +1668,9 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
       const pane = document.getElementById(`detail-pane-${key}`);
       if (pane) pane.classList.add('active');
       if (key === 'atendimento' && selectedClientForDetail) loadAttendances(selectedClientForDetail.id);
+      if (key === 'solicitacoes' && selectedClientForDetail) loadSolicitations(selectedClientForDetail.id);
+      if (key === 'projetos' && selectedClientForDetail) loadProjects(selectedClientForDetail.id);
+      if (key === 'historico' && selectedClientForDetail) loadHistory(selectedClientForDetail.id);
     });
   });
 

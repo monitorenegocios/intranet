@@ -153,6 +153,44 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 .client-feedback{font-size:10px;margin-top:9px;min-height:14px}
 @media(max-width:1050px){.client-summary{grid-template-columns:1fr}.clients-toolbar{align-items:stretch;flex-direction:column}.client-search{width:100%}.client-form-grid{grid-template-columns:1fr}.client-field.full{grid-column:auto}}
 
+
+/* ===== Ficha 360º do Cliente ===== */
+.client-detail-modal{position:fixed;inset:0;background:rgba(4,22,39,.58);display:none;align-items:center;justify-content:center;z-index:90;padding:18px}
+.client-detail-modal.show{display:flex}
+.client-detail-card{width:min(1050px,100%);max-height:92vh;overflow:hidden;background:#fff;border-radius:10px;box-shadow:0 22px 65px rgba(0,0,0,.24);display:flex;flex-direction:column}
+.client-detail-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line)}
+.client-detail-ident{display:flex;align-items:center;gap:14px}
+.client-detail-code{font-size:10px;color:#71839a;margin-bottom:4px}
+.client-detail-name{font-size:18px;font-weight:700;color:#123f68}
+.client-detail-meta{font-size:10px;color:#71839a;margin-top:4px}
+.client-detail-close{border:0;background:transparent;color:#6d7d92;font-size:22px;cursor:pointer}
+.client-detail-tabs{display:flex;gap:2px;padding:0 18px;border-bottom:1px solid var(--line);overflow:auto}
+.client-detail-tab{border:0;background:transparent;color:#71839a;padding:13px 14px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent}
+.client-detail-tab.active{color:#1976d2;border-bottom-color:#1976d2}
+.client-detail-body{overflow:auto;padding:20px}
+.client-detail-pane{display:none}
+.client-detail-pane.active{display:block}
+.detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.detail-info{border:1px solid #e5ebf2;border-radius:8px;padding:13px}
+.detail-info-label{font-size:9px;color:#7b8ba0;text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px}
+.detail-info-value{font-size:11px;color:#203f60;font-weight:600;word-break:break-word}
+.detail-section-title{font-size:13px;color:#123f68;font-weight:700;margin:0 0 12px}
+.detail-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.detail-kpi{border:1px solid #e5ebf2;border-radius:8px;padding:12px}
+.detail-kpi-label{font-size:9px;color:#7b8ba0}
+.detail-kpi-value{font-size:19px;color:#123f68;font-weight:700;margin-top:5px}
+.detail-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.detail-link-card{border:1px solid #e5ebf2;border-radius:8px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.detail-link-title{font-size:11px;font-weight:700;color:#244666}
+.detail-link-desc{font-size:9px;color:#7b8ba0;margin-top:4px}
+.detail-link-btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid #dce4ed;background:#fff;color:#1976d2;border-radius:6px;height:34px;padding:0 11px;font-size:9px;font-weight:700;white-space:nowrap}
+.detail-link-btn.disabled{color:#9aa8b8;background:#f7f9fc;pointer-events:none}
+.detail-empty{border:1px dashed #d9e1ea;border-radius:8px;padding:32px;text-align:center;color:#7b8ba0;font-size:10px}
+.detail-empty strong{display:block;color:#315170;font-size:11px;margin-bottom:5px}
+.client-detail-footer{display:flex;justify-content:flex-end;padding:12px 20px;border-top:1px solid var(--line)}
+@media(max-width:850px){.detail-grid,.detail-kpis,.detail-links{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.detail-grid,.detail-kpis,.detail-links{grid-template-columns:1fr}.client-detail-card{max-height:96vh}.client-detail-body{padding:14px}}
+
 </style>
 
 <style id="mne-auth-style">
@@ -493,6 +531,83 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     </div>
   </div>
 
+
+  <div id="client-detail-modal" class="client-detail-modal" aria-hidden="true">
+    <div class="client-detail-card">
+      <div class="client-detail-head">
+        <div class="client-detail-ident">
+          <div>
+            <div id="detail-code" class="client-detail-code">MNE-CLI-000</div>
+            <div id="detail-name" class="client-detail-name">Cliente</div>
+            <div id="detail-meta" class="client-detail-meta">—</div>
+          </div>
+        </div>
+        <button id="client-detail-close" class="client-detail-close" type="button" aria-label="Fechar">×</button>
+      </div>
+
+      <div class="client-detail-tabs">
+        <button class="client-detail-tab active" data-detail-tab="dados" type="button">Dados</button>
+        <button class="client-detail-tab" data-detail-tab="atendimento" type="button">Atendimento</button>
+        <button class="client-detail-tab" data-detail-tab="solicitacoes" type="button">Solicitações</button>
+        <button class="client-detail-tab" data-detail-tab="projetos" type="button">Projetos</button>
+        <button class="client-detail-tab" data-detail-tab="documentos" type="button">Documentos</button>
+        <button class="client-detail-tab" data-detail-tab="historico" type="button">Histórico</button>
+      </div>
+
+      <div class="client-detail-body">
+        <div id="detail-pane-dados" class="client-detail-pane active">
+          <div class="detail-kpis">
+            <div class="detail-kpi"><div class="detail-kpi-label">Projetos</div><div class="detail-kpi-value">0</div></div>
+            <div class="detail-kpi"><div class="detail-kpi-label">Solicitações</div><div class="detail-kpi-value">0</div></div>
+            <div class="detail-kpi"><div class="detail-kpi-label">Atendimentos</div><div class="detail-kpi-value">0</div></div>
+            <div class="detail-kpi"><div class="detail-kpi-label">Status</div><div id="detail-status" class="detail-kpi-value">—</div></div>
+          </div>
+          <h3 class="detail-section-title">Dados cadastrais</h3>
+          <div class="detail-grid">
+            <div class="detail-info"><div class="detail-info-label">Razão social</div><div id="detail-razao" class="detail-info-value">—</div></div>
+            <div class="detail-info"><div class="detail-info-label">Nome fantasia</div><div id="detail-fantasia" class="detail-info-value">—</div></div>
+            <div class="detail-info"><div class="detail-info-label">CNPJ</div><div id="detail-cnpj" class="detail-info-value">—</div></div>
+            <div class="detail-info"><div class="detail-info-label">Tipo de cliente</div><div id="detail-tipo" class="detail-info-value">—</div></div>
+            <div class="detail-info"><div class="detail-info-label">Contato principal</div><div id="detail-contato" class="detail-info-value">—</div></div>
+            <div class="detail-info"><div class="detail-info-label">E-mail</div><div id="detail-email" class="detail-info-value">—</div></div>
+            <div class="detail-info"><div class="detail-info-label">Telefone</div><div id="detail-telefone" class="detail-info-value">—</div></div>
+            <div class="detail-info"><div class="detail-info-label">Cidade / Estado</div><div id="detail-local" class="detail-info-value">—</div></div>
+            <div class="detail-info"><div class="detail-info-label">Observações</div><div id="detail-observacoes" class="detail-info-value">—</div></div>
+          </div>
+        </div>
+
+        <div id="detail-pane-atendimento" class="client-detail-pane">
+          <div class="detail-empty"><strong>Atendimentos do cliente</strong>Vamos registrar aqui contatos, reuniões, e-mails, ligações e demais interações com o cliente.</div>
+        </div>
+        <div id="detail-pane-solicitacoes" class="client-detail-pane">
+          <div class="detail-empty"><strong>Solicitações</strong>Esta área será usada para acompanhar solicitações, responsáveis, prazos, prioridade e status.</div>
+        </div>
+        <div id="detail-pane-projetos" class="client-detail-pane">
+          <div class="detail-empty"><strong>Projetos do cliente</strong>Os projetos relacionados ao cliente aparecerão aqui, com prazo, responsável e status.</div>
+        </div>
+        <div id="detail-pane-documentos" class="client-detail-pane">
+          <h3 class="detail-section-title">Documentos principais</h3>
+          <div class="detail-links">
+            <div class="detail-link-card">
+              <div><div class="detail-link-title">Contrato</div><div class="detail-link-desc">Link do contrato armazenado no Google Drive.</div></div>
+              <a id="detail-contract-link" class="detail-link-btn disabled" href="#" target="_blank" rel="noopener">Abrir contrato</a>
+            </div>
+            <div class="detail-link-card">
+              <div><div class="detail-link-title">Pasta do cliente</div><div class="detail-link-desc">Pasta principal do cliente no Google Drive.</div></div>
+              <a id="detail-drive-link" class="detail-link-btn disabled" href="#" target="_blank" rel="noopener">Abrir pasta</a>
+            </div>
+          </div>
+        </div>
+        <div id="detail-pane-historico" class="client-detail-pane">
+          <div class="detail-empty"><strong>Histórico do relacionamento</strong>A linha do tempo reunirá atendimentos, solicitações, projetos, documentos e demais eventos do cliente.</div>
+        </div>
+      </div>
+      <div class="client-detail-footer">
+        <button id="client-detail-edit" class="primary-btn" type="button">EDITAR CLIENTE</button>
+      </div>
+    </div>
+  </div>
+
   <div id="client-modal" class="client-modal" aria-hidden="true">
     <div class="client-modal-card">
       <div class="client-modal-head"><h2 id="client-modal-title">Novo Cliente</h2><button id="client-close" class="client-close" type="button" aria-label="Fechar">×</button></div>
@@ -510,6 +625,8 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
           <div class="client-field"><label for="client-city">Cidade</label><input id="client-city" maxlength="100"></div>
           <div class="client-field"><label for="client-state">Estado</label><input id="client-state" maxlength="2" placeholder="MA"></div>
           <div class="client-field"><label for="client-status">Status *</label><select id="client-status" required><option value="Ativo">Ativo</option><option value="Inativo">Inativo</option><option value="Suspenso">Suspenso</option></select></div>
+          <div class="client-field full"><label for="client-contract-url">Link do contrato (Google Drive)</label><input id="client-contract-url" type="url" placeholder="https://drive.google.com/..."></div>
+          <div class="client-field full"><label for="client-drive-url">Link da pasta do cliente (Google Drive)</label><input id="client-drive-url" type="url" placeholder="https://drive.google.com/..."></div>
           <div class="client-field full"><label for="client-notes">Observações</label><textarea id="client-notes" maxlength="2000"></textarea></div>
         </div>
         <div id="client-form-feedback" class="client-feedback"></div>
@@ -692,6 +809,63 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     clientListFeedback.style.color = isError ? '#d92d3d' : '#6e7f96';
   }
 
+
+  const clientDetailModal = document.getElementById('client-detail-modal');
+  let selectedClientForDetail = null;
+
+  function setDetailText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value || '—';
+  }
+
+  function openClientDetail(client) {
+    selectedClientForDetail = client;
+    setDetailText('detail-code', client.codigo || 'MNE-CLI-—');
+    setDetailText('detail-name', client.nome_fantasia || client.razao_social || 'Cliente');
+    setDetailText('detail-meta', [client.tipo_cliente, client.cnpj].filter(Boolean).join(' • '));
+    setDetailText('detail-status', client.status || '—');
+    setDetailText('detail-razao', client.razao_social);
+    setDetailText('detail-fantasia', client.nome_fantasia);
+    setDetailText('detail-cnpj', client.cnpj);
+    setDetailText('detail-tipo', client.tipo_cliente);
+    setDetailText('detail-contato', client.contato_principal);
+    setDetailText('detail-email', client.email);
+    setDetailText('detail-telefone', client.telefone);
+    setDetailText('detail-local', [client.cidade, client.estado].filter(Boolean).join(' / '));
+    setDetailText('detail-observacoes', client.observacoes);
+
+    const contract = document.getElementById('detail-contract-link');
+    const drive = document.getElementById('detail-drive-link');
+    if (client.contrato_url) {
+      contract.href = client.contrato_url;
+      contract.classList.remove('disabled');
+    } else {
+      contract.href = '#';
+      contract.classList.add('disabled');
+    }
+    if (client.pasta_drive_url) {
+      drive.href = client.pasta_drive_url;
+      drive.classList.remove('disabled');
+    } else {
+      drive.href = '#';
+      drive.classList.add('disabled');
+    }
+
+    document.querySelectorAll('.client-detail-tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.client-detail-pane').forEach(pane => pane.classList.remove('active'));
+    document.querySelector('[data-detail-tab="dados"]').classList.add('active');
+    document.getElementById('detail-pane-dados').classList.add('active');
+
+    clientDetailModal.classList.add('show');
+    clientDetailModal.setAttribute('aria-hidden','false');
+  }
+
+  function closeClientDetail() {
+    clientDetailModal.classList.remove('show');
+    clientDetailModal.setAttribute('aria-hidden','true');
+    selectedClientForDetail = null;
+  }
+
   function openClientsView() {
     dashboardView.style.display = 'none';
     clientsView.style.display = 'block';
@@ -725,6 +899,8 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     document.getElementById('client-city').value = client?.cidade ?? '';
     document.getElementById('client-state').value = client?.estado ?? '';
     document.getElementById('client-status').value = client?.status ?? 'Ativo';
+    document.getElementById('client-contract-url').value = client?.contrato_url ?? '';
+    document.getElementById('client-drive-url').value = client?.pasta_drive_url ?? '';
     document.getElementById('client-notes').value = client?.observacoes ?? '';
     clientModalTitle.textContent = client ? 'Editar Cliente' : 'Novo Cliente';
     setClientFeedback('');
@@ -773,10 +949,16 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
         <td>${escapeHtml(c.contato_principal || '—')}<br><span class="muted">${escapeHtml(c.telefone || c.email || '')}</span></td>
         <td>${escapeHtml(cityUf || '—')}</td>
         <td><span class="status-badge ${statusClass}">${escapeHtml(status || '—')}</span></td>
-        <td><button class="client-action" type="button" data-edit-client="${escapeHtml(c.id)}">Editar</button></td>
+        <td><button class="client-action" type="button" data-view-client="${escapeHtml(c.id)}">Ver</button><button class="client-action" type="button" data-edit-client="${escapeHtml(c.id)}">Editar</button></td>
       </tr>`;
     }).join('');
 
+    clientTbody.querySelectorAll('[data-view-client]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const client = clientsCache.find(c => String(c.id) === String(btn.dataset.viewClient));
+        if (client) openClientDetail(client);
+      });
+    });
     clientTbody.querySelectorAll('[data-edit-client]').forEach(btn => {
       btn.addEventListener('click', () => {
         const client = clientsCache.find(c => String(c.id) === String(btn.dataset.editClient));
@@ -789,7 +971,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     setClientListFeedback('Carregando...');
     const { data, error } = await supabase
       .from('clientes')
-      .select('id,codigo,razao_social,nome_fantasia,cnpj,tipo_cliente,contato_principal,email,telefone,cidade,estado,status,observacoes,responsavel_id,created_at,updated_at')
+      .select('id,codigo,razao_social,nome_fantasia,cnpj,tipo_cliente,contato_principal,email,telefone,cidade,estado,status,observacoes,contrato_url,pasta_drive_url,responsavel_id,created_at,updated_at')
       .order('razao_social', { ascending: true });
 
     if (error) {
@@ -818,6 +1000,8 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
       cidade: document.getElementById('client-city').value.trim() || null,
       estado: document.getElementById('client-state').value.trim().toUpperCase() || null,
       status: document.getElementById('client-status').value,
+      contrato_url: document.getElementById('client-contract-url').value.trim() || null,
+      pasta_drive_url: document.getElementById('client-drive-url').value.trim() || null,
       observacoes: document.getElementById('client-notes').value.trim() || null
     };
     return payload;
@@ -871,7 +1055,34 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
   clientModal.addEventListener('click', event => { if (event.target === clientModal) closeClientModal(); });
 
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') closeClientModal();
+    if (event.key === 'Escape') {
+      closeClientModal();
+      closeClientDetail();
+    }
+  });
+
+
+  document.querySelectorAll('.client-detail-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const key = tab.dataset.detailTab;
+      document.querySelectorAll('.client-detail-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.client-detail-pane').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const pane = document.getElementById(`detail-pane-${key}`);
+      if (pane) pane.classList.add('active');
+    });
+  });
+
+  document.getElementById('client-detail-close').addEventListener('click', closeClientDetail);
+  clientDetailModal.addEventListener('click', event => {
+    if (event.target === clientDetailModal) closeClientDetail();
+  });
+  document.getElementById('client-detail-edit').addEventListener('click', () => {
+    if (selectedClientForDetail) {
+      const client = selectedClientForDetail;
+      closeClientDetail();
+      openClientModal(client);
+    }
   });
 
   // Navegação: apenas Clientes e Início ficam funcionais nesta etapa.

@@ -691,7 +691,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     clientsView.style.display = 'block';
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(btn => {
-      if (btn.textContent.trim() === 'Clientes') btn.classList.add('active');
+      if (btn.textContent.trim().endsWith('Clientes')) btn.classList.add('active');
     });
     loadClients();
   }
@@ -701,7 +701,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     clientsView.style.display = 'none';
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(btn => {
-      if (btn.textContent.trim() === 'Início') btn.classList.add('active');
+      if (btn.textContent.trim().endsWith('Dashboard')) btn.classList.add('active');
     });
   }
 
@@ -868,8 +868,8 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const label = btn.textContent.trim();
-      if (label === 'Clientes') openClientsView();
-      if (label === 'Início') openDashboardView();
+      if (label.endsWith('Clientes')) openClientsView();
+      if (label.endsWith('Dashboard')) openDashboardView();
     });
   });
 

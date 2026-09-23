@@ -38,6 +38,22 @@
 }
 </style>
 
+<style>
+.flow-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.flow-step{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--border);border-radius:10px;background:#fff}
+.flow-step>span{font-size:11px;font-weight:800;color:#2c478b}
+.flow-step strong{display:block;font-size:12px}.flow-step small{display:block;color:var(--muted);font-size:10px;line-height:1.4;margin-top:3px}
+.budget-current{display:flex;justify-content:space-between;gap:18px;align-items:center;border-left:4px solid #2c478b}
+.eyebrow{font-size:10px;letter-spacing:.12em;color:var(--muted);font-weight:800}
+.budget-current-row{display:flex;align-items:center;gap:10px;margin-top:3px}
+.budget-current-row>strong{font-size:21px;letter-spacing:.02em}
+.current-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.status-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#f1f4f8;color:#334155;font-size:10px;font-weight:800}
+.proposal-btn{display:inline-flex;align-items:center;justify-content:center;padding:7px 10px;border:1px solid var(--border);border-radius:7px;text-decoration:none;color:#1f3d80;font-weight:800;font-size:10px;background:#fff}
+.proposal-btn.disabled{color:#9aa3b1;background:#f7f8fa;pointer-events:none}
+@media(max-width:900px){.flow-grid{grid-template-columns:repeat(2,1fr)}.budget-current{align-items:flex-start;flex-direction:column}.current-actions{justify-content:flex-start}}
+@media(max-width:600px){.flow-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -75,8 +91,67 @@
 </div>
 </section>
 
+
 <section id="orcamentos" class="view">
-<div class="head"><div><h1>Orçamentos de Serviços</h1><p>Formação de preços baseada no modelo atual da Monitore</p></div><div class="actions"><button class="btn" onclick="alert('Exportação será conectada ao banco na próxima etapa.')">Exportar</button><button class="btn primary" onclick="openModal('modalOrcamento')">+ NOVO ORÇAMENTO</button></div></div>
+<div class="head">
+  <div>
+    <h1>Orçamentos de Serviços</h1>
+    <p>Crie, calcule, numere e acompanhe cada orçamento da Monitore.</p>
+  </div>
+  <div class="actions">
+    <button class="btn primary" onclick="openModal('modalOrcamento')">+ NOVO ORÇAMENTO</button>
+  </div>
+</div>
+
+<div class="panel" style="margin-bottom:16px">
+  <div class="panel-title">
+    <h2>Fluxo do Orçamento</h2>
+    <span class="badge">ORÇAMENTO → PROPOSTA → CLIENTE</span>
+  </div>
+  <div class="flow-grid">
+    <div class="flow-step"><span>01</span><div><strong>Criar orçamento</strong><small>O sistema gera automaticamente o número.</small></div></div>
+    <div class="flow-step"><span>02</span><div><strong>Calcular preço</strong><small>Custos, margem e preço final.</small></div></div>
+    <div class="flow-step"><span>03</span><div><strong>Vincular proposta</strong><small>Informe o link da proposta no Google Drive.</small></div></div>
+    <div class="flow-step"><span>04</span><div><strong>Abrir proposta</strong><small>Botão direto para o documento no Drive.</small></div></div>
+  </div>
+</div>
+
+<div class="panel" style="margin-bottom:16px">
+  <div class="panel-title">
+    <div>
+      <h2>Orçamentos cadastrados</h2>
+      <p style="margin:4px 0 0;color:var(--muted);font-size:12px">Cada orçamento recebe um número único e permanente.</p>
+    </div>
+    <button class="btn" onclick="loadBudgets()">↻ Atualizar</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Nº</th><th>Cliente</th><th>Serviço</th><th>Tipo</th><th>Valor</th><th>Status</th><th>Proposta</th><th></th>
+      </tr></thead>
+      <tbody id="budgetsBody">
+        <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:24px">Carregando orçamentos...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="orcamentoEditor" style="display:none">
+  <div class="panel budget-current" style="margin-bottom:16px">
+    <div>
+      <div class="eyebrow">ORÇAMENTO ATUAL</div>
+      <div class="budget-current-row">
+        <strong id="currentBudgetCode">MNE-ORC-000</strong>
+        <span id="currentBudgetStatus" class="status-badge">Em elaboração</span>
+      </div>
+      <div id="currentBudgetTitle" style="margin-top:5px;color:var(--muted)">Nenhum orçamento selecionado.</div>
+    </div>
+    <div class="current-actions">
+      <button class="btn" onclick="openProposalModal()">PROPOSTA / GOOGLE DRIVE</button>
+      <button class="btn primary" onclick="saveCurrentBudget()">SALVAR ORÇAMENTO</button>
+    </div>
+  </div>
+
 <div class="tabs">
 <button class="active" data-tab="mne">Orçamento MNE</button>
 <button data-tab="cursos">Cursos e Treinamentos</button>
@@ -146,27 +221,294 @@
 </div>
 </div>
 </section>
+</div>
+</section>
+
 
 <section id="leads" class="view"><div class="head"><div><h1>Leads</h1><p>Gestão de potenciais clientes</p></div><button class="btn primary">+ NOVO LEAD</button></div><div class="panel"><div class="empty">Cadastro de Leads será conectado ao Supabase na próxima etapa.</div></div></section>
 <section id="oportunidades" class="view"><div class="head"><div><h1>Oportunidades</h1><p>Pipeline comercial</p></div><button class="btn primary">+ NOVA OPORTUNIDADE</button></div><div class="panel"><div class="empty">Pipeline será conectado ao Supabase na próxima etapa.</div></div></section>
-<section id="propostas" class="view"><div class="head"><div><h1>Propostas</h1><p>Propostas comerciais e acompanhamento</p></div><button class="btn primary">+ NOVA PROPOSTA</button></div><div class="panel"><div class="empty">Propostas serão conectadas ao orçamento e ao Supabase na próxima etapa.</div></div></section>
+<section id="propostas" class="view">
+<div class="head">
+  <div><h1>Propostas</h1><p>Propostas vinculadas aos orçamentos e armazenadas no Google Drive.</p></div>
+  <button class="btn" onclick="loadProposals()">↻ Atualizar</button>
+</div>
+<div class="panel">
+  <div class="panel-title"><h2>Propostas cadastradas</h2><span class="badge">LINK GOOGLE DRIVE</span></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Proposta</th><th>Orçamento</th><th>Cliente</th><th>Título</th><th>Status</th><th>Acesso</th></tr></thead>
+      <tbody id="proposalsBody"><tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Carregando propostas...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+</section>
 
 </div></main></div>
 
-<div class="modal-bg" id="modalOrcamento"><div class="modal">
-<h2>Novo Orçamento de Serviços</h2>
-<div class="notice">Selecione o tipo de orçamento. A estrutura e os cálculos seguem as abas correspondentes da planilha enviada.</div>
-<div class="grid3">
-<button class="btn primary" onclick="closeModal('modalOrcamento');selectTab('mne')">Orçamento MNE</button>
-<button class="btn primary" onclick="closeModal('modalOrcamento');selectTab('cursos')">Cursos e Treinamentos</button>
-<button class="btn primary" onclick="closeModal('modalOrcamento');selectTab('palestras')">Palestras</button>
+<div class="modal-bg" id="modalOrcamento">
+<div class="modal" style="max-width:720px">
+  <h2>Novo Orçamento</h2>
+  <p style="color:var(--muted);font-size:13px;margin-top:-6px">Primeiro cadastre a identificação. Depois o sistema abre a tela de cálculo.</p>
+  <div class="formgrid">
+    <div class="formgroup full">
+      <label>Cliente *</label>
+      <select id="newBudgetClient"><option value="">Selecione o cliente...</option></select>
+    </div>
+    <div class="formgroup">
+      <label>Tipo de orçamento *</label>
+      <select id="newBudgetType">
+        <option value="Orçamento MNE">Orçamento MNE</option>
+        <option value="Cursos e Treinamentos">Cursos e Treinamentos</option>
+        <option value="Palestras">Palestras</option>
+        <option value="Custo de Produto">Custo de Produto</option>
+        <option value="Análise de Rentabilidade">Análise de Rentabilidade</option>
+      </select>
+    </div>
+    <div class="formgroup">
+      <label>Modalidade</label>
+      <select id="newBudgetMode">
+<option value="Recorrente">Recorrente</option>
+<option value="Presencial">Presencial</option>
+<option value="Online">Online</option>
+<option value="Híbrido">Híbrido</option></select>
+    </div>
+    <div class="formgroup full">
+      <label>Serviço / Projeto *</label>
+      <input id="newBudgetDescription" placeholder="Ex.: Formação de Líderes">
+    </div>
+    <div class="formgroup">
+      <label>Referência</label>
+      <input id="newBudgetReference" placeholder="Ex.: Solicitação 09/2026">
+    </div>
+    <div class="formgroup">
+      <label>Link da proposta no Google Drive</label>
+      <input id="newBudgetDrive" type="url" placeholder="https://drive.google.com/...">
+    </div>
+  </div>
+  <div class="notice" style="margin-top:14px">
+    <strong>Numeração automática:</strong> ao salvar, o banco gera o número único do orçamento, por exemplo <strong>MNE-ORC-001</strong>. Esse número será exibido também na proposta.
+  </div>
+  <div id="newBudgetError" class="notice" style="display:none;margin-top:12px;background:#fff4f4;border-color:#f1c5c5;color:#8a2020"></div>
+  <div class="modal-actions">
+    <button class="btn" onclick="closeModal('modalOrcamento')">Cancelar</button>
+    <button class="btn primary" onclick="createNewBudget()">CRIAR ORÇAMENTO</button>
+  </div>
 </div>
-<div class="modal-actions"><button class="btn" onclick="closeModal('modalOrcamento')">Cancelar</button></div>
-</div></div>
+</div>
 
+<div class="modal-bg" id="modalProposta">
+<div class="modal" style="max-width:650px">
+  <h2>Proposta vinculada</h2>
+  <p style="color:var(--muted);font-size:13px">O número do orçamento ficará registrado na proposta como referência.</p>
+  <div class="formgrid">
+    <div class="formgroup">
+      <label>Número do orçamento</label>
+      <input id="proposalBudgetCode" readonly>
+    </div>
+    <div class="formgroup">
+      <label>Status da proposta</label>
+      <select id="proposalStatus">
+        <option>Em elaboração</option><option>Enviada</option><option>Aprovada</option><option>Recusada</option>
+      </select>
+    </div>
+    <div class="formgroup full">
+      <label>Título da proposta</label>
+      <input id="proposalTitle" placeholder="Ex.: Proposta Comercial – Formação de Líderes">
+    </div>
+    <div class="formgroup full">
+      <label>Link da proposta no Google Drive *</label>
+      <input id="proposalDrive" type="url" placeholder="https://drive.google.com/...">
+    </div>
+  </div>
+  <div class="modal-actions">
+    <button class="btn" onclick="closeModal('modalProposta')">Cancelar</button>
+    <button class="btn primary" onclick="saveProposalLink()">SALVAR PROPOSTA</button>
+  </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+async function initCommercial(){
+  const ok=await ensureCommercialSession();
+  if(ok){
+    await loadClientsForBudget();
+    await loadBudgets();
+    await loadProposals();
+  }
+}
+initCommercial();
+
+</script>
 <script>
+const SUPABASE_URL = "https://pdznpmcxiwgymajyghdw.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_kovCf_PvKEZUysKy0Xd7xw_RRxhxtCk";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
+let currentBudget = null;
+let clientCache = [];
+
 const money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v)||0);
 const num=id=>Number(document.getElementById(id)?.value)||0;
+async function ensureCommercialSession(){
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){ console.warn('Sessão Supabase não encontrada.'); return false; }
+  return true;
+}
+function escapeHtml(v){
+  return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+function statusClass(s){return 'status-badge';}
+async function loadClientsForBudget(){
+  const ok=await ensureCommercialSession(); if(!ok)return;
+  const {data,error}=await supabaseClient.from('clientes').select('id,codigo,razao_social,nome_fantasia').order('razao_social',{ascending:true});
+  if(error){console.error(error);return;}
+  clientCache=data||[];
+  const sel=document.getElementById('newBudgetClient');
+  if(!sel)return;
+  sel.innerHTML='<option value="">Selecione o cliente...</option>'+clientCache.map(c=>`<option value="${c.id}">${escapeHtml(c.codigo||'')} — ${escapeHtml(c.nome_fantasia||c.razao_social||'')}</option>`).join('');
+}
+async function loadBudgets(){
+  const body=document.getElementById('budgetsBody'); if(!body)return;
+  const ok=await ensureCommercialSession();
+  if(!ok){body.innerHTML='<tr><td colspan="8" style="text-align:center;color:#8a2020;padding:24px">Faça login para visualizar os orçamentos.</td></tr>';return;}
+  const {data,error}=await supabaseClient.from('orcamentos_comerciais').select('id,codigo,cliente_id,tipo_orcamento,descricao,status,created_at,clientes(codigo,razao_social,nome_fantasia),orcamentos_resultados(preco_final)').order('created_at',{ascending:false});
+  if(error){body.innerHTML=`<tr><td colspan="8" style="text-align:center;color:#8a2020;padding:24px">Erro ao carregar: ${escapeHtml(error.message)}</td></tr>`;return;}
+  if(!data?.length){body.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:30px">Nenhum orçamento cadastrado. Clique em <strong>+ NOVO ORÇAMENTO</strong>.</td></tr>';return;}
+  body.innerHTML=data.map(o=>{
+    const c=o.clientes||{}; const name=c.nome_fantasia||c.razao_social||'—';
+    return `<tr>
+      <td><strong>${escapeHtml(o.codigo||'—')}</strong></td>
+      <td>${escapeHtml(name)}</td>
+      <td>${escapeHtml(o.descricao||'—')}</td>
+      <td>${escapeHtml(o.tipo_orcamento||'—')}</td>
+      <td class="money">${money(o.orcamentos_resultados?.[0]?.preco_final || 0)}</td>
+      <td><span class="status-badge">${escapeHtml(o.status||'—')}</span></td>
+      <td><span id="prop-${o.id}">—</span></td>
+      <td><button class="btn" onclick="openBudget(${o.id})">ABRIR</button></td>
+    </tr>`;
+  }).join('');
+  await decorateProposalLinks(data);
+}
+async function decorateProposalLinks(budgets){
+  const ids=(budgets||[]).map(x=>x.id); if(!ids.length)return;
+  const {data}=await supabaseClient.from('propostas_comerciais').select('orcamento_id,link_google_drive').in('orcamento_id',ids);
+  (data||[]).forEach(p=>{
+    const el=document.getElementById('prop-'+p.orcamento_id);
+    if(el)el.innerHTML=p.link_google_drive?`<a class="proposal-btn" href="${escapeHtml(p.link_google_drive)}" target="_blank" rel="noopener">ABRIR PROPOSTA</a>`:'—';
+  });
+}
+async function createNewBudget(){
+  const errBox=document.getElementById('newBudgetError'); errBox.style.display='none'; errBox.textContent='';
+  const cliente_id=document.getElementById('newBudgetClient').value;
+  const tipo_orcamento=document.getElementById('newBudgetType').value;
+  const modalidade=document.getElementById('newBudgetMode').value;
+  const descricao=document.getElementById('newBudgetDescription').value.trim();
+  const referencia=document.getElementById('newBudgetReference').value.trim();
+  const drive=document.getElementById('newBudgetDrive').value.trim();
+  if(!cliente_id||!descricao){errBox.textContent='Informe o cliente e o serviço/projeto.';errBox.style.display='block';return;}
+  if(drive && !/^https?:\/\/(drive\.google\.com|docs\.google\.com)\//i.test(drive)){errBox.textContent='Informe um link válido do Google Drive.';errBox.style.display='block';return;}
+  const {data,error}=await supabaseClient.from('orcamentos_comerciais').insert({
+    cliente_id:Number(cliente_id),tipo_orcamento,modalidade,descricao,referencia
+  }).select('id,codigo,cliente_id,tipo_orcamento,descricao,status').single();
+  if(error){errBox.textContent='Não foi possível criar o orçamento: '+error.message;errBox.style.display='block';return;}
+  currentBudget=data;
+  if(drive){
+    const pr=await upsertProposal(data, drive, 'Em elaboração', `Proposta Comercial – ${descricao}`);
+    if(!pr.error) currentBudget.proposal=pr.data;
+  }
+  closeModal('modalOrcamento');
+  showBudgetEditor(data);
+  await loadBudgets();
+}
+function showBudgetEditor(b){
+  currentBudget=b;
+  document.getElementById('orcamentoEditor').style.display='block';
+  document.getElementById('currentBudgetCode').textContent=b.codigo||'MNE-ORC-???';
+  document.getElementById('currentBudgetStatus').textContent=b.status||'Em elaboração';
+  document.getElementById('currentBudgetTitle').textContent=(b.descricao||'')+' · '+(b.tipo_orcamento||'');
+  const tabMap={'Orçamento MNE':'mne','Cursos e Treinamentos':'cursos','Palestras':'palestras','Análise de Rentabilidade':'margem'};
+  if(tabMap[b.tipo_orcamento])selectTab(tabMap[b.tipo_orcamento]);
+  document.getElementById('orcamentoEditor').scrollIntoView({behavior:'smooth',block:'start'});
+}
+async function openBudget(id){
+  const {data,error}=await supabaseClient.from('orcamentos_comerciais').select('*').eq('id',id).single();
+  if(error){alert('Não foi possível abrir o orçamento.');return;}
+  showBudgetEditor(data);
+  const {data:p}=await supabaseClient.from('propostas_comerciais').select('*').eq('orcamento_id',id).maybeSingle();
+  if(p){currentBudget.proposal=p;}
+}
+async function upsertProposal(b, link, status, title){
+  const payload={orcamento_id:b.id,codigo_proposta:'PROP-'+String(b.codigo||'').replace('MNE-ORC-',''),orcamento_codigo:b.codigo,titulo:title||('Proposta – '+(b.descricao||'')),link_google_drive:link,status:status||'Em elaboração'};
+  return await supabaseClient.from('propostas_comerciais').upsert(payload,{onConflict:'orcamento_id'}).select().single();
+}
+function openProposalModal(){
+  if(!currentBudget){alert('Primeiro crie ou abra um orçamento.');return;}
+  document.getElementById('proposalBudgetCode').value=currentBudget.codigo||'';
+  document.getElementById('proposalTitle').value=currentBudget.proposal?.titulo||('Proposta Comercial – '+(currentBudget.descricao||''));
+  document.getElementById('proposalDrive').value=currentBudget.proposal?.link_google_drive||'';
+  document.getElementById('proposalStatus').value=currentBudget.proposal?.status||'Em elaboração';
+  openModal('modalProposta');
+}
+async function saveProposalLink(){
+  const link=document.getElementById('proposalDrive').value.trim();
+  if(!/^https?:\/\/(drive\.google\.com|docs\.google\.com)\//i.test(link)){alert('Informe um link válido do Google Drive.');return;}
+  const r=await upsertProposal(currentBudget,link,document.getElementById('proposalStatus').value,document.getElementById('proposalTitle').value.trim());
+  if(r.error){alert('Não foi possível salvar a proposta: '+r.error.message);return;}
+  currentBudget.proposal=r.data;
+  closeModal('modalProposta');
+  await loadBudgets(); await loadProposals();
+  alert('Proposta vinculada ao orçamento '+currentBudget.codigo+'.');
+}
+async function saveCurrentBudget(){
+  if(!currentBudget){alert('Crie ou abra um orçamento primeiro.');return;}
+  const type=currentBudget.tipo_orcamento;
+  let payload={status:'Calculado'};
+  if(type==='Orçamento MNE'){
+    calcMNE();
+    const preco=Number(document.getElementById('mnePreco').textContent.replace(/[^\d,]/g,'').replace('.','').replace(',','.'))||0;
+    payload.margem_desejada=num('mneMargem'); payload.descricao=document.getElementById('mneServico').value.trim()||currentBudget.descricao;
+    const r=await supabaseClient.from('orcamentos_comerciais').update(payload).eq('id',currentBudget.id).select().single();
+    if(r.error){alert(r.error.message);return;}
+    await supabaseClient.from('orcamentos_resultados').upsert({orcamento_id:currentBudget.id,total_mao_obra:parseMoneyText('mneRMO'),total_custos_fixos:parseMoneyText('mneRFixo'),percentual_custos_variaveis:num('mneImp')+num('mneCom')+num('mneAdm')+num('mneInad')+num('mneOutroPct'),valor_custos_variaveis:parseMoneyText('mneRVar'),subtotal_1:parseMoneyText('mneRSub'),margem_desejada:num('mneMargem'),valor_margem:parseMoneyText('mneRMargem'),preco_final:preco,valor_anual:parseMoneyText('mneRAnual')},{onConflict:'orcamento_id'});
+    await saveMneLines();
+  } else if(type==='Cursos e Treinamentos'){
+    calcCT();
+    payload.quantidade_horas=num('ctHoras'); payload.quantidade_alunos=num('ctAlunos'); payload.margem_desejada=num('ctMargem');
+    const preco=Math.max(parseMoneyText('ctPrecoOn'),parseMoneyText('ctPrecoPr'));
+    await supabaseClient.from('orcamentos_comerciais').update(payload).eq('id',currentBudget.id);
+    await supabaseClient.from('orcamentos_resultados').upsert({orcamento_id:currentBudget.id,margem_desejada:num('ctMargem'),preco_final:preco,bonus:0},{onConflict:'orcamento_id'});
+  } else if(type==='Palestras'){
+    calcPalestra();
+    payload.quantidade_horas=num('paHoras'); payload.quantidade_alunos=num('paAlunos'); payload.margem_desejada=num('paMargem');
+    const preco=Math.max(parseMoneyText('paPrecoOn'),parseMoneyText('paPrecoPr'));
+    await supabaseClient.from('orcamentos_comerciais').update(payload).eq('id',currentBudget.id);
+    await supabaseClient.from('orcamentos_resultados').upsert({orcamento_id:currentBudget.id,margem_desejada:num('plMargem'),preco_final:preco,bonus:0},{onConflict:'orcamento_id'});
+  }
+  const latest=await supabaseClient.from('orcamentos_comerciais').select('*').eq('id',currentBudget.id).single();
+  if(latest.data)currentBudget=latest.data;
+  showBudgetEditor(currentBudget); await loadBudgets();
+  alert('Orçamento '+currentBudget.codigo+' salvo.');
+}
+function parseMoneyText(id){const t=document.getElementById(id)?.textContent||'';return Number(t.replace(/[^\d,-]/g,'').replace(/\./g,'').replace(',','.'))||0;}
+async function saveMneLines(){
+  await supabaseClient.from('orcamentos_mao_obra').delete().eq('orcamento_id',currentBudget.id);
+  const mo=[...document.querySelectorAll('#mneMoBody tr')].map((tr,i)=>({orcamento_id:currentBudget.id,funcao:tr.querySelector('.mne-func')?.value||'Função',quantidade:1,valor_unitario:Number(tr.querySelector('.mne-mo')?.value)||0,ordem:i})).filter(x=>x.valor_unitario>0);
+  if(mo.length)await supabaseClient.from('orcamentos_mao_obra').insert(mo);
+  await supabaseClient.from('orcamentos_custos_fixos').delete().eq('orcamento_id',currentBudget.id);
+  const fix=[...document.querySelectorAll('.mne-fixo')].map((x,i)=>({orcamento_id:currentBudget.id,descricao:x.closest('.formgroup')?.querySelector('label')?.textContent||'Custo Fixo',valor:Number(x.value)||0,ordem:i})).filter(x=>x.valor>0);
+  if(fix.length)await supabaseClient.from('orcamentos_custos_fixos').insert(fix);
+  await supabaseClient.from('orcamentos_custos_variaveis').delete().eq('orcamento_id',currentBudget.id);
+  const vars=[['Impostos',num('mneImp')],['Comissão',num('mneCom')],['Custo Administrativo',num('mneAdm')],['Inadimplência',num('mneInad')],['Outros Custos Diretos',num('mneOutroPct')]];
+  await supabaseClient.from('orcamentos_custos_variaveis').insert(vars.map((v,i)=>({orcamento_id:currentBudget.id,descricao:v[0],percentual:v[1],ordem:i})));
+}
+async function loadProposals(){
+  const body=document.getElementById('proposalsBody');if(!body)return;
+  const ok=await ensureCommercialSession();if(!ok)return;
+  const {data,error}=await supabaseClient.from('propostas_comerciais').select('*,orcamentos_comerciais(id,codigo,descricao,clientes(nome_fantasia,razao_social))').order('created_at',{ascending:false});
+  if(error){body.innerHTML=`<tr><td colspan="6" style="text-align:center;color:#8a2020;padding:24px">${escapeHtml(error.message)}</td></tr>`;return;}
+  if(!data?.length){body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:30px">Nenhuma proposta vinculada.</td></tr>';return;}
+  body.innerHTML=data.map(p=>{const o=p.orcamentos_comerciais||{};const c=o.clientes||{};return `<tr><td><strong>${escapeHtml(p.codigo_proposta||'—')}</strong></td><td>${escapeHtml(p.orcamento_codigo||o.codigo||'—')}</td><td>${escapeHtml(c.nome_fantasia||c.razao_social||'—')}</td><td>${escapeHtml(p.titulo||'—')}</td><td><span class="status-badge">${escapeHtml(p.status||'—')}</span></td><td><a class="proposal-btn ${p.link_google_drive?'':'disabled'}" href="${p.link_google_drive?escapeHtml(p.link_google_drive):'#'}" target="_blank" rel="noopener">${p.link_google_drive?'ABRIR PROPOSTA':'SEM LINK'}</a></td></tr>`}).join('');
+}
+
 function openModal(id){document.getElementById(id)?.classList.add('show')}
 function closeModal(id){document.getElementById(id)?.classList.remove('show')}
 function openView(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(id)?.classList.add('active');document.querySelectorAll('.nav button[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===id));}

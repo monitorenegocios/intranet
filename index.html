@@ -192,35 +192,39 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 @media(max-width:600px){.detail-grid,.detail-kpis,.detail-links{grid-template-columns:1fr}.client-detail-card{max-height:96vh}.client-detail-body{padding:14px}}
 
 
-/* ===== Atendimento funcional ===== */
-.att-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-.att-search{height:36px;flex:1;min-width:180px;border:1px solid var(--line);border-radius:7px;padding:0 11px;font-size:10px;color:var(--text);outline:none}
-.att-filter{height:36px;border:1px solid var(--line);border-radius:7px;padding:0 10px;font-size:10px;color:var(--text);background:#fff}
-.att-list{display:flex;flex-direction:column;gap:7px}
-.att-item{border:1px solid #e3eaf2;border-radius:8px;padding:10px 12px;display:grid;grid-template-columns:105px 95px 1fr auto 25px;align-items:center;gap:9px;background:#fff}
-.att-code{font-size:10px;font-weight:700;color:#173e67}.att-date{font-size:9px;color:#7b8ba0;margin-top:3px}
-.att-type{font-size:10px;color:#294968;font-weight:600}.att-subject{font-size:10px;color:#203f60;font-weight:700}.att-resp{font-size:9px;color:#7b8ba0;margin-top:3px}
-.att-badge{display:inline-flex;padding:4px 8px;border-radius:15px;font-size:8px;font-weight:700;white-space:nowrap}
-.att-concluido{background:#e5f7ed;color:#16834f}.att-andamento{background:#e6f3ff;color:#1475c8}.att-pendente{background:#fff0f0;color:#d23a45}.att-aberto{background:#fff5dc;color:#9a6900}.att-cancelado{background:#f0f2f5;color:#697586}
-.att-menu{border:0;background:transparent;color:#65788f;font-size:18px;cursor:pointer}
-.att-empty{border:1px dashed #d7e0ea;border-radius:8px;padding:28px;text-align:center;color:#7b8ba0;font-size:10px}
-.att-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-bottom:14px}
-.att-kpi{border:1px solid #e3eaf2;border-radius:8px;padding:11px 12px;background:#fff}.att-kpi-label{font-size:8px;color:#7b8ba0}.att-kpi-value{font-size:18px;color:#123f68;font-weight:700;margin-top:4px}
-.att-kpi:last-child .att-kpi-value{font-size:11px;line-height:1.35}
-.att-form-card{border:1px solid #e3eaf2;border-radius:8px;padding:15px;background:#fff;margin-bottom:15px}
-.att-form-title{font-size:14px;font-weight:700;color:#123f68;margin:0 0 12px}
-.att-form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
-.att-field{display:flex;flex-direction:column;gap:5px}.att-field label{font-size:9px;font-weight:700;color:#294968}.att-field.full{grid-column:1/-1}
-.att-field input,.att-field select,.att-field textarea{border:1px solid #dce4ed;border-radius:6px;padding:8px 9px;font-size:10px;color:var(--text);outline:none;background:#fff}.att-field textarea{min-height:70px;resize:vertical}
-.att-field input:focus,.att-field select:focus,.att-field textarea:focus{border-color:#79aee3;box-shadow:0 0 0 3px rgba(25,118,210,.08)}
-.att-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.att-feedback{font-size:9px;min-height:14px;margin-top:7px}
-.att-client-lock{background:#f5f8fb!important;color:#71839a!important}
-.att-view-modal{position:fixed;inset:0;background:rgba(4,22,39,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:18px}.att-view-modal.show{display:flex}
-.att-view-card{width:min(650px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:9px;padding:20px}
-.att-view-head{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:15px}
-.att-view-title{font-size:15px;color:#123f68;font-weight:700}.att-view-close{border:0;background:transparent;font-size:20px;color:#6d7d92;cursor:pointer}
-@media(max-width:950px){.att-kpis{grid-template-columns:repeat(3,1fr)}.att-form-grid{grid-template-columns:repeat(2,1fr)}.att-item{grid-template-columns:90px 80px 1fr auto 20px}}
-@media(max-width:600px){.att-kpis{grid-template-columns:1fr 1fr}.att-form-grid{grid-template-columns:1fr}.att-field.full{grid-column:auto}.att-item{grid-template-columns:1fr auto}.att-item .att-type,.att-item .att-subject,.att-item .att-badge{grid-column:1/-1}}
+/* ===== Reuniões / Ata ===== */
+.meet-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.meet-search{height:36px;flex:1;min-width:180px;border:1px solid var(--line);border-radius:7px;padding:0 11px;font-size:10px;color:var(--text);outline:none}
+.meet-list{display:flex;flex-direction:column;gap:7px}
+.meet-item{border:1px solid #e3eaf2;border-radius:8px;padding:11px 12px;display:grid;grid-template-columns:105px 85px 1fr 105px 25px;align-items:center;gap:10px;background:#fff}
+.meet-code{font-size:10px;font-weight:700;color:#173e67}.meet-date{font-size:9px;color:#7b8ba0;margin-top:3px}
+.meet-time{font-size:11px;color:#294968;font-weight:700}.meet-pauta{font-size:10px;color:#203f60;font-weight:700}.meet-meta{font-size:9px;color:#7b8ba0;margin-top:3px}
+.meet-badge{display:inline-flex;padding:4px 8px;border-radius:15px;font-size:8px;font-weight:700;white-space:nowrap;background:#e6f3ff;color:#1475c8}
+.meet-menu{border:0;background:transparent;color:#65788f;font-size:18px;cursor:pointer}
+.meet-empty{border:1px dashed #d7e0ea;border-radius:8px;padding:28px;text-align:center;color:#7b8ba0;font-size:10px}
+.meet-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:14px}
+.meet-kpi{border:1px solid #e3eaf2;border-radius:8px;padding:11px 12px;background:#fff}.meet-kpi-label{font-size:8px;color:#7b8ba0}.meet-kpi-value{font-size:18px;color:#123f68;font-weight:700;margin-top:4px}
+.meet-form-card{border:1px solid #e3eaf2;border-radius:8px;padding:15px;background:#fff;margin-bottom:15px}
+.meet-form-title{font-size:14px;font-weight:700;color:#123f68;margin:0 0 12px}
+.meet-form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.meet-field{display:flex;flex-direction:column;gap:5px}.meet-field label{font-size:9px;font-weight:700;color:#294968}.meet-field.full{grid-column:1/-1}
+.meet-field input,.meet-field select,.meet-field textarea{border:1px solid #dce4ed;border-radius:6px;padding:8px 9px;font-size:10px;color:var(--text);outline:none;background:#fff}.meet-field textarea{min-height:72px;resize:vertical}
+.meet-field input:focus,.meet-field select:focus,.meet-field textarea:focus{border-color:#79aee3;box-shadow:0 0 0 3px rgba(25,118,210,.08)}
+.meet-client-lock{background:#f5f8fb!important;color:#71839a!important}
+.meet-subtitle{font-size:11px;font-weight:700;color:#123f68;margin:15px 0 8px}
+.meet-table-wrap{overflow:auto;border:1px solid #e3eaf2;border-radius:7px}
+.meet-table{width:100%;border-collapse:collapse;min-width:620px}.meet-table th{background:#f7f9fc;color:#71839a;font-size:8px;text-align:left;padding:8px;border-bottom:1px solid #e3eaf2}.meet-table td{padding:7px;border-bottom:1px solid #eef2f6}.meet-table tr:last-child td{border-bottom:0}
+.meet-table input,.meet-table select{width:100%;height:32px;border:1px solid #dce4ed;border-radius:5px;padding:0 7px;font-size:9px;outline:none;background:#fff}.meet-table input:focus,.meet-table select:focus{border-color:#79aee3}
+.meet-remove{border:0;background:transparent;color:#d23a45;font-size:16px;cursor:pointer;width:26px}.meet-add{margin-top:8px;border:1px dashed #a9c6df;background:#f7fbff;color:#1976d2;border-radius:6px;padding:7px 10px;font-size:9px;font-weight:700;cursor:pointer}
+.meet-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.meet-feedback{font-size:9px;min-height:14px;margin-top:7px}
+.meet-view-modal{position:fixed;inset:0;background:rgba(4,22,39,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:18px}.meet-view-modal.show{display:flex}
+.meet-view-card{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:9px;padding:20px}
+.meet-view-head{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:15px}
+.meet-view-title{font-size:15px;color:#123f68;font-weight:700}.meet-view-close{border:0;background:transparent;font-size:20px;color:#6d7d92;cursor:pointer}
+.meet-view-section{margin-top:15px}.meet-view-section h4{font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:#1976d2;margin:0 0 7px}.meet-view-text{font-size:10px;color:#49627a;line-height:1.55;white-space:pre-wrap}
+.meet-view-list{border:1px solid #e3eaf2;border-radius:7px;overflow:hidden}.meet-view-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:8px 10px;border-bottom:1px solid #eef2f6;font-size:9px;color:#294968}.meet-view-row:last-child{border-bottom:0}.meet-view-row.action{grid-template-columns:40px 1.7fr 1fr 90px 95px}.meet-view-headrow{background:#f7f9fc;font-size:8px;font-weight:700;color:#71839a}
+@media(max-width:950px){.meet-kpis{grid-template-columns:repeat(2,1fr)}.meet-form-grid{grid-template-columns:repeat(2,1fr)}.meet-item{grid-template-columns:90px 75px 1fr 90px 20px}}
+@media(max-width:600px){.meet-kpis{grid-template-columns:1fr 1fr}.meet-form-grid{grid-template-columns:1fr}.meet-field.full{grid-column:auto}.meet-item{grid-template-columns:1fr auto}.meet-item .meet-time,.meet-item .meet-pauta,.meet-item .meet-badge{grid-column:1/-1}}
 
 
 /* ===== Solicitações, Projetos e Histórico ===== */
@@ -412,14 +416,11 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 
     <div class="nav-title">CLIENTES</div>
     <button class="nav-btn"><span class="ico">♙</span>Clientes</button>
-    <button class="nav-btn"><span class="ico">◌</span>Atendimento</button>
-    <button class="nav-btn"><span class="ico">◷</span>Contratos</button>
-    <button class="nav-btn"><span class="ico">↺</span>Histórico</button>
+    <button class="nav-btn"><span class="ico">◫</span>Reuniões</button>
 
     <div class="nav-title">OPERAÇÃO</div>
     <button class="nav-btn"><span class="ico">▱</span>Projetos</button>
     <button class="nav-btn"><span class="ico">☑</span>Tarefas</button>
-    <button class="nav-btn"><span class="ico">◫</span>Reuniões</button>
     <button class="nav-btn"><span class="ico">□</span>Agenda</button>
 
     <div class="nav-title">QUALIDADE (SGQ)</div>
@@ -475,7 +476,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
   <div class="kpis">
     <div class="card kpi"><div class="kpi-main"><div class="kpi-icon">♟</div><div><div class="kpi-value">12</div><div class="kpi-label">Clientes ativos</div></div></div><div class="kpi-foot"><span class="up">▲ +9%</span> &nbsp; vs. mês anterior</div></div>
     <div class="card kpi"><div class="kpi-main"><div class="kpi-icon">▱</div><div><div class="kpi-value">7</div><div class="kpi-label">Projetos em<br>andamento</div></div></div><div class="kpi-foot"><span class="up">▲ +17%</span> &nbsp; vs. mês anterior</div></div>
-    <div class="card kpi"><div class="kpi-main"><div class="kpi-icon">☏</div><div><div class="kpi-value">18</div><div class="kpi-label">Atendimentos</div></div></div><div class="kpi-foot"><span class="up">▲ +6%</span> &nbsp; vs. mês anterior</div></div>
+    <div class="card kpi"><div class="kpi-main"><div class="kpi-icon">☏</div><div><div class="kpi-value">18</div><div class="kpi-label">Reuniões</div></div></div><div class="kpi-foot"><span class="up">▲ +6%</span> &nbsp; vs. mês anterior</div></div>
     <div class="card kpi"><div class="kpi-main"><div class="kpi-icon">☑</div><div><div class="kpi-value">9</div><div class="kpi-label">Ações em<br>andamento</div></div></div><div class="kpi-foot"><span class="bad">▲ +3</span> &nbsp; vencidas</div></div>
     <div class="card kpi"><div class="kpi-main"><div class="kpi-icon">▤</div><div><div class="kpi-value">86</div><div class="kpi-label">Documentos</div></div></div><div class="kpi-foot"><span class="up">▲ +12%</span> &nbsp; vs. mês anterior</div></div>
     <div class="card kpi"><div class="kpi-main"><div class="kpi-icon">▥</div><div><div class="kpi-value">94%</div><div class="kpi-label">Indicadores na<br>meta</div></div></div><div class="kpi-foot"><span class="up">▲ +5%</span> &nbsp; vs. mês anterior</div></div>
@@ -497,7 +498,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
         </div>
       </div>
       <div class="months"><span>Abr</span><span>Mai</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Set</span></div>
-      <div class="legend"><span><i></i>Receita</span><span><i class="b2"></i>Projetos</span><span><i class="b3"></i>Atendimentos</span></div>
+      <div class="legend"><span><i></i>Receita</span><span><i class="b2"></i>Projetos</span><span><i class="b3"></i>Reuniões</span></div>
     </div>
 
     <div class="card section">
@@ -527,7 +528,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 
   <div class="row-bottom">
     <div class="card section">
-      <div class="section-head"><h2>Últimos Atendimentos</h2><button class="link">Ver todos →</button></div>
+      <div class="section-head"><h2>Últimas Reuniões</h2><button class="link">Ver todos →</button></div>
       <div class="list">
         <div class="list-row"><strong>ATD-2026-0018<br><span class="muted">Revisão de procedimento</span></strong><span>Insight Consultoria</span><span class="muted">22/09/2026</span><span class="badge blue">Em andamento</span></div>
         <div class="list-row"><strong>ATD-2026-0017<br><span class="muted">Dúvida sobre indicador</span></strong><span>BobClean</span><span class="muted">21/09/2026</span><span class="badge green">Concluído</span></div>
@@ -554,7 +555,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
       <div class="note"><i class="note-dot y"></i><div><b>Documento próximo da revisão</b><span>PR-07 Atendimento ao Cliente</span></div></div>
       <div class="note"><i class="note-dot y"></i><div><b>Projeto próximo do prazo</b><span>Implantação SGQ - Insight</span></div></div>
       <div class="note"><i class="note-dot g"></i><div><b>Auditoria concluída</b><span>Projeto ABC</span></div></div>
-      <div class="note"><i class="note-dot b"></i><div><b>Novo atendimento</b><span>ATD-2026-0018</span></div></div>
+      <div class="note"><i class="note-dot b"></i><div><b>Nova reunião</b><span>MNE-REU-0018</span></div></div>
     </div>
   </div>
 
@@ -599,19 +600,22 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 
 
 
-  <div id="att-view-modal" class="att-view-modal" aria-hidden="true">
-    <div class="att-view-card">
-      <div class="att-view-head"><div><div id="att-view-code" class="client-detail-code">MNE-ATD-000</div><div id="att-view-title" class="att-view-title">Atendimento</div></div><button id="att-view-close" class="att-view-close" type="button">×</button></div>
-      <div class="detail-grid">
-        <div class="detail-info"><div class="detail-info-label">Data</div><div id="att-view-date" class="detail-info-value">—</div></div>
-        <div class="detail-info"><div class="detail-info-label">Tipo</div><div id="att-view-type" class="detail-info-value">—</div></div>
-        <div class="detail-info"><div class="detail-info-label">Responsável</div><div id="att-view-resp" class="detail-info-value">—</div></div>
-        <div class="detail-info"><div class="detail-info-label">Status</div><div id="att-view-status" class="detail-info-value">—</div></div>
-        <div class="detail-info"><div class="detail-info-label">Prioridade</div><div id="att-view-priority" class="detail-info-value">—</div></div>
-        <div class="detail-info"><div class="detail-info-label">Conclusão</div><div id="att-view-completion" class="detail-info-value">—</div></div>
-        <div class="detail-info" style="grid-column:1/-1"><div class="detail-info-label">Descrição</div><div id="att-view-description" class="detail-info-value">—</div></div>
-        <div class="detail-info" style="grid-column:1/-1"><div class="detail-info-label">Observações</div><div id="att-view-notes" class="detail-info-value">—</div></div>
+  <div id="meet-view-modal" class="meet-view-modal" aria-hidden="true">
+    <div class="meet-view-card">
+      <div class="meet-view-head">
+        <div><div id="meet-view-code" class="client-detail-code">MNE-REU-000</div><div id="meet-view-title" class="meet-view-title">Ata de Reunião</div></div>
+        <button id="meet-view-close" class="meet-view-close" type="button">×</button>
       </div>
+      <div class="detail-grid">
+        <div class="detail-info"><div class="detail-info-label">Cliente</div><div id="meet-view-client" class="detail-info-value">—</div></div>
+        <div class="detail-info"><div class="detail-info-label">Data</div><div id="meet-view-date" class="detail-info-value">—</div></div>
+        <div class="detail-info"><div class="detail-info-label">Hora</div><div id="meet-view-time" class="detail-info-value">—</div></div>
+        <div class="detail-info"><div class="detail-info-label">Registrado por</div><div id="meet-view-created" class="detail-info-value">—</div></div>
+      </div>
+      <div class="meet-view-section"><h4>Pauta</h4><div id="meet-view-pauta" class="meet-view-text">—</div></div>
+      <div class="meet-view-section"><h4>Participantes</h4><div id="meet-view-participants" class="meet-view-list"></div></div>
+      <div class="meet-view-section"><h4>Decisões</h4><div id="meet-view-decisoes" class="meet-view-text">—</div></div>
+      <div class="meet-view-section"><h4>Plano de Ação</h4><div id="meet-view-actions" class="meet-view-list"></div></div>
     </div>
   </div>
 
@@ -630,7 +634,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 
       <div class="client-detail-tabs">
         <button class="client-detail-tab active" data-detail-tab="dados" type="button">Dados</button>
-        <button class="client-detail-tab" data-detail-tab="atendimento" type="button">Atendimento</button>
+        <button class="client-detail-tab" data-detail-tab="reunioes" type="button">Reuniões</button>
         <button class="client-detail-tab" data-detail-tab="solicitacoes" type="button">Solicitações</button>
         <button class="client-detail-tab" data-detail-tab="projetos" type="button">Projetos</button>
         <button class="client-detail-tab" data-detail-tab="documentos" type="button">Documentos</button>
@@ -642,7 +646,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
           <div class="detail-kpis">
             <div class="detail-kpi"><div class="detail-kpi-label">Projetos</div><div class="detail-kpi-value">0</div></div>
             <div class="detail-kpi"><div class="detail-kpi-label">Solicitações</div><div class="detail-kpi-value">0</div></div>
-            <div class="detail-kpi"><div class="detail-kpi-label">Atendimentos</div><div class="detail-kpi-value">0</div></div>
+            <div class="detail-kpi"><div class="detail-kpi-label">Reuniões</div><div id="detail-reunioes" class="detail-kpi-value">0</div></div>
             <div class="detail-kpi"><div class="detail-kpi-label">Status</div><div id="detail-status" class="detail-kpi-value">—</div></div>
           </div>
           <h3 class="detail-section-title">Dados cadastrais</h3>
@@ -659,41 +663,55 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
           </div>
         </div>
 
-        <div id="detail-pane-atendimento" class="client-detail-pane">
-          <div class="att-kpis">
-            <div class="att-kpi"><div class="att-kpi-label">TOTAL DE ATENDIMENTOS</div><div id="att-kpi-total" class="att-kpi-value">0</div></div>
-            <div class="att-kpi"><div class="att-kpi-label">CONCLUÍDOS</div><div id="att-kpi-concluidos" class="att-kpi-value">0</div></div>
-            <div class="att-kpi"><div class="att-kpi-label">EM ANDAMENTO</div><div id="att-kpi-andamento" class="att-kpi-value">0</div></div>
-            <div class="att-kpi"><div class="att-kpi-label">PENDENTES</div><div id="att-kpi-pendentes" class="att-kpi-value">0</div></div>
-            <div class="att-kpi"><div class="att-kpi-label">ÚLTIMO ATENDIMENTO</div><div id="att-kpi-ultimo" class="att-kpi-value">—</div></div>
+        <div id="detail-pane-reunioes" class="client-detail-pane">
+          <div class="meet-kpis">
+            <div class="meet-kpi"><div class="meet-kpi-label">TOTAL DE REUNIÕES</div><div id="meet-kpi-total" class="meet-kpi-value">0</div></div>
+            <div class="meet-kpi"><div class="meet-kpi-label">ESTE MÊS</div><div id="meet-kpi-mes" class="meet-kpi-value">0</div></div>
+            <div class="meet-kpi"><div class="meet-kpi-label">ÚLTIMA REUNIÃO</div><div id="meet-kpi-ultima" class="meet-kpi-value">—</div></div>
+            <div class="meet-kpi"><div class="meet-kpi-label">AÇÕES ABERTAS</div><div id="meet-kpi-acoes" class="meet-kpi-value">0</div></div>
           </div>
 
-          <div id="att-form-card" class="att-form-card" style="display:none">
-            <h3 class="att-form-title">Novo atendimento</h3>
-            <form id="att-form">
-              <div class="att-form-grid">
-                <div class="att-field full"><label>Cliente</label><input id="att-client" class="att-client-lock" readonly></div>
-                <div class="att-field"><label for="att-date">Data do atendimento *</label><input id="att-date" type="date" required></div>
-                <div class="att-field"><label for="att-type">Tipo *</label><select id="att-type" required><option value="">Selecione...</option><option>Reunião</option><option>E-mail</option><option>WhatsApp</option><option>Telefone</option><option>Videoconferência</option><option>Visita</option><option>Outro</option></select></div>
-                <div class="att-field"><label for="att-responsible">Responsável *</label><select id="att-responsible" required><option value="">Selecione...</option></select></div>
-                <div class="att-field"><label for="att-priority">Prioridade *</label><select id="att-priority" required><option>Baixa</option><option selected>Média</option><option>Alta</option></select></div>
-                <div class="att-field full"><label for="att-subject">Assunto *</label><input id="att-subject" maxlength="200" required placeholder="Digite o assunto do atendimento..."></div>
-                <div class="att-field full"><label for="att-description">Descrição *</label><textarea id="att-description" required placeholder="Descreva o atendimento..."></textarea></div>
-                <div class="att-field"><label for="att-status">Status *</label><select id="att-status" required><option>Aberto</option><option>Em andamento</option><option>Pendente</option><option>Concluído</option><option>Cancelado</option></select></div>
-                <div class="att-field"><label for="att-completion">Data de conclusão</label><input id="att-completion" type="date"></div>
-                <div class="att-field full"><label for="att-notes">Observações</label><textarea id="att-notes" placeholder="Observações adicionais..."></textarea></div>
+          <div id="meet-form-card" class="meet-form-card" style="display:none">
+            <h3 class="meet-form-title">Nova ata de reunião</h3>
+            <form id="meet-form">
+              <div class="meet-form-grid">
+                <div class="meet-field full"><label>Cliente</label><input id="meet-client" class="meet-client-lock" readonly></div>
+                <div class="meet-field"><label for="meet-date">Data *</label><input id="meet-date" type="date" required></div>
+                <div class="meet-field"><label for="meet-time">Hora *</label><input id="meet-time" type="time" required></div>
+                <div class="meet-field full"><label for="meet-pauta">Pauta *</label><textarea id="meet-pauta" required placeholder="Descreva a pauta da reunião..."></textarea></div>
               </div>
-              <div id="att-feedback" class="att-feedback"></div>
-              <div class="att-actions"><button id="att-cancel" class="secondary-btn" type="button">Cancelar</button><button class="primary-btn" type="submit">SALVAR ATENDIMENTO</button></div>
+
+              <div class="meet-subtitle">Participantes</div>
+              <div class="meet-table-wrap">
+                <table class="meet-table">
+                  <thead><tr><th>NOME *</th><th>EMPRESA</th><th>FUNÇÃO</th><th></th></tr></thead>
+                  <tbody id="meet-participants-body"></tbody>
+                </table>
+              </div>
+              <button id="meet-add-participant" class="meet-add" type="button">+ ADICIONAR PARTICIPANTE</button>
+
+              <div class="meet-subtitle">Decisões</div>
+              <div class="meet-field full"><textarea id="meet-decisoes" placeholder="Registre as decisões tomadas na reunião..."></textarea></div>
+
+              <div class="meet-subtitle">Plano de Ação</div>
+              <div class="meet-table-wrap">
+                <table class="meet-table">
+                  <thead><tr><th style="width:45px">ITEM</th><th>AÇÃO *</th><th>RESPONSÁVEL *</th><th style="width:115px">PRAZO</th><th style="width:125px">STATUS</th><th></th></tr></thead>
+                  <tbody id="meet-actions-body"></tbody>
+                </table>
+              </div>
+              <button id="meet-add-action" class="meet-add" type="button">+ ADICIONAR AÇÃO</button>
+
+              <div id="meet-feedback" class="meet-feedback"></div>
+              <div class="meet-actions"><button id="meet-cancel" class="secondary-btn" type="button">Cancelar</button><button class="primary-btn" type="submit">SALVAR ATA</button></div>
             </form>
           </div>
 
-          <div class="att-toolbar">
-            <input id="att-search" class="att-search" type="search" placeholder="Buscar por assunto, tipo ou responsável...">
-            <select id="att-filter" class="att-filter"><option value="">Todos os status</option><option>Aberto</option><option>Em andamento</option><option>Pendente</option><option>Concluído</option><option>Cancelado</option></select>
-            <button id="att-new" class="primary-btn" type="button">+ NOVO ATENDIMENTO</button>
+          <div class="meet-toolbar">
+            <input id="meet-search" class="meet-search" type="search" placeholder="Buscar por pauta ou código da reunião...">
+            <button id="meet-new" class="primary-btn" type="button">+ NOVA REUNIÃO</button>
           </div>
-          <div id="att-list" class="att-list"></div>
+          <div id="meet-list" class="meet-list"></div>
         </div>
         <div id="detail-pane-solicitacoes" class="client-detail-pane">
           <div class="solic-kpis">
@@ -1004,8 +1022,10 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
   }
 
 
-  let selectedClientForAttendance = null;
-  let attendanceCache = [];
+  let selectedClientForMeeting = null;
+  let meetingCache = [];
+  let meetingParticipantsDraft = [];
+  let meetingActionsDraft = [];
   let activeUsersCache = [];
 
   function todayISO() {
@@ -1020,61 +1040,16 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     return parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : value;
   }
 
-  function attStatusClass(status) {
-    const s = String(status || '').toLowerCase();
-    if (s === 'concluído') return 'att-concluido';
-    if (s === 'em andamento') return 'att-andamento';
-    if (s === 'pendente') return 'att-pendente';
-    if (s === 'aberto') return 'att-aberto';
-    return 'att-cancelado';
+  function formatTimeBR(value) {
+    if (!value) return '—';
+    return String(value).slice(0,5);
   }
 
-  function showAttFeedback(text, error=false) {
-    const el = document.getElementById('att-feedback');
+  function showMeetFeedback(text, error=false) {
+    const el = document.getElementById('meet-feedback');
+    if (!el) return;
     el.textContent = text || '';
     el.style.color = error ? '#d92d3d' : '#16834f';
-  }
-
-  async function loadAttendanceUsers() {
-    const { data, error } = await supabase
-      .from('usuarios')
-      .select('id,nome,email,cargo,ativo')
-      .eq('ativo', true)
-      .order('nome', { ascending: true });
-    if (error) {
-      console.error('Erro ao carregar responsáveis:', error);
-      return;
-    }
-    activeUsersCache = data || [];
-    const select = document.getElementById('att-responsible');
-    select.innerHTML = '<option value="">Selecione...</option>' +
-      activeUsersCache.map(u => `<option value="${escapeHtml(u.id)}">${escapeHtml(u.nome || u.email)}</option>`).join('');
-  }
-
-  async function loadAttendances(clientId) {
-    const { data, error } = await supabase
-      .from('atendimentos')
-      .select('id,codigo,cliente_id,responsavel_id,data_atendimento,tipo,assunto,descricao,status,prioridade,data_conclusao,observacoes,created_at,updated_at')
-      .eq('cliente_id', clientId)
-      .order('data_atendimento', { ascending: false })
-      .order('id', { ascending: false });
-
-    if (error) {
-      console.error('Erro ao carregar atendimentos:', error);
-      attendanceCache = [];
-      renderAttendances();
-      return;
-    }
-
-    attendanceCache = data || [];
-
-    const responsibleIds = [...new Set(attendanceCache.map(a => a.responsavel_id).filter(Boolean))];
-    const missing = responsibleIds.filter(id => !activeUsersCache.some(u => String(u.id) === String(id)));
-    if (missing.length) {
-      const { data: users } = await supabase.from('usuarios').select('id,nome,email,cargo').in('id', missing);
-      activeUsersCache = activeUsersCache.concat(users || []);
-    }
-    renderAttendances();
   }
 
   function responsibleName(id) {
@@ -1082,136 +1057,219 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     return user?.nome || user?.email || 'Não informado';
   }
 
-  function renderAttendances() {
-    const list = document.getElementById('att-list');
-    const term = (document.getElementById('att-search').value || '').trim().toLowerCase();
-    const statusFilter = document.getElementById('att-filter').value;
-    const rows = attendanceCache.filter(a => {
-      const hay = [a.codigo,a.tipo,a.assunto,a.descricao,responsibleName(a.responsavel_id),a.status,a.prioridade].join(' ').toLowerCase();
-      return (!term || hay.includes(term)) && (!statusFilter || a.status === statusFilter);
-    });
+  function participantRowHtml(p, index) {
+    return `<tr data-participant-row="${index}">
+      <td><input class="meet-p-name" data-index="${index}" value="${escapeHtml(p.nome || '')}" placeholder="Nome"></td>
+      <td><input class="meet-p-company" data-index="${index}" value="${escapeHtml(p.empresa || '')}" placeholder="Empresa"></td>
+      <td><input class="meet-p-role" data-index="${index}" value="${escapeHtml(p.funcao || '')}" placeholder="Função"></td>
+      <td><button class="meet-remove" type="button" data-remove-participant="${index}" title="Remover">×</button></td>
+    </tr>`;
+  }
 
-    document.getElementById('att-kpi-total').textContent = attendanceCache.length;
-    document.getElementById('att-kpi-concluidos').textContent = attendanceCache.filter(a => a.status === 'Concluído').length;
-    document.getElementById('att-kpi-andamento').textContent = attendanceCache.filter(a => a.status === 'Em andamento').length;
-    document.getElementById('att-kpi-pendentes').textContent = attendanceCache.filter(a => a.status === 'Pendente').length;
+  function actionRowHtml(a, index) {
+    return `<tr data-action-row="${index}">
+      <td style="text-align:center;font-size:9px;font-weight:700;color:#173e67">${index+1}</td>
+      <td><input class="meet-a-action" data-index="${index}" value="${escapeHtml(a.acao || '')}" placeholder="Descreva a ação"></td>
+      <td><input class="meet-a-responsible" data-index="${index}" value="${escapeHtml(a.responsavel || '')}" placeholder="Responsável"></td>
+      <td><input class="meet-a-due" data-index="${index}" type="date" value="${escapeHtml(a.prazo || '')}"></td>
+      <td><select class="meet-a-status" data-index="${index}">
+        ${['Não iniciado','Em andamento','Pendente','Concluído'].map(v=>`<option ${v===(a.status||'Não iniciado')?'selected':''}>${v}</option>`).join('')}
+      </select></td>
+      <td><button class="meet-remove" type="button" data-remove-action="${index}" title="Remover">×</button></td>
+    </tr>`;
+  }
 
-    if (attendanceCache.length) {
-      const last = [...attendanceCache].sort((a,b) => String(b.data_atendimento).localeCompare(String(a.data_atendimento)))[0];
-      document.getElementById('att-kpi-ultimo').innerHTML = `${formatDateBR(last.data_atendimento)}<br><span style="font-size:8px;font-weight:500">${escapeHtml(last.tipo || '')} · ${escapeHtml(last.status || '')}</span>`;
-    } else {
-      document.getElementById('att-kpi-ultimo').textContent = '—';
-    }
+  function renderMeetingDraftRows() {
+    const pb = document.getElementById('meet-participants-body');
+    const ab = document.getElementById('meet-actions-body');
+    pb.innerHTML = meetingParticipantsDraft.map(participantRowHtml).join('');
+    ab.innerHTML = meetingActionsDraft.map(actionRowHtml).join('');
 
-    if (!rows.length) {
-      list.innerHTML = `<div class="att-empty"><strong>${term || statusFilter ? 'Nenhum atendimento encontrado.' : 'Nenhum atendimento cadastrado.'}</strong>${term || statusFilter ? 'Ajuste a busca ou o filtro.' : 'Clique em “+ NOVO ATENDIMENTO” para registrar a primeira interação.'}</div>`;
+    pb.querySelectorAll('input').forEach(input => input.addEventListener('input', syncMeetingDrafts));
+    ab.querySelectorAll('input,select').forEach(input => input.addEventListener('input', syncMeetingDrafts));
+    ab.querySelectorAll('select').forEach(input => input.addEventListener('change', syncMeetingDrafts));
+    pb.querySelectorAll('[data-remove-participant]').forEach(btn => btn.addEventListener('click', () => {
+      syncMeetingDrafts(); meetingParticipantsDraft.splice(Number(btn.dataset.removeParticipant),1); renderMeetingDraftRows();
+    }));
+    ab.querySelectorAll('[data-remove-action]').forEach(btn => btn.addEventListener('click', () => {
+      syncMeetingDrafts(); meetingActionsDraft.splice(Number(btn.dataset.removeAction),1); renderMeetingDraftRows();
+    }));
+  }
+
+  function syncMeetingDrafts() {
+    meetingParticipantsDraft = [...document.querySelectorAll('#meet-participants-body tr')].map(row => ({
+      nome: row.querySelector('.meet-p-name')?.value.trim() || '',
+      empresa: row.querySelector('.meet-p-company')?.value.trim() || '',
+      funcao: row.querySelector('.meet-p-role')?.value.trim() || ''
+    }));
+    meetingActionsDraft = [...document.querySelectorAll('#meet-actions-body tr')].map(row => ({
+      acao: row.querySelector('.meet-a-action')?.value.trim() || '',
+      responsavel: row.querySelector('.meet-a-responsible')?.value.trim() || '',
+      prazo: row.querySelector('.meet-a-due')?.value || null,
+      status: row.querySelector('.meet-a-status')?.value || 'Não iniciado'
+    }));
+  }
+
+  async function loadMeetingUsers() {
+    const { data, error } = await supabase.from('usuarios').select('id,nome,email,cargo,ativo').eq('ativo', true).order('nome', {ascending:true});
+    if (!error) activeUsersCache = data || [];
+  }
+
+  async function loadMeetings(clientId) {
+    const { data, error } = await supabase
+      .from('reunioes')
+      .select('id,codigo,cliente_id,data_reuniao,hora_reuniao,pauta,decisoes,criado_por,created_at')
+      .eq('cliente_id', clientId)
+      .order('data_reuniao', {ascending:false})
+      .order('hora_reuniao', {ascending:false});
+    if (error) {
+      console.error('Erro ao carregar reuniões:', error);
+      meetingCache = [];
+      renderMeetings();
       return;
     }
+    meetingCache = data || [];
+    const creatorIds = [...new Set(meetingCache.map(m => m.criado_por).filter(Boolean))];
+    const missing = creatorIds.filter(id => !activeUsersCache.some(u => String(u.id) === String(id)));
+    if (missing.length) {
+      const { data: users } = await supabase.from('usuarios').select('id,nome,email,cargo').in('id', missing);
+      activeUsersCache = activeUsersCache.concat(users || []);
+    }
+    renderMeetings();
+    await updateMeetingActionKpi(clientId);
+  }
 
-    list.innerHTML = rows.map(a => `
-      <div class="att-item">
-        <div><div class="att-code">${escapeHtml(a.codigo || 'MNE-ATD-—')}</div><div class="att-date">${formatDateBR(a.data_atendimento)}</div></div>
-        <div class="att-type">${escapeHtml(a.tipo || '—')}</div>
-        <div><div class="att-subject">${escapeHtml(a.assunto || '—')}</div><div class="att-resp">Responsável: ${escapeHtml(responsibleName(a.responsavel_id))}</div></div>
-        <span class="att-badge ${attStatusClass(a.status)}">${escapeHtml(a.status || '—')}</span>
-        <button class="att-menu" type="button" title="Ver atendimento" data-att-view="${escapeHtml(a.id)}">⋮</button>
-      </div>
-    `).join('');
+  async function updateMeetingActionKpi(clientId) {
+    const { data } = await supabase.from('reuniao_acoes').select('id,reuniao_id,status,reunioes!inner(cliente_id)').eq('reunioes.cliente_id', clientId).neq('status','Concluído');
+    document.getElementById('meet-kpi-acoes').textContent = (data || []).length;
+  }
 
-    list.querySelectorAll('[data-att-view]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = attendanceCache.find(a => String(a.id) === String(btn.dataset.attView));
-        if (item) openAttendanceView(item);
+  function renderMeetings() {
+    const list = document.getElementById('meet-list');
+    const term = (document.getElementById('meet-search').value || '').trim().toLowerCase();
+    const rows = meetingCache.filter(m => {
+      const hay = [m.codigo,m.pauta,m.decisoes,responsibleName(m.criado_por)].join(' ').toLowerCase();
+      return !term || hay.includes(term);
+    });
+    document.getElementById('meet-kpi-total').textContent = meetingCache.length;
+    const monthKey = todayISO().slice(0,7);
+    document.getElementById('meet-kpi-mes').textContent = meetingCache.filter(m => String(m.data_reuniao).slice(0,7) === monthKey).length;
+    const last = meetingCache[0];
+    document.getElementById('meet-kpi-ultima').innerHTML = last ? `${formatDateBR(last.data_reuniao)}<br><span style="font-size:8px;font-weight:500">${formatTimeBR(last.hora_reuniao)}</span>` : '—';
+    const detailCount = document.getElementById('detail-reunioes');
+    if (detailCount) detailCount.textContent = meetingCache.length;
+
+    if (!rows.length) {
+      list.innerHTML = `<div class="meet-empty"><strong>${term ? 'Nenhuma reunião encontrada.' : 'Nenhuma reunião cadastrada.'}</strong>${term ? ' Ajuste a busca.' : ' Clique em “+ NOVA REUNIÃO” para registrar a primeira ata.'}</div>`;
+      return;
+    }
+    list.innerHTML = rows.map(m => `<div class="meet-item">
+      <div><div class="meet-code">${escapeHtml(m.codigo || 'MNE-REU-—')}</div><div class="meet-date">${formatDateBR(m.data_reuniao)}</div></div>
+      <div class="meet-time">${formatTimeBR(m.hora_reuniao)}</div>
+      <div><div class="meet-pauta">${escapeHtml(m.pauta || '—')}</div><div class="meet-meta">Registrado por: ${escapeHtml(responsibleName(m.criado_por))}</div></div>
+      <span class="meet-badge">ATA</span>
+      <button class="meet-menu" type="button" title="Ver ata" data-meet-view="${escapeHtml(m.id)}">⋮</button>
+    </div>`).join('');
+    list.querySelectorAll('[data-meet-view]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const meeting = meetingCache.find(m => String(m.id) === String(btn.dataset.meetView));
+        if (meeting) await openMeetingView(meeting);
       });
     });
   }
 
-  async function prepareAttendanceForm(client) {
-    selectedClientForAttendance = client;
-    document.getElementById('att-client').value = `${client.codigo || ''} - ${client.nome_fantasia || client.razao_social || ''}`;
-    document.getElementById('att-date').value = todayISO();
-    document.getElementById('att-type').value = '';
-    document.getElementById('att-priority').value = 'Média';
-    document.getElementById('att-status').value = 'Aberto';
-    document.getElementById('att-subject').value = '';
-    document.getElementById('att-description').value = '';
-    document.getElementById('att-completion').value = '';
-    document.getElementById('att-notes').value = '';
-    showAttFeedback('');
-    await loadAttendanceUsers();
-    const current = activeUsersCache.find(u => String(u.id) === String(currentUser?.id));
-    if (current) document.getElementById('att-responsible').value = current.id;
-    document.getElementById('att-form-card').style.display = 'block';
-    document.getElementById('att-subject').focus();
+  function prepareMeetingForm(client) {
+    selectedClientForMeeting = client;
+    document.getElementById('meet-client').value = `${client.codigo || ''} - ${client.nome_fantasia || client.razao_social || ''}`;
+    document.getElementById('meet-date').value = todayISO();
+    document.getElementById('meet-time').value = '';
+    document.getElementById('meet-pauta').value = '';
+    document.getElementById('meet-decisoes').value = '';
+    meetingParticipantsDraft = [{nome:'',empresa:'',funcao:''}];
+    meetingActionsDraft = [];
+    renderMeetingDraftRows();
+    showMeetFeedback('');
+    document.getElementById('meet-form-card').style.display = 'block';
+    document.getElementById('meet-date').focus();
   }
 
-  function closeAttendanceForm() {
-    document.getElementById('att-form-card').style.display = 'none';
-    selectedClientForAttendance = null;
+  function closeMeetingForm() {
+    document.getElementById('meet-form-card').style.display = 'none';
+    selectedClientForMeeting = null;
   }
 
-  async function saveAttendance(event) {
+  async function saveMeeting(event) {
     event.preventDefault();
-    if (!selectedClientForAttendance) return;
+    if (!selectedClientForMeeting) return;
+    syncMeetingDrafts();
+    const participantes = meetingParticipantsDraft.filter(p => p.nome);
+    const acoes = meetingActionsDraft.filter(a => a.acao || a.responsavel || a.prazo);
+    if (!document.getElementById('meet-date').value || !document.getElementById('meet-time').value || !document.getElementById('meet-pauta').value.trim()) {
+      showMeetFeedback('Preencha data, hora e pauta.', true); return;
+    }
+    if (!participantes.length) { showMeetFeedback('Adicione pelo menos um participante.', true); return; }
+    const incomplete = acoes.find(a => !a.acao || !a.responsavel);
+    if (incomplete) { showMeetFeedback('Preencha ação e responsável em todas as linhas do plano de ação.', true); return; }
+
+    const btn = document.querySelector('#meet-form button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'SALVANDO...'; showMeetFeedback('');
     const payload = {
-      cliente_id: selectedClientForAttendance.id,
-      responsavel_id: document.getElementById('att-responsible').value || null,
-      data_atendimento: document.getElementById('att-date').value,
-      tipo: document.getElementById('att-type').value,
-      assunto: document.getElementById('att-subject').value.trim(),
-      descricao: document.getElementById('att-description').value.trim(),
-      status: document.getElementById('att-status').value,
-      prioridade: document.getElementById('att-priority').value,
-      data_conclusao: document.getElementById('att-completion').value || null,
-      observacoes: document.getElementById('att-notes').value.trim() || null
+      cliente_id: selectedClientForMeeting.id,
+      data_reuniao: document.getElementById('meet-date').value,
+      hora_reuniao: document.getElementById('meet-time').value,
+      pauta: document.getElementById('meet-pauta').value.trim(),
+      decisoes: document.getElementById('meet-decisoes').value.trim() || null,
+      criado_por: currentUser?.id || null
     };
-
-    if (!payload.data_atendimento || !payload.tipo || !payload.assunto || !payload.descricao || !payload.status || !payload.prioridade) {
-      showAttFeedback('Preencha os campos obrigatórios.', true);
-      return;
-    }
-
-    const btn = document.querySelector('#att-form button[type="submit"]');
-    btn.disabled = true;
-    btn.textContent = 'SALVANDO...';
-    showAttFeedback('');
-
-    const { error } = await supabase.from('atendimentos').insert(payload);
+    const { data: meeting, error } = await supabase.from('reunioes').insert(payload).select().single();
     if (error) {
-      console.error('Erro ao salvar atendimento:', error);
-      showAttFeedback('Não foi possível salvar o atendimento. Verifique as permissões da tabela.', true);
-      btn.disabled = false;
-      btn.textContent = 'SALVAR ATENDIMENTO';
-      return;
+      console.error('Erro ao salvar reunião:', error);
+      showMeetFeedback('Não foi possível salvar a ata. Verifique se a estrutura de Reuniões foi criada no Supabase.', true);
+      btn.disabled=false; btn.textContent='SALVAR ATA'; return;
     }
 
-    btn.disabled = false;
-    btn.textContent = 'SALVAR ATENDIMENTO';
-    const clientId = selectedClientForAttendance.id;
-    closeAttendanceForm();
-    await loadAttendances(clientId);
+    const { error: pError } = await supabase.from('reuniao_participantes').insert(participantes.map(p => ({reuniao_id:meeting.id,nome:p.nome,empresa:p.empresa||null,funcao:p.funcao||null})));
+    if (pError) {
+      await supabase.from('reunioes').delete().eq('id', meeting.id);
+      console.error(pError); showMeetFeedback('A reunião foi iniciada, mas os participantes não puderam ser gravados. Nada foi mantido.', true);
+      btn.disabled=false; btn.textContent='SALVAR ATA'; return;
+    }
+    if (acoes.length) {
+      const { error: aError } = await supabase.from('reuniao_acoes').insert(acoes.map((a,i)=>({reuniao_id:meeting.id,item:i+1,acao:a.acao,responsavel:a.responsavel,prazo:a.prazo||null,status:a.status||'Não iniciado'})));
+      if (aError) {
+        await supabase.from('reunioes').delete().eq('id', meeting.id);
+        console.error(aError); showMeetFeedback('A reunião foi iniciada, mas o plano de ação não pôde ser gravado. Nada foi mantido.', true);
+        btn.disabled=false; btn.textContent='SALVAR ATA'; return;
+      }
+    }
+    const clientId = selectedClientForMeeting.id;
+    closeMeetingForm();
+    btn.disabled=false; btn.textContent='SALVAR ATA';
+    await loadMeetings(clientId);
+    await loadHistory(clientId);
   }
 
-  function openAttendanceView(a) {
-    document.getElementById('att-view-code').textContent = a.codigo || 'MNE-ATD-—';
-    document.getElementById('att-view-title').textContent = a.assunto || 'Atendimento';
-    document.getElementById('att-view-date').textContent = formatDateBR(a.data_atendimento);
-    document.getElementById('att-view-type').textContent = a.tipo || '—';
-    document.getElementById('att-view-resp').textContent = responsibleName(a.responsavel_id);
-    document.getElementById('att-view-status').textContent = a.status || '—';
-    document.getElementById('att-view-priority').textContent = a.prioridade || '—';
-    document.getElementById('att-view-completion').textContent = formatDateBR(a.data_conclusao);
-    document.getElementById('att-view-description').textContent = a.descricao || '—';
-    document.getElementById('att-view-notes').textContent = a.observacoes || '—';
-    const m = document.getElementById('att-view-modal');
-    m.classList.add('show'); m.setAttribute('aria-hidden','false');
+  async function openMeetingView(m) {
+    document.getElementById('meet-view-code').textContent = m.codigo || 'MNE-REU-—';
+    document.getElementById('meet-view-title').textContent = 'Ata de Reunião';
+    document.getElementById('meet-view-client').textContent = selectedClientForDetail?.nome_fantasia || selectedClientForDetail?.razao_social || '—';
+    document.getElementById('meet-view-date').textContent = formatDateBR(m.data_reuniao);
+    document.getElementById('meet-view-time').textContent = formatTimeBR(m.hora_reuniao);
+    document.getElementById('meet-view-created').textContent = responsibleName(m.criado_por);
+    document.getElementById('meet-view-pauta').textContent = m.pauta || '—';
+    document.getElementById('meet-view-decisoes').textContent = m.decisoes || '—';
+    const [{data: participants}, {data: actions}] = await Promise.all([
+      supabase.from('reuniao_participantes').select('nome,empresa,funcao').eq('reuniao_id',m.id).order('id'),
+      supabase.from('reuniao_acoes').select('item,acao,responsavel,prazo,status').eq('reuniao_id',m.id).order('item')
+    ]);
+    document.getElementById('meet-view-participants').innerHTML = (participants||[]).length ? `<div class="meet-view-row meet-view-headrow"><span>NOME</span><span>EMPRESA</span><span>FUNÇÃO</span></div>`+(participants||[]).map(p=>`<div class="meet-view-row"><span>${escapeHtml(p.nome||'—')}</span><span>${escapeHtml(p.empresa||'—')}</span><span>${escapeHtml(p.funcao||'—')}</span></div>`).join('') : '<div class="meet-view-text" style="padding:10px">Nenhum participante registrado.</div>';
+    document.getElementById('meet-view-actions').innerHTML = (actions||[]).length ? `<div class="meet-view-row action meet-view-headrow"><span>ITEM</span><span>AÇÃO</span><span>RESPONSÁVEL</span><span>PRAZO</span><span>STATUS</span></div>`+(actions||[]).map(a=>`<div class="meet-view-row action"><span>${escapeHtml(a.item)}</span><span>${escapeHtml(a.acao||'—')}</span><span>${escapeHtml(a.responsavel||'—')}</span><span>${formatDateBR(a.prazo)}</span><span>${escapeHtml(a.status||'—')}</span></div>`).join('') : '<div class="meet-view-text" style="padding:10px">Nenhuma ação registrada.</div>';
+    const modal=document.getElementById('meet-view-modal'); modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
   }
 
-  function closeAttendanceView() {
-    const m = document.getElementById('att-view-modal');
-    m.classList.remove('show'); m.setAttribute('aria-hidden','true');
+  function closeMeetingView() {
+    const m=document.getElementById('meet-view-modal'); m.classList.remove('show'); m.setAttribute('aria-hidden','true');
   }
-
 
   let solicitationCache = [];
   let projectCache = [];
@@ -1368,13 +1426,13 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
   async function loadHistory(clientId){
     const loading=document.getElementById('history-loading'),list=document.getElementById('history-list');
     loading.style.display='block';loading.textContent='Carregando histórico...';list.style.display='none';
-    const [a,s,p]=await Promise.all([
-      supabase.from('atendimentos').select('id,codigo,data_atendimento,tipo,assunto,descricao,status,responsavel_id,created_at').eq('cliente_id',clientId),
+    const [r,s,p]=await Promise.all([
+      supabase.from('reunioes').select('id,codigo,data_reuniao,pauta,decisoes,criado_por,created_at').eq('cliente_id',clientId),
       supabase.from('solicitacoes').select('id,codigo,data_inicio,nome,descricao,status,responsavel_id,created_at').eq('cliente_id',clientId),
       supabase.from('projetos').select('id,codigo,data_inicio,nome,descricao,status,responsavel_id,created_at').eq('cliente_id',clientId)
     ]);
     const events=[
-      ...(a.data||[]).map(x=>({date:x.data_atendimento||x.created_at,type:'ATENDIMENTO',code:x.codigo,title:x.assunto,desc:x.descricao,status:x.status,responsible:responsibleName(x.responsavel_id)})),
+      ...(r.data||[]).map(x=>({date:x.data_reuniao||x.created_at,type:'REUNIÃO',code:x.codigo,title:x.pauta,desc:x.decisoes,status:'Registrada',responsible:responsibleName(x.criado_por)})),
       ...(s.data||[]).map(x=>({date:x.data_inicio||x.created_at,type:'SOLICITAÇÃO',code:x.codigo,title:x.nome,desc:x.descricao,status:x.status,responsible:responsibleName(x.responsavel_id)})),
       ...(p.data||[]).map(x=>({date:x.data_inicio||x.created_at,type:'PROJETO',code:x.codigo,title:x.nome,desc:x.descricao,status:x.status,responsible:responsibleName(x.responsavel_id)}))
     ].sort((x,y)=>String(y.date).localeCompare(String(x.date)));
@@ -1424,10 +1482,10 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 
     clientDetailModal.classList.add('show');
     clientDetailModal.setAttribute('aria-hidden','false');
-    closeAttendanceForm();
+    closeMeetingForm();
     document.getElementById('solic-form-card').style.display='none';
     document.getElementById('proj-form-card').style.display='none';
-    loadAttendances(client.id);
+    loadMeetings(client.id);
   }
 
   function closeClientDetail() {
@@ -1626,7 +1684,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
-      closeAttendanceView();
+      closeMeetingView();
       closeClientModal();
       closeClientDetail();
     }
@@ -1634,18 +1692,22 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 
 
 
-  document.getElementById('att-new').addEventListener('click', () => {
-    if (selectedClientForDetail) prepareAttendanceForm(selectedClientForDetail);
+  document.getElementById('meet-new').addEventListener('click', () => {
+    if (selectedClientForDetail) prepareMeetingForm(selectedClientForDetail);
   });
-  document.getElementById('att-cancel').addEventListener('click', closeAttendanceForm);
-  document.getElementById('att-form').addEventListener('submit', saveAttendance);
-  document.getElementById('att-search').addEventListener('input', renderAttendances);
-  document.getElementById('att-filter').addEventListener('change', renderAttendances);
-  document.getElementById('att-view-close').addEventListener('click', closeAttendanceView);
-  document.getElementById('att-view-modal').addEventListener('click', event => {
-    if (event.target.id === 'att-view-modal') closeAttendanceView();
+  document.getElementById('meet-cancel').addEventListener('click', closeMeetingForm);
+  document.getElementById('meet-form').addEventListener('submit', saveMeeting);
+  document.getElementById('meet-search').addEventListener('input', renderMeetings);
+  document.getElementById('meet-add-participant').addEventListener('click', () => {
+    syncMeetingDrafts(); meetingParticipantsDraft.push({nome:'',empresa:'',funcao:''}); renderMeetingDraftRows();
   });
-
+  document.getElementById('meet-add-action').addEventListener('click', () => {
+    syncMeetingDrafts(); meetingActionsDraft.push({acao:'',responsavel:'',prazo:'',status:'Não iniciado'}); renderMeetingDraftRows();
+  });
+  document.getElementById('meet-view-close').addEventListener('click', closeMeetingView);
+  document.getElementById('meet-view-modal').addEventListener('click', event => {
+    if (event.target.id === 'meet-view-modal') closeMeetingView();
+  });
 
   document.getElementById('solic-new').addEventListener('click',()=>{if(selectedClientForDetail)prepareSolicitationForm(selectedClientForDetail);});
   document.getElementById('solic-cancel').addEventListener('click',()=>document.getElementById('solic-form-card').style.display='none');
@@ -1667,7 +1729,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
       tab.classList.add('active');
       const pane = document.getElementById(`detail-pane-${key}`);
       if (pane) pane.classList.add('active');
-      if (key === 'atendimento' && selectedClientForDetail) loadAttendances(selectedClientForDetail.id);
+      if (key === 'reunioes' && selectedClientForDetail) loadMeetings(selectedClientForDetail.id);
       if (key === 'solicitacoes' && selectedClientForDetail) loadSolicitations(selectedClientForDetail.id);
       if (key === 'projetos' && selectedClientForDetail) loadProjects(selectedClientForDetail.id);
       if (key === 'historico' && selectedClientForDetail) loadHistory(selectedClientForDetail.id);
@@ -1690,7 +1752,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const label = btn.textContent.trim();
-      if (label.endsWith('Clientes')) openClientsView();
+      if (label.endsWith('Clientes') || label.endsWith('Reuniões')) openClientsView();
       if (label.endsWith('Dashboard')) openDashboardView();
     });
   });

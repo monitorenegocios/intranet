@@ -2,140 +2,230 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DRE | Financeiro | Monitore</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financeiro | Monitore</title>
+<link rel="icon" href="data:image/png;base64,">
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#243247}
-.app{display:flex;min-height:100vh}.sidebar{width:240px;background:#082b5c;color:#fff;padding:24px 16px;position:fixed;inset:0 auto 0 0}.brand{font-size:22px;font-weight:700;margin:4px 10px 34px}.section{font-size:10px;letter-spacing:1.3px;opacity:.65;margin:20px 10px 8px}.nav button{width:100%;border:0;background:transparent;color:#fff;text-align:left;padding:11px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin:2px 0}.nav button.active,.nav button:hover{background:rgba(255,255,255,.12)}
-.main{margin-left:240px;width:calc(100% - 240px)}.topbar{height:70px;background:#0b3b78;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 28px}.search{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:8px;padding:10px 14px;width:320px;outline:none}.search::placeholder{color:#d9e4f2}.user{font-size:13px}
-.content{padding:28px}.head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px}.head h1{margin:0 0 6px;font-size:27px}.head p{margin:0;color:#718096;font-size:13px}.tag{font-size:11px;letter-spacing:1.1px;color:#0b3b78;font-weight:700}
-.controls{display:flex;gap:10px;align-items:center;margin-bottom:18px}.controls select,.controls button{border:1px solid #d9e1ec;border-radius:7px;padding:10px 12px;background:#fff;color:#243247;font-size:13px}.controls button{background:#0b3b78;color:#fff;border:0;cursor:pointer}
-.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px}.card{background:#fff;border:1px solid #e6ebf2;border-radius:10px;padding:17px}.card small{color:#718096;font-size:11px}.card strong{display:block;font-size:21px;margin-top:7px;color:#0b3b78}
-.panel{background:#fff;border:1px solid #e6ebf2;border-radius:10px;padding:20px}.panel h2{font-size:16px;margin:0 0 15px}.dre{width:100%;border-collapse:collapse;font-size:13px}.dre th{text-align:left;background:#f7f9fc;color:#68778b;padding:11px;border-bottom:1px solid #e4e9f0}.dre td{padding:11px;border-bottom:1px solid #edf0f4}.dre .value{text-align:right;font-variant-numeric:tabular-nums}.line-main{font-weight:700;color:#173f6f}.line-total{font-weight:800;background:#f7f9fc}.line-result{font-weight:800;background:#eef5fc;color:#0b3b78}.group-row{cursor:pointer}.group-row:hover td{background:#f9fbfd}.indent1{padding-left:28px!important}.indent2{padding-left:50px!important;color:#65758a}.muted{color:#8a97a7}.negative{color:#a33a32}.positive{color:#197143}.empty{text-align:center;padding:35px;color:#7a8797}.notice{display:none;padding:10px 12px;border-radius:7px;background:#eef6ff;color:#23527c;font-size:12px;margin-bottom:15px}.notice.show{display:block}
-@media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.sidebar{position:static;width:100%;height:auto}.app{display:block}.main{margin-left:0;width:100%}.cards{grid-template-columns:1fr}.content{padding:18px}.topbar{padding:0 15px}.search{width:210px}}
+:root{
+  --azul:#123b63; --azul2:#0d2d4b; --azul3:#1e5a91; --bg:#f4f7fa;
+  --texto:#243447; --muted:#718096; --borda:#e2e8f0; --branco:#fff;
+  --verde:#1f9d68; --amarelo:#d99a18; --vermelho:#d9534f; --cinza:#eef2f6;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Montserrat,Arial,sans-serif;background:var(--bg);color:var(--texto)}
+.app{display:flex;min-height:100vh}.sidebar{width:250px;background:var(--azul2);color:#fff;position:fixed;inset:0 auto 0 0;padding:25px 18px;z-index:5}
+.brand{height:65px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.brand img{max-width:175px;max-height:58px;filter:brightness(0) invert(1)}
+.nav-title{font-size:10px;letter-spacing:1.5px;color:#9fb6ca;margin:18px 10px 8px;font-weight:700}
+.nav button{width:100%;border:0;background:transparent;color:#dbe7f0;text-align:left;padding:11px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin:2px 0}
+.nav button:hover,.nav button.active{background:#1b4e79;color:#fff}.nav button span{display:inline-block;width:22px;color:#9fc1dc}
+.main{margin-left:250px;width:calc(100% - 250px)}.topbar{height:70px;background:#fff;border-bottom:1px solid var(--borda);display:flex;align-items:center;justify-content:space-between;padding:0 30px;position:sticky;top:0;z-index:4}
+.search{width:360px;background:#f5f7fa;border:1px solid var(--borda);border-radius:8px;padding:11px 14px;color:#8b98a7;font-size:13px}.user{font-size:13px;text-align:right}.user strong{display:block}.user small{color:var(--muted)}
+.content{padding:28px 32px 45px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}.head h1{font-size:25px;margin:0 0 5px}.head p{margin:0;color:var(--muted);font-size:13px}
+.actions{display:flex;gap:10px}.btn{border:1px solid var(--borda);background:#fff;padding:10px 15px;border-radius:7px;font-weight:700;font-size:12px;color:var(--azul);cursor:pointer}.btn.primary{background:var(--azul3);color:#fff;border-color:var(--azul3)}
+.view{display:none}.view.active{display:block}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:15px;margin-bottom:22px}.card{background:#fff;border:1px solid var(--borda);border-radius:10px;padding:18px;box-shadow:0 1px 2px #00000005}.label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}.value{font-size:22px;font-weight:800;margin-top:8px}.sub{font-size:11px;color:var(--muted);margin-top:5px}
+.panel{background:#fff;border:1px solid var(--borda);border-radius:10px;padding:20px;margin-bottom:20px}.panel-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.panel-title h2{font-size:15px;margin:0}.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}.field,.select{height:38px;border:1px solid var(--borda);border-radius:7px;padding:0 10px;background:#fff;color:var(--texto);font-size:12px}.field{min-width:180px}.select{min-width:140px}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th{background:#f7f9fb;text-align:left;color:#66778a;font-size:10px;text-transform:uppercase;letter-spacing:.4px;padding:11px;border-bottom:1px solid var(--borda)}td{padding:12px 11px;border-bottom:1px solid #edf1f5;vertical-align:middle}tr:hover td{background:#fbfcfd}.money{text-align:right;font-weight:700}.badge{padding:4px 8px;border-radius:20px;font-size:10px;font-weight:700}.badge.green{background:#e7f7ef;color:#19734d}.badge.yellow{background:#fff5db;color:#986b00}.badge.red{background:#fdeaea;color:#a62c29}.badge.blue{background:#e9f2fb;color:#205f94}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.dre{width:100%}.dre .group{font-weight:800;background:#f6f8fa}.dre .cat{font-weight:700;padding-left:28px}.dre .subcat{padding-left:48px;color:#68788a}.dre .total{font-weight:800;background:#f7f9fb}.positive{color:var(--verde)}.negative{color:var(--vermelho)}
+.modal-bg{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:20;padding:20px}.modal-bg.show{display:flex}.modal{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:12px;padding:24px}.modal h2{margin:0 0 18px;font-size:18px}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.formgroup{display:flex;flex-direction:column;gap:6px}.formgroup.full{grid-column:1/-1}.formgroup label{font-size:11px;font-weight:700;color:#627386}.formgroup input,.formgroup select,.formgroup textarea{border:1px solid var(--borda);border-radius:7px;padding:10px;font:inherit;font-size:12px}.formgroup textarea{min-height:80px;resize:vertical}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.kpi-line{display:flex;align-items:center;gap:10px}.bar{height:8px;background:#edf1f5;border-radius:10px;overflow:hidden;flex:1}.bar i{display:block;height:100%;background:var(--azul3);width:0}
+.empty{text-align:center;color:var(--muted);padding:35px}
+.notice{background:#eef6fc;border:1px solid #d6e7f4;padding:13px;border-radius:8px;font-size:12px;color:#315873;margin-bottom:15px}
+@media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.sidebar{width:215px}.main{margin-left:215px;width:calc(100% - 215px)}}
+@media(max-width:700px){.sidebar{display:none}.main{margin-left:0;width:100%}.search{width:180px}.content{padding:20px}.cards{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.head{align-items:flex-start;gap:15px;flex-direction:column}}
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
-<div class="brand">Monitore</div>
-<div class="section">GESTÃO</div>
-<div class="nav">
-<button>Dashboard</button><button>Clientes</button><button>Projetos</button><button>Planos de Ação</button>
-</div>
-<div class="section">FINANCEIRO</div>
-<div class="nav"><button class="active">DRE</button></div>
+  <div class="brand"><div style="font-weight:800;font-size:19px;letter-spacing:1px">MONITORE</div></div>
+  <div class="nav-title">FINANCEIRO</div>
+  <nav class="nav">
+    <button class="active" data-view="fluxo"><span>01</span>Fluxo de Caixa</button>
+    <button data-view="controle"><span>02</span>Controle Financeiro</button>
+    <button data-view="dre"><span>03</span>DRE Gerencial</button>
+    <button data-view="medicao"><span>04</span>Boletim de Medição</button>
+  </nav>
+  <div class="nav-title">SISTEMA</div>
+  <nav class="nav">
+    <button onclick="window.location.href='../'"><span>←</span>Voltar ao Início</button>
+  </nav>
 </aside>
+
 <main class="main">
-<header class="topbar"><input class="search" placeholder="Buscar na Monitore..."><div class="user">Financeiro</div></header>
-<section class="content">
-<div class="head">
-<div><h1>DRE Gerencial</h1><p>Demonstração do resultado por competência.</p></div>
-<div class="tag">TRANSFORMAMOS DESAFIOS EM RESULTADOS</div>
-</div>
-<div class="controls">
-<label for="mes" style="font-size:12px;font-weight:700">Competência:</label>
-<select id="mes"></select>
-<button onclick="loadDRE()">↻ Atualizar</button>
-</div>
-<div id="notice" class="notice"></div>
-<div class="cards">
-<div class="card"><small>Receita Líquida</small><strong id="receita">R$ 0,00</strong></div>
-<div class="card"><small>Lucro Bruto</small><strong id="bruto">R$ 0,00</strong></div>
-<div class="card"><small>EBITDA</small><strong id="ebitda">R$ 0,00</strong></div>
-<div class="card"><small>Margem EBITDA</small><strong id="margem">0,0%</strong></div>
-<div class="card"><small>Resultado Líquido</small><strong id="liquido">R$ 0,00</strong></div>
-</div>
-<div class="panel">
-<h2>Demonstrativo</h2>
-<table class="dre">
-<thead><tr><th>Conta</th><th class="value">Valor</th></tr></thead>
-<tbody id="dreBody"></tbody>
-</table>
-</div>
+<header class="topbar">
+  <div class="search">⌕ &nbsp; Buscar na Monitore...</div>
+  <div class="user"><strong>Olá, Gracilea</strong><small>Administrador</small></div>
+</header>
+
+<div class="content">
+
+<section id="fluxo" class="view active">
+  <div class="head">
+    <div><h1>Fluxo de Caixa</h1><p>Lançamentos financeiros da Monitore</p></div>
+    <div class="actions"><button class="btn" onclick="exportTable('fluxoTable','fluxo_caixa.csv')">Exportar</button><button class="btn primary" onclick="openModal('modalLancamento')">+ NOVO LANÇAMENTO</button></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="label">Entradas</div><div class="value" id="kEntrada">R$ 0,00</div><div class="sub">Período selecionado</div></div>
+    <div class="card"><div class="label">Saídas</div><div class="value" id="kSaida">R$ 0,00</div><div class="sub">Período selecionado</div></div>
+    <div class="card"><div class="label">Saldo</div><div class="value" id="kSaldo">R$ 0,00</div><div class="sub">Entradas - saídas</div></div>
+    <div class="card"><div class="label">Lançamentos</div><div class="value" id="kLanc">0</div><div class="sub">Registrados no sistema</div></div>
+    <div class="card"><div class="label">NF / Documento</div><div class="value" id="kNF">0</div><div class="sub">Com referência cadastrada</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><h2>Lançamentos</h2></div>
+    <div class="notice">Cada lançamento realizado aqui será a fonte para o <strong>Controle Financeiro</strong> e para a <strong>DRE</strong>. Não será necessário lançar novamente.</div>
+    <div class="filters">
+      <input class="field" id="fBusca" placeholder="Buscar descrição...">
+      <input class="field" id="fMes" type="month" value="2026-09">
+      <select class="select" id="fTipo"><option value="">Todos</option><option>Entrada</option><option>Saída</option></select>
+      <select class="select" id="fGrupo"><option value="">Todos os grupos</option><option>Receita</option><option>Impostos/Deduções</option><option>Custos</option><option>Despesas Operacionais</option><option>Resultado Financeiro</option></select>
+    </div>
+    <div class="table-wrap"><table id="fluxoTable"><thead><tr><th>Data</th><th>Ref.</th><th>Descrição</th><th>Forma</th><th>Tipo</th><th>Grupo DRE</th><th>Categoria</th><th>NF / Link</th><th class="money">Valor</th></tr></thead><tbody><tr><td colspan="9" class="empty">Nenhum lançamento carregado. Conecte o Supabase para exibir os registros.</td></tr></tbody></table></div>
+  </div>
 </section>
+
+<section id="controle" class="view">
+  <div class="head">
+    <div><h1>Controle Financeiro</h1><p>Orçado × Realizado</p></div>
+    <div class="actions"><button class="btn">Ano: 2026 ▾</button><button class="btn primary">+ NOVO ORÇAMENTO</button></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="label">Orçado</div><div class="value" id="orcadoTotal">R$ 0,00</div><div class="sub">Ano selecionado</div></div>
+    <div class="card"><div class="label">Realizado</div><div class="value" id="realizadoTotal">R$ 0,00</div><div class="sub">Ano selecionado</div></div>
+    <div class="card"><div class="label">Variação</div><div class="value" id="variacaoTotal">R$ 0,00</div><div class="sub">Realizado - Orçado</div></div>
+    <div class="card"><div class="label">% Realização</div><div class="value" id="percentTotal">0%</div><div class="sub">Realizado / Orçado</div></div>
+    <div class="card"><div class="label">Meses</div><div class="value">12</div><div class="sub">Janeiro a Dezembro</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><h2>Orçado × Realizado por categoria</h2><span class="badge blue">2026</span></div>
+    <div class="table-wrap"><table><thead><tr><th>Grupo</th><th>Categoria</th><th class="money">Orçado</th><th class="money">Realizado</th><th class="money">Variação</th><th>%</th></tr></thead>
+    <tbody id="controleBody"><tr><td colspan="6" class="empty">Aguardando dados do orçamento e dos lançamentos financeiros.</td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section id="dre" class="view">
+  <div class="head">
+    <div><h1>DRE Gerencial</h1><p>Demonstrativo de Resultado do Exercício</p></div>
+    <div class="actions"><input class="field" id="dreMes" type="month" value="2026-09"><button class="btn" onclick="window.print()">Imprimir / PDF</button></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="label">Receita Bruta</div><div class="value" id="dreReceita">R$ 0,00</div></div>
+    <div class="card"><div class="label">Lucro Bruto</div><div class="value" id="dreBruto">R$ 0,00</div></div>
+    <div class="card"><div class="label">EBITDA</div><div class="value" id="dreEbitda">R$ 0,00</div></div>
+    <div class="card"><div class="label">Resultado</div><div class="value" id="dreResultado">R$ 0,00</div></div>
+    <div class="card"><div class="label">Margem</div><div class="value" id="dreMargem">0%</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><h2>Demonstrativo</h2><span id="drePeriodo" class="badge blue">Setembro/2026</span></div>
+    <table class="dre"><tbody id="dreBody">
+      <tr class="group"><td>RECEITA BRUTA</td><td class="money">R$ 0,00</td></tr>
+      <tr><td class="cat">Receitas</td><td class="money">R$ 0,00</td></tr>
+      <tr class="group"><td>(-) IMPOSTOS / DEDUÇÕES</td><td class="money negative">R$ 0,00</td></tr>
+      <tr><td class="cat">Impostos/Deduções</td><td class="money negative">R$ 0,00</td></tr>
+      <tr class="total"><td>RECEITA LÍQUIDA</td><td class="money">R$ 0,00</td></tr>
+      <tr class="group"><td>(-) CUSTOS DOS SERVIÇOS</td><td class="money negative">R$ 0,00</td></tr>
+      <tr><td class="cat">Custos</td><td class="money negative">R$ 0,00</td></tr>
+      <tr class="total"><td>LUCRO BRUTO</td><td class="money">R$ 0,00</td></tr>
+      <tr class="group"><td>(-) DESPESAS OPERACIONAIS</td><td class="money negative">R$ 0,00</td></tr>
+      <tr class="subcat"><td>Tecnologia</td><td class="money negative">R$ 0,00</td></tr>
+      <tr class="subcat"><td>Viagens</td><td class="money negative">R$ 0,00</td></tr>
+      <tr class="subcat"><td>Educação</td><td class="money negative">R$ 0,00</td></tr>
+      <tr class="subcat"><td>Eventos</td><td class="money negative">R$ 0,00</td></tr>
+      <tr class="total"><td>EBITDA</td><td class="money">R$ 0,00</td></tr>
+      <tr class="group"><td>(-) DEPRECIAÇÃO / AMORTIZAÇÃO</td><td class="money negative">R$ 0,00</td></tr>
+      <tr class="total"><td>RESULTADO OPERACIONAL</td><td class="money">R$ 0,00</td></tr>
+      <tr class="group"><td>(+/-) RESULTADO FINANCEIRO</td><td class="money">R$ 0,00</td></tr>
+      <tr class="total"><td>RESULTADO LÍQUIDO</td><td class="money">R$ 0,00</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<section id="medicao" class="view">
+  <div class="head">
+    <div><h1>Boletim de Medição</h1><p>Horas e serviços executados por contrato</p></div>
+    <div class="actions"><button class="btn" onclick="exportTable('medTable','boletim_medicao.csv')">Exportar Excel/CSV</button><button class="btn" onclick="window.print()">Exportar PDF</button><button class="btn primary" onclick="openModal('modalMedicao')">+ NOVA MEDIÇÃO</button></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="label">Medições</div><div class="value">0</div><div class="sub">Cadastradas</div></div>
+    <div class="card"><div class="label">Horas Apontadas</div><div class="value">0,00 h</div><div class="sub">Período selecionado</div></div>
+    <div class="card"><div class="label">Valor Medido</div><div class="value">R$ 0,00</div><div class="sub">Serviços executados</div></div>
+    <div class="card"><div class="label">Em Andamento</div><div class="value">0</div><div class="sub">Medições</div></div>
+    <div class="card"><div class="label">Concluídas</div><div class="value">0</div><div class="sub">Medições</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><h2>Consolidado de medições</h2><span class="badge blue">Fonte: modelo MNE</span></div>
+    <div class="filters">
+      <input class="field" placeholder="Buscar cliente ou contrato...">
+      <input class="field" type="month" value="2026-09">
+      <select class="select"><option>Todos os status</option><option>Em andamento</option><option>Concluído</option></select>
+    </div>
+    <div class="table-wrap"><table id="medTable"><thead><tr><th>Cliente</th><th>Contrato</th><th>Mês/Ref.</th><th>Projeto/Serviço</th><th>Horas</th><th>Valor Hora</th><th class="money">Valor Total</th><th>Status</th></tr></thead><tbody><tr><td colspan="8" class="empty">Nenhuma medição cadastrada. Use “+ NOVA MEDIÇÃO”.</td></tr></tbody></table></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><h2>Apontamentos</h2></div>
+    <div class="notice">Estrutura baseada no modelo atual: <strong>Item, Data, Descrição, Horas Apontadas, Valor (R$) e Observações/Notas</strong>. O valor será calculado pelas horas × valor da hora.</div>
+    <div class="table-wrap"><table><thead><tr><th>Item</th><th>Data</th><th>Descrição</th><th>Horas</th><th>Valor</th><th>Observações/Notas</th></tr></thead><tbody><tr><td colspan="6" class="empty">Os apontamentos aparecerão aqui após o cadastro da medição.</td></tr></tbody></table></div>
+  </div>
+</section>
+
+</div>
 </main>
 </div>
-<script>
-const URL='https://pdznpmcxiwgymajyghdw.supabase.co';
-const KEY='sb_publishable_kovCf_PvKEZUysKy0Xd7xw_RRxhxtCk';
-const sb=window.supabase.createClient(URL,KEY,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
-let all=[]; let openGroups=new Set();
 
-const money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0));
-const pct=v=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(Number(v||0))+'%';
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-function notice(t){const n=document.getElementById('notice');n.textContent=t;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3500)}
-function setupMonths(){
- const s=document.getElementById('mes'), now=new Date(); s.innerHTML='';
- for(let i=0;i<12;i++){let d=new Date(now.getFullYear(),now.getMonth()-i,1);let val=d.toISOString().slice(0,7);let label=d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});let o=document.createElement('option');o.value=val;o.textContent=label.charAt(0).toUpperCase()+label.slice(1);s.appendChild(o)}
+<div class="modal-bg" id="modalLancamento">
+<div class="modal">
+<h2>Novo Lançamento Financeiro</h2>
+<form onsubmit="return fakeSubmit(event,'Lançamento preparado para gravação no Supabase.')">
+<div class="formgrid">
+<div class="formgroup"><label>Data</label><input type="date" required></div>
+<div class="formgroup"><label>Referência</label><input placeholder="Ex.: set/26"></div>
+<div class="formgroup full"><label>Descrição</label><input placeholder="Descrição do lançamento" required></div>
+<div class="formgroup"><label>Tipo</label><select required><option>Entrada</option><option>Saída</option></select></div>
+<div class="formgroup"><label>Forma de pagamento</label><input placeholder="PIX, cartão, transferência..."></div>
+<div class="formgroup"><label>Valor (R$)</label><input type="number" step="0.01" min="0" required></div>
+<div class="formgroup"><label>Grupo DRE</label><select><option>Receita</option><option>Impostos/Deduções</option><option>Custos</option><option>Despesas Operacionais</option><option>Resultado Financeiro</option></select></div>
+<div class="formgroup"><label>Categoria DRE</label><input placeholder="Ex.: Tecnologia"></div>
+<div class="formgroup"><label>Subcategoria DRE</label><input placeholder="Ex.: ChatGPT"></div>
+<div class="formgroup"><label>Número da NF</label><input placeholder="Opcional"></div>
+<div class="formgroup"><label>Link da NF / documento</label><input type="url" placeholder="https://..."></div>
+<div class="formgroup full"><label>Observações</label><textarea></textarea></div>
+</div>
+<div class="modal-actions"><button type="button" class="btn" onclick="closeModal('modalLancamento')">Cancelar</button><button class="btn primary">Salvar lançamento</button></div>
+</form></div></div>
+
+<div class="modal-bg" id="modalMedicao">
+<div class="modal">
+<h2>Nova Medição</h2>
+<form onsubmit="return fakeSubmit(event,'Medição preparada para gravação no Supabase.')">
+<div class="formgrid">
+<div class="formgroup"><label>Cliente</label><input placeholder="Ex.: Insight Consultoria e Gestão" required></div>
+<div class="formgroup"><label>Contrato</label><input placeholder="Ex.: 00107/26"></div>
+<div class="formgroup full"><label>Objeto do Contrato</label><input placeholder="Execução Técnica e Consultoria"></div>
+<div class="formgroup full"><label>Projeto/Serviço</label><input placeholder="Ex.: PROCEM/CEMIC"></div>
+<div class="formgroup"><label>Mês/Referência</label><input placeholder="Mai/26" required></div>
+<div class="formgroup"><label>Data de Pagamento</label><input type="date"></div>
+<div class="formgroup"><label>Valor da Hora (R$)</label><input type="number" step="0.01" min="0" required></div>
+<div class="formgroup"><label>Status</label><select><option>Em andamento</option><option>Concluído</option></select></div>
+<div class="formgroup full"><label>Observações</label><textarea></textarea></div>
+</div>
+<div class="modal-actions"><button type="button" class="btn" onclick="closeModal('modalMedicao')">Cancelar</button><button class="btn primary">Salvar medição</button></div>
+</form></div></div>
+
+<script>
+const money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v)||0);
+document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.nav button[data-view]').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.view).classList.add('active');
+}));
+function openModal(id){document.getElementById(id).classList.add('show')}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function fakeSubmit(e,msg){e.preventDefault();alert(msg+'\\n\\nPróxima etapa: conectar este formulário às tabelas do Supabase.');return false}
+function exportTable(id,filename){
+ const table=document.getElementById(id);let csv=[];
+ table.querySelectorAll('tr').forEach(tr=>{let row=[];tr.querySelectorAll('th,td').forEach(td=>row.push('"'+td.innerText.replaceAll('"','""').replaceAll('\\n',' ')+'"'));csv.push(row.join(';'))});
+ const blob=new Blob(["\\ufeff"+csv.join('\\n')],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();URL.revokeObjectURL(a.href);
 }
-function groupBy(list,key){const o={};list.forEach(x=>{const k=x[key]||'Não classificado';(o[k]??=[]).push(x)});return o}
-function sum(list){return list.reduce((a,x)=>a+Number(x.valor||0),0)}
-function amountByGroup(list,group){return sum(list.filter(x=>x.grupo_dre===group))}
-function categoryRows(list,group){
- const cats=groupBy(list.filter(x=>x.grupo_dre===group),'categoria_dre');
- return Object.entries(cats).sort((a,b)=>a[0].localeCompare(b[0],'pt-BR')).map(([cat,items])=>{
-   const subs=groupBy(items,'subcategoria_dre');
-   return {cat,items,total:sum(items),subs};
- })
-}
-function render(){
- const body=document.getElementById('dreBody');
- const receita=sum(all.filter(x=>x.tipo==='Receita'&&x.grupo_dre==='Receita'));
- const impostos=sum(all.filter(x=>x.grupo_dre==='Impostos/Deduções'));
- const custos=sum(all.filter(x=>x.grupo_dre==='Custos'));
- const despesas=sum(all.filter(x=>x.grupo_dre==='Despesas Operacionais'));
- const financeiro=sum(all.filter(x=>x.grupo_dre==='Resultado Financeiro'));
- const rb=receita-impostos, bruto=rb-custos, ebitda=bruto-despesas, liquido=ebitda+financeiro;
- document.getElementById('receita').textContent=money(rb);
- document.getElementById('bruto').textContent=money(bruto);
- document.getElementById('ebitda').textContent=money(ebitda);
- document.getElementById('margem').textContent=pct(rb?ebitda/rb*100:0);
- document.getElementById('liquido').textContent=money(liquido);
- const groups=[
-  {key:'Receita',label:'RECEITA BRUTA',sign:1,cls:'line-main'},
-  {key:'Impostos/Deduções',label:'(-) IMPOSTOS / DEDUÇÕES',sign:-1,cls:''},
-  {key:'Receita Líquida',label:'RECEITA LÍQUIDA',calc:rb,cls:'line-total'},
-  {key:'Custos',label:'(-) CUSTOS DOS SERVIÇOS',sign:-1,cls:''},
-  {key:'Lucro Bruto',label:'LUCRO BRUTO',calc:bruto,cls:'line-total'},
-  {key:'Despesas Operacionais',label:'(-) DESPESAS OPERACIONAIS',sign:-1,cls:''},
-  {key:'EBITDA',label:'EBITDA',calc:ebitda,cls:'line-result'},
-  {key:'Resultado Financeiro',label:'(+/-) RESULTADO FINANCEIRO',sign:1,cls:''},
-  {key:'Resultado Líquido',label:'RESULTADO LÍQUIDO',calc:liquido,cls:'line-result'}
- ];
- let out='';
- groups.forEach(g=>{
-   if(g.calc!==undefined){out+=`<tr class="${g.cls}"><td>${g.label}</td><td class="value">${money(g.calc)}</td></tr>`;return}
-   const total=amountByGroup(all,g.key); const open=openGroups.has(g.key);
-   const signed=g.sign<0?-total:total;
-   out+=`<tr class="group-row ${g.cls}" onclick="toggle('${esc(g.key)}')"><td>${open?'▾':'▸'} ${g.label}</td><td class="value ${signed<0?'negative':''}">${money(signed)}</td></tr>`;
-   if(open){
-    categoryRows(all,g.key).forEach(c=>{
-      out+=`<tr><td class="indent1">${esc(c.cat)}</td><td class="value">${money(g.sign<0?-c.total:c.total)}</td></tr>`;
-      const subs=Object.entries(c.subs).sort((a,b)=>a[0].localeCompare(b[0],'pt-BR'));
-      subs.forEach(([sub,items])=>{
-        const v=sum(items);out+=`<tr><td class="indent2">${esc(sub)}</td><td class="value muted">${money(g.sign<0?-v:v)}</td></tr>`;
-      });
-    });
-   }
- });
- body.innerHTML=out;
-}
-function toggle(k){openGroups.has(k)?openGroups.delete(k):openGroups.add(k);render()}
-async function loadDRE(){
- const comp=document.getElementById('mes').value;
- const {data,error}=await sb.from('lancamentos_financeiros').select('tipo,valor,competencia,data_emissao,grupo_dre,categoria_dre,subcategoria_dre,status').eq('competencia',comp+'-01');
- if(error){notice('Não foi possível carregar o DRE: '+error.message);all=[]} else all=(data||[]).filter(x=>x.status!=='Cancelado');
- render();
-}
-(async()=>{
- setupMonths();
- const {data}=await sb.auth.getSession();
- if(!data.session){notice('Faça login na Intranet para acessar o DRE.');return}
- await loadDRE();
-})();
 </script>
 </body>
 </html>

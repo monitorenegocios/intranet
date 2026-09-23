@@ -196,7 +196,11 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 .meet-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
 .meet-search{height:36px;flex:1;min-width:180px;border:1px solid var(--line);border-radius:7px;padding:0 11px;font-size:10px;color:var(--text);outline:none}
 .meet-list{display:flex;flex-direction:column;gap:7px}
-.meet-item{border:1px solid #e3eaf2;border-radius:8px;padding:11px 12px;display:grid;grid-template-columns:105px 85px 1fr 105px 25px;align-items:center;gap:10px;background:#fff}
+.meet-item{border:1px solid #e3eaf2;border-radius:8px;padding:11px 12px;display:grid;grid-template-columns:105px 85px 1fr 150px 55px 25px;align-items:center;gap:10px;background:#fff}
+.meet-plan{display:inline-flex;align-items:center;gap:6px;font-size:8px;font-weight:700;white-space:nowrap}
+.meet-plan-dot{width:9px;height:9px;border-radius:50%;display:inline-block;box-shadow:0 0 0 3px rgba(0,0,0,.04)}
+.meet-plan-dot.green{background:#22a06b}.meet-plan-dot.blue{background:#1683d8}.meet-plan-dot.yellow{background:#e3a400}.meet-plan-dot.red{background:#d64545}.meet-plan-dot.gray{background:#8a98a8}
+.meet-plan-text{color:#40566f}.meet-plan-count{font-weight:500;color:#7b8b9d}
 .meet-code{font-size:10px;font-weight:700;color:#173e67}.meet-date{font-size:9px;color:#7b8ba0;margin-top:3px}
 .meet-time{font-size:11px;color:#294968;font-weight:700}.meet-pauta{font-size:10px;color:#203f60;font-weight:700}.meet-meta{font-size:9px;color:#7b8ba0;margin-top:3px}
 .meet-badge{display:inline-flex;padding:4px 8px;border-radius:15px;font-size:8px;font-weight:700;white-space:nowrap;background:#e6f3ff;color:#1475c8}
@@ -224,8 +228,8 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 .meet-view-section{margin-top:15px}.meet-view-section h4{font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:#1976d2;margin:0 0 7px}.meet-view-text{font-size:10px;color:#49627a;line-height:1.55;white-space:pre-wrap}
 .meet-view-list{border:1px solid #e3eaf2;border-radius:7px;overflow:hidden}.meet-view-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:8px 10px;border-bottom:1px solid #eef2f6;font-size:9px;color:#294968}.meet-view-row:last-child{border-bottom:0}.meet-view-row.action{grid-template-columns:40px 1.7fr 1fr 90px 95px}.meet-view-headrow{background:#f7f9fc;font-size:8px;font-weight:700;color:#71839a}
 .meet-action-editor{border:1px solid #e3eaf2;border-radius:7px;overflow:auto}.meet-action-editor table{width:100%;border-collapse:collapse;min-width:900px}.meet-action-editor th{background:#f7f9fc;color:#71839a;font-size:8px;text-align:left;padding:8px;border-bottom:1px solid #e3eaf2}.meet-action-editor td{padding:7px;border-bottom:1px solid #eef2f6;vertical-align:top}.meet-action-editor tr:last-child td{border-bottom:0}.meet-action-editor input,.meet-action-editor textarea,.meet-action-editor select{width:100%;border:1px solid #dce4ed;border-radius:5px;padding:7px;font-size:9px;outline:none;background:#fff;color:#294968}.meet-action-editor textarea{min-height:48px;resize:vertical}.meet-action-editor input:focus,.meet-action-editor textarea:focus,.meet-action-editor select:focus{border-color:#79aee3;box-shadow:0 0 0 3px rgba(25,118,210,.08)}.meet-action-status{font-weight:700}.meet-status-nao{background:#eef2f5!important;color:#697586!important;border-color:#d9e0e7!important}.meet-status-andamento{background:#e6f3ff!important;color:#1475c8!important;border-color:#b8dcf8!important}.meet-status-pendente{background:#fff4dc!important;color:#9a6900!important;border-color:#f0d59b!important}.meet-status-concluido{background:#e5f7ed!important;color:#16834f!important;border-color:#b8e2cb!important}.meet-action-row.status-concluido{background:#f5fbf7}.meet-action-row.status-pendente{background:#fffaf0}.meet-action-row.status-andamento{background:#f7fbff}.meet-action-row.status-nao{background:#fff}.meet-action-save{display:flex;justify-content:flex-end;align-items:center;gap:9px;margin-top:10px}.meet-action-save-msg{font-size:9px;min-height:14px;color:#16834f}.meet-updated{font-size:8px;color:#8a98a8;margin-top:3px}.meet-view-actions-title{display:flex;align-items:center;justify-content:space-between;gap:8px}.meet-view-actions-title h4{margin:0!important}
-@media(max-width:950px){.meet-kpis{grid-template-columns:repeat(2,1fr)}.meet-form-grid{grid-template-columns:repeat(2,1fr)}.meet-item{grid-template-columns:90px 75px 1fr 90px 20px}}
-@media(max-width:600px){.meet-kpis{grid-template-columns:1fr 1fr}.meet-form-grid{grid-template-columns:1fr}.meet-field.full{grid-column:auto}.meet-item{grid-template-columns:1fr auto}.meet-item .meet-time,.meet-item .meet-pauta,.meet-item .meet-badge{grid-column:1/-1}}
+@media(max-width:950px){.meet-kpis{grid-template-columns:repeat(2,1fr)}.meet-form-grid{grid-template-columns:repeat(2,1fr)}.meet-item{grid-template-columns:90px 75px 1fr 130px 45px 20px}}
+@media(max-width:600px){.meet-kpis{grid-template-columns:1fr 1fr}.meet-form-grid{grid-template-columns:1fr}.meet-field.full{grid-column:auto}.meet-item{grid-template-columns:1fr auto}.meet-item .meet-time,.meet-item .meet-pauta,.meet-item .meet-plan,.meet-item .meet-badge{grid-column:1/-1}}
 
 
 /* ===== Solicitações, Projetos e Histórico ===== */
@@ -1068,6 +1072,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 
   let selectedClientForMeeting = null;
   let meetingCache = [];
+  let meetingActionSummary = {};
   let globalMeetingCache = [];
   let meetingParticipantsDraft = [];
   let meetingActionsDraft = [];
@@ -1174,6 +1179,21 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
       return;
     }
     meetingCache = data || [];
+    // Carrega o plano de ação de cada reunião para exibir o farol na lista.
+    meetingActionSummary = {};
+    const meetingIds = meetingCache.map(m => m.id);
+    if (meetingIds.length) {
+      const { data: actionRows, error: actionError } = await supabase
+        .from('reuniao_acoes')
+        .select('id,reuniao_id,status,prazo,data_conclusao')
+        .in('reuniao_id', meetingIds);
+      if (!actionError) {
+        (actionRows || []).forEach(a => {
+          if (!meetingActionSummary[a.reuniao_id]) meetingActionSummary[a.reuniao_id] = [];
+          meetingActionSummary[a.reuniao_id].push(a);
+        });
+      }
+    }
     const creatorIds = [...new Set(meetingCache.map(m => m.criado_por).filter(Boolean))];
     const missing = creatorIds.filter(id => !activeUsersCache.some(u => String(u.id) === String(id)));
     if (missing.length) {
@@ -1187,6 +1207,22 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
   async function updateMeetingActionKpi(clientId) {
     const { data } = await supabase.from('reuniao_acoes').select('id,reuniao_id,status,reunioes!inner(cliente_id)').eq('reunioes.cliente_id', clientId).neq('status','Concluído');
     document.getElementById('meet-kpi-acoes').textContent = (data || []).length;
+  }
+
+  function meetingPlanStatus(meetingId) {
+    const actions = meetingActionSummary[meetingId] || [];
+    if (!actions.length) return {key:'gray', label:'Sem plano', count:''};
+    const today = todayISO();
+    const total = actions.length;
+    const done = actions.filter(a => String(a.status || '').toLowerCase() === 'concluído').length;
+    const overdue = actions.some(a => a.prazo && a.prazo < today && String(a.status || '').toLowerCase() !== 'concluído');
+    const inProgress = actions.some(a => String(a.status || '').toLowerCase() === 'em andamento');
+    const pending = actions.some(a => String(a.status || '').toLowerCase() === 'pendente');
+    if (overdue) return {key:'red', label:'Atrasado', count:`${done}/${total}`};
+    if (done === total) return {key:'green', label:'Concluído', count:`${done}/${total}`};
+    if (inProgress) return {key:'blue', label:'Em andamento', count:`${done}/${total}`};
+    if (pending) return {key:'yellow', label:'Pendente', count:`${done}/${total}`};
+    return {key:'gray', label:'Não iniciado', count:`${done}/${total}`};
   }
 
   function renderMeetings() {
@@ -1208,13 +1244,17 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
       list.innerHTML = `<div class="meet-empty"><strong>${term ? 'Nenhuma reunião encontrada.' : 'Nenhuma reunião cadastrada.'}</strong>${term ? ' Ajuste a busca.' : ' Clique em “+ NOVA REUNIÃO” para registrar a primeira ata.'}</div>`;
       return;
     }
-    list.innerHTML = rows.map(m => `<div class="meet-item">
-      <div><div class="meet-code">${escapeHtml(m.codigo || 'MNE-REU-—')}</div><div class="meet-date">${formatDateBR(m.data_reuniao)}</div></div>
-      <div class="meet-time">${formatTimeBR(m.hora_reuniao)}</div>
-      <div><div class="meet-pauta">${escapeHtml(m.pauta || '—')}</div><div class="meet-meta">Registrado por: ${escapeHtml(responsibleName(m.criado_por))}</div></div>
-      <span class="meet-badge">ATA</span>
-      <button class="meet-menu" type="button" title="Ver ata" data-meet-view="${escapeHtml(m.id)}">⋮</button>
-    </div>`).join('');
+    list.innerHTML = rows.map(m => {
+      const plan = meetingPlanStatus(m.id);
+      return `<div class="meet-item">
+        <div><div class="meet-code">${escapeHtml(m.codigo || 'MNE-REU-—')}</div><div class="meet-date">${formatDateBR(m.data_reuniao)}</div></div>
+        <div class="meet-time">${formatTimeBR(m.hora_reuniao)}</div>
+        <div><div class="meet-pauta">${escapeHtml(m.pauta || '—')}</div><div class="meet-meta">Registrado por: ${escapeHtml(responsibleName(m.criado_por))}</div></div>
+        <div class="meet-plan" title="Plano de ação: ${escapeHtml(plan.label)}"><span class="meet-plan-dot ${plan.key}"></span><span class="meet-plan-text">Plano: ${escapeHtml(plan.label)}</span>${plan.count ? `<span class="meet-plan-count">${plan.count}</span>` : ''}</div>
+        <span class="meet-badge">ATA</span>
+        <button class="meet-menu" type="button" title="Ver ata" data-meet-view="${escapeHtml(m.id)}">⋮</button>
+      </div>`;
+    }).join('');
     list.querySelectorAll('[data-meet-view]').forEach(btn => {
       btn.addEventListener('click', async () => {
         const meeting = meetingCache.find(m => String(m.id) === String(btn.dataset.meetView));

@@ -256,21 +256,11 @@
     </div>
     <div class="formgroup">
       <label>Tipo de orçamento *</label>
-      <select id="newBudgetType">
-        <option value="Orçamento MNE">Orçamento MNE</option>
-        <option value="Cursos e Treinamentos">Cursos e Treinamentos</option>
-        <option value="Palestras">Palestras</option>
-        <option value="Custo de Produto">Custo de Produto</option>
-        <option value="Análise de Rentabilidade">Análise de Rentabilidade</option>
-      </select>
+      <select id="newBudgetType"><option value="Cursos e Treinamentos">Cursos e Treinamentos</option><option value="Consultoria">Consultoria</option></select>
     </div>
     <div class="formgroup">
       <label>Modalidade</label>
-      <select id="newBudgetMode">
-<option value="Recorrente">Recorrente</option>
-<option value="Presencial">Presencial</option>
-<option value="Online">Online</option>
-<option value="Híbrido">Híbrido</option></select>
+      <select id="newBudgetMode"><option value="Recorrente">Recorrente</option><option value="Presencial">Presencial</option><option value="Online">Online</option><option value="Híbrido">Híbrido</option></select>
     </div>
     <div class="formgroup full">
       <label>Serviço / Projeto *</label>
@@ -327,18 +317,7 @@
 </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-async function initCommercial(){
-  const ok=await ensureCommercialSession();
-  if(ok){
-    await loadClientsForBudget();
-    await loadBudgets();
-    await loadProposals();
-  }
-}
-initCommercial();
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = "https://pdznpmcxiwgymajyghdw.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_kovCf_PvKEZUysKy0Xd7xw_RRxhxtCk";
@@ -523,6 +502,19 @@ function calcPalestra(){const h=num('paHoras'),al=num('paAlunos'),pOn=h*num('paH
 function calcMargem(){const vol=num('mlVol'),pre=num('mlPreco'),rb=vol*pre,rl=rb*(1-num('mlImp')/100),cust=num('mlMp')+num('mlMod')+num('mlCom')+num('mlOut'),mc=rl-cust,mcp=rb?mc/rb:0,fix=num('mlFix'),pe=mcp?fix/mcp:0,peu=pre?pe/pre:0,lb=mc-fix,ll=lb*(1-num('mlLucroImp')/100),lucr=rb?ll/rb:0;document.getElementById('mlRB').textContent=money(rb);document.getElementById('mlRL').textContent=money(rl);document.getElementById('mlMC').textContent=money(mc);document.getElementById('mlMCP').textContent=(mcp*100).toFixed(2)+'%';document.getElementById('mlPE').textContent=money(pe);document.getElementById('mlPEU').textContent=peu.toFixed(2);document.getElementById('mlLB').textContent=money(lb);document.getElementById('mlLL').textContent=money(ll);document.getElementById('mlLucr').textContent=(lucr*100).toFixed(2)+'%';}
 buildMneFixos();addMneMO();document.querySelector('.mne-mo').value=1100;calcMNE();calcCT();calcPalestra();calcMargem();
 document.getElementById('modalOrcamento').addEventListener('click',e=>{if(e.target.id==='modalOrcamento')closeModal('modalOrcamento')});
+async function initCommercial(){
+  const ok=await ensureCommercialSession();
+  if(ok){
+    await loadClientsForBudget();
+    await loadBudgets();
+    await loadProposals();
+  } else {
+    const sel=document.getElementById('newBudgetClient');
+    if(sel) sel.innerHTML='<option value="">Faça login para carregar os clientes</option>';
+  }
+}
+initCommercial();
+
 </script>
 </body>
 </html>

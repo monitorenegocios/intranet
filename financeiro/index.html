@@ -30,6 +30,7 @@
 .modal-bg{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:20;padding:20px}.modal-bg.show{display:flex}.modal{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:12px;padding:24px}.modal h2{margin:0 0 18px;font-size:18px}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.formgroup{display:flex;flex-direction:column;gap:6px}.formgroup.full{grid-column:1/-1}.formgroup label{font-size:11px;font-weight:700;color:#627386}.formgroup input,.formgroup select,.formgroup textarea{border:1px solid var(--borda);border-radius:7px;padding:10px;font:inherit;font-size:12px}.formgroup textarea{min-height:80px;resize:vertical}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
 .kpi-line{display:flex;align-items:center;gap:10px}.bar{height:8px;background:#edf1f5;border-radius:10px;overflow:hidden;flex:1}.bar i{display:block;height:100%;background:var(--azul3);width:0}
 .empty{text-align:center;color:var(--muted);padding:35px}
+.ap-row{display:grid;grid-template-columns:52px 125px 1fr 105px 125px 38px;gap:8px;align-items:end;padding:10px 0;border-bottom:1px solid #edf1f5}.ap-row .formgroup label{font-size:10px}.ap-row input{width:100%;height:36px;border:1px solid var(--borda);border-radius:7px;padding:0 9px;font-size:12px}.ap-index{font-weight:800;color:var(--muted);padding-bottom:10px;text-align:center}.remove-ap{height:36px;border:1px solid #f0c8c7;background:#fff;color:var(--vermelho);border-radius:7px;cursor:pointer}.ap-value{background:#f7f9fb}.ap-empty{padding:18px;text-align:center;color:var(--muted);font-size:12px;background:#fafbfc;border-radius:8px}@media(max-width:800px){.ap-row{grid-template-columns:42px 1fr 1fr}.ap-row .desc{grid-column:2/-1}.ap-row .valor{grid-column:2}.ap-row .remove{grid-column:3}.ap-row .formgroup{min-width:0}}
 .notice{background:#eef6fc;border:1px solid #d6e7f4;padding:13px;border-radius:8px;font-size:12px;color:#315873;margin-bottom:15px}
 @media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.sidebar{width:215px}.main{margin-left:215px;width:calc(100% - 215px)}}
 @media(max-width:700px){.sidebar{display:none}.main{margin-left:0;width:100%}.search{width:180px}.content{padding:20px}.cards{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.head{align-items:flex-start;gap:15px;flex-direction:column}}
@@ -197,17 +198,33 @@
 <div class="modal-bg" id="modalMedicao">
 <div class="modal">
 <h2>Nova Medição</h2>
-<form onsubmit="return fakeSubmit(event,'Medição preparada para gravação no Supabase.')">
+<form id="formMedicao" onsubmit="return fakeMeasurementSubmit(event)">
 <div class="formgrid">
-<div class="formgroup"><label>Cliente</label><input placeholder="Ex.: Insight Consultoria e Gestão" required></div>
-<div class="formgroup"><label>Contrato</label><input placeholder="Ex.: 00107/26"></div>
-<div class="formgroup full"><label>Objeto do Contrato</label><input placeholder="Execução Técnica e Consultoria"></div>
-<div class="formgroup full"><label>Projeto/Serviço</label><input placeholder="Ex.: PROCEM/CEMIC"></div>
-<div class="formgroup"><label>Mês/Referência</label><input placeholder="Mai/26" required></div>
-<div class="formgroup"><label>Data de Pagamento</label><input type="date"></div>
-<div class="formgroup"><label>Valor da Hora (R$)</label><input type="number" step="0.01" min="0" required></div>
-<div class="formgroup"><label>Status</label><select><option>Em andamento</option><option>Concluído</option></select></div>
-<div class="formgroup full"><label>Observações</label><textarea></textarea></div>
+<div class="formgroup"><label>Cliente</label><input id="medCliente" placeholder="Ex.: Insight Consultoria e Gestão" required></div>
+<div class="formgroup"><label>Contrato</label><input id="medContrato" placeholder="Ex.: 00107/26"></div>
+<div class="formgroup full"><label>Objeto do Contrato</label><input id="medObjeto" placeholder="Execução Técnica e Consultoria"></div>
+<div class="formgroup full"><label>Projeto/Serviço</label><input id="medProjeto" placeholder="Ex.: PROCEM/CEMIC"></div>
+<div class="formgroup"><label>Mês/Referência</label><input id="medReferencia" placeholder="Mai/26" required></div>
+<div class="formgroup"><label>Data de Pagamento</label><input id="medPagamento" type="date"></div>
+<div class="formgroup"><label>Valor da Hora (R$)</label><input id="medValorHora" type="number" step="0.01" min="0" value="100" required oninput="recalcMeasurement()"></div>
+<div class="formgroup"><label>Status</label><select id="medStatus"><option>Em andamento</option><option>Concluído</option></select></div>
+</div>
+
+<div style="margin-top:22px;border-top:1px solid var(--borda);padding-top:18px">
+  <div class="panel-title">
+    <h2 style="font-size:14px">Apontamento de Horas e Serviços</h2>
+    <button type="button" class="btn" onclick="addApontamento()">+ ADICIONAR APONTAMENTO</button>
+  </div>
+  <div class="notice">Registre cada serviço realizado. O valor de cada linha será calculado automaticamente por <strong>horas × valor da hora</strong>.</div>
+  <div id="apontamentosForm"></div>
+  <div style="display:flex;justify-content:flex-end;gap:25px;padding:14px 5px;background:#f7f9fb;border-radius:8px;margin-top:10px;font-size:12px">
+    <strong>Total de horas: <span id="totalHorasModal">0,00 h</span></strong>
+    <strong>Valor total: <span id="totalValorModal">R$ 0,00</span></strong>
+  </div>
+</div>
+
+<div class="formgrid" style="margin-top:16px">
+<div class="formgroup full"><label>Observações da Medição</label><textarea id="medObservacoes"></textarea></div>
 </div>
 <div class="modal-actions"><button type="button" class="btn" onclick="closeModal('modalMedicao')">Cancelar</button><button class="btn primary">Salvar medição</button></div>
 </form></div></div>
@@ -221,6 +238,56 @@ document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListene
 function openModal(id){document.getElementById(id).classList.add('show')}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
 function fakeSubmit(e,msg){e.preventDefault();alert(msg+'\\n\\nPróxima etapa: conectar este formulário às tabelas do Supabase.');return false}
+let apontamentoSeq=0;
+function addApontamento(){
+  const box=document.getElementById('apontamentosForm');
+  if(box.querySelector('.ap-empty')) box.innerHTML='';
+  apontamentoSeq++;
+  const row=document.createElement('div');
+  row.className='ap-row';
+  row.innerHTML=`
+    <div class="ap-index">${apontamentoSeq}</div>
+    <div class="formgroup"><label>Data</label><input class="ap-data" type="date"></div>
+    <div class="formgroup desc"><label>Descrição / Serviço</label><input class="ap-desc" placeholder="Ex.: Reunião, consultoria, treinamento..."></div>
+    <div class="formgroup"><label>Horas</label><input class="ap-horas" type="number" step="0.01" min="0" value="0" oninput="recalcMeasurement()"></div>
+    <div class="formgroup valor"><label>Valor</label><input class="ap-valor ap-value" type="text" value="R$ 0,00" readonly></div>
+    <div class="remove"><button type="button" class="remove-ap" onclick="this.closest('.ap-row').remove(); renumberApontamentos(); recalcMeasurement()">×</button></div>
+  `;
+  box.appendChild(row);
+  recalcMeasurement();
+}
+function renumberApontamentos(){
+  document.querySelectorAll('#apontamentosForm .ap-row').forEach((r,i)=>r.querySelector('.ap-index').textContent=i+1);
+}
+function recalcMeasurement(){
+  const hora=Number(document.getElementById('medValorHora')?.value)||0;
+  let totalH=0,totalV=0;
+  document.querySelectorAll('#apontamentosForm .ap-row').forEach(r=>{
+    const h=Number(r.querySelector('.ap-horas')?.value)||0;
+    const v=h*hora;
+    r.querySelector('.ap-valor').value=money(v);
+    totalH+=h; totalV+=v;
+  });
+  const th=document.getElementById('totalHorasModal'), tv=document.getElementById('totalValorModal');
+  if(th) th.textContent=totalH.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' h';
+  if(tv) tv.textContent=money(totalV);
+}
+function fakeMeasurementSubmit(e){
+  e.preventDefault();
+  const rows=[...document.querySelectorAll('#apontamentosForm .ap-row')];
+  if(!rows.length){ alert('Adicione pelo menos um apontamento de horas e serviço.'); return false; }
+  alert('Medição preparada para gravação no Supabase.\\n\\nOs apontamentos de horas serão gravados vinculados à medição.');
+  return false;
+}
+document.getElementById('modalMedicao')?.addEventListener('click',e=>{
+  if(e.target.id==='modalMedicao') closeModal('modalMedicao');
+});
+document.getElementById('modalMedicao')?.addEventListener('transitionend',()=>{});
+document.querySelector('[onclick="openModal(\\'modalMedicao\\')"]')?.addEventListener('click',()=>{
+  const box=document.getElementById('apontamentosForm');
+  if(box && !box.children.length) addApontamento();
+});
+
 function exportTable(id,filename){
  const table=document.getElementById(id);let csv=[];
  table.querySelectorAll('tr').forEach(tr=>{let row=[];tr.querySelectorAll('th,td').forEach(td=>row.push('"'+td.innerText.replaceAll('"','""').replaceAll('\\n',' ')+'"'));csv.push(row.join(';'))});

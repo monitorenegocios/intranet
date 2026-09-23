@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DRE | Financeiro | Monitore</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#243247}
+.app{display:flex;min-height:100vh}.sidebar{width:240px;background:#082b5c;color:#fff;padding:24px 16px;position:fixed;inset:0 auto 0 0}.brand{font-size:22px;font-weight:700;margin:4px 10px 34px}.section{font-size:10px;letter-spacing:1.3px;opacity:.65;margin:20px 10px 8px}.nav button{width:100%;border:0;background:transparent;color:#fff;text-align:left;padding:11px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin:2px 0}.nav button.active,.nav button:hover{background:rgba(255,255,255,.12)}
+.main{margin-left:240px;width:calc(100% - 240px)}.topbar{height:70px;background:#0b3b78;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 28px}.search{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:8px;padding:10px 14px;width:320px;outline:none}.search::placeholder{color:#d9e4f2}.user{font-size:13px}
+.content{padding:28px}.head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px}.head h1{margin:0 0 6px;font-size:27px}.head p{margin:0;color:#718096;font-size:13px}.tag{font-size:11px;letter-spacing:1.1px;color:#0b3b78;font-weight:700}
+.controls{display:flex;gap:10px;align-items:center;margin-bottom:18px}.controls select,.controls button{border:1px solid #d9e1ec;border-radius:7px;padding:10px 12px;background:#fff;color:#243247;font-size:13px}.controls button{background:#0b3b78;color:#fff;border:0;cursor:pointer}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px}.card{background:#fff;border:1px solid #e6ebf2;border-radius:10px;padding:17px}.card small{color:#718096;font-size:11px}.card strong{display:block;font-size:21px;margin-top:7px;color:#0b3b78}
+.panel{background:#fff;border:1px solid #e6ebf2;border-radius:10px;padding:20px}.panel h2{font-size:16px;margin:0 0 15px}.dre{width:100%;border-collapse:collapse;font-size:13px}.dre th{text-align:left;background:#f7f9fc;color:#68778b;padding:11px;border-bottom:1px solid #e4e9f0}.dre td{padding:11px;border-bottom:1px solid #edf0f4}.dre .value{text-align:right;font-variant-numeric:tabular-nums}.line-main{font-weight:700;color:#173f6f}.line-total{font-weight:800;background:#f7f9fc}.line-result{font-weight:800;background:#eef5fc;color:#0b3b78}.group-row{cursor:pointer}.group-row:hover td{background:#f9fbfd}.indent1{padding-left:28px!important}.indent2{padding-left:50px!important;color:#65758a}.muted{color:#8a97a7}.negative{color:#a33a32}.positive{color:#197143}.empty{text-align:center;padding:35px;color:#7a8797}.notice{display:none;padding:10px 12px;border-radius:7px;background:#eef6ff;color:#23527c;font-size:12px;margin-bottom:15px}.notice.show{display:block}
+@media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.sidebar{position:static;width:100%;height:auto}.app{display:block}.main{margin-left:0;width:100%}.cards{grid-template-columns:1fr}.content{padding:18px}.topbar{padding:0 15px}.search{width:210px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="brand">Monitore</div>
+<div class="section">GESTÃO</div>
+<div class="nav">
+<button>Dashboard</button><button>Clientes</button><button>Projetos</button><button>Planos de Ação</button>
+</div>
+<div class="section">FINANCEIRO</div>
+<div class="nav"><button class="active">DRE</button></div>
+</aside>
+<main class="main">
+<header class="topbar"><input class="search" placeholder="Buscar na Monitore..."><div class="user">Financeiro</div></header>
+<section class="content">
+<div class="head">
+<div><h1>DRE Gerencial</h1><p>Demonstração do resultado por competência.</p></div>
+<div class="tag">TRANSFORMAMOS DESAFIOS EM RESULTADOS</div>
+</div>
+<div class="controls">
+<label for="mes" style="font-size:12px;font-weight:700">Competência:</label>
+<select id="mes"></select>
+<button onclick="loadDRE()">↻ Atualizar</button>
+</div>
+<div id="notice" class="notice"></div>
+<div class="cards">
+<div class="card"><small>Receita Líquida</small><strong id="receita">R$ 0,00</strong></div>
+<div class="card"><small>Lucro Bruto</small><strong id="bruto">R$ 0,00</strong></div>
+<div class="card"><small>EBITDA</small><strong id="ebitda">R$ 0,00</strong></div>
+<div class="card"><small>Margem EBITDA</small><strong id="margem">0,0%</strong></div>
+<div class="card"><small>Resultado Líquido</small><strong id="liquido">R$ 0,00</strong></div>
+</div>
+<div class="panel">
+<h2>Demonstrativo</h2>
+<table class="dre">
+<thead><tr><th>Conta</th><th class="value">Valor</th></tr></thead>
+<tbody id="dreBody"></tbody>
+</table>
+</div>
+</section>
+</main>
+</div>
+<script>
+const URL='https://pdznpmcxiwgymajyghdw.supabase.co';
+const KEY='sb_publishable_kovCf_PvKEZUysKy0Xd7xw_RRxhxtCk';
+const sb=window.supabase.createClient(URL,KEY,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
+let all=[]; let openGroups=new Set();
+
+const money=v=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v||0));
+const pct=v=>new Intl.NumberFormat('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(Number(v||0))+'%';
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+function notice(t){const n=document.getElementById('notice');n.textContent=t;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3500)}
+function setupMonths(){
+ const s=document.getElementById('mes'), now=new Date(); s.innerHTML='';
+ for(let i=0;i<12;i++){let d=new Date(now.getFullYear(),now.getMonth()-i,1);let val=d.toISOString().slice(0,7);let label=d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});let o=document.createElement('option');o.value=val;o.textContent=label.charAt(0).toUpperCase()+label.slice(1);s.appendChild(o)}
+}
+function groupBy(list,key){const o={};list.forEach(x=>{const k=x[key]||'Não classificado';(o[k]??=[]).push(x)});return o}
+function sum(list){return list.reduce((a,x)=>a+Number(x.valor||0),0)}
+function amountByGroup(list,group){return sum(list.filter(x=>x.grupo_dre===group))}
+function categoryRows(list,group){
+ const cats=groupBy(list.filter(x=>x.grupo_dre===group),'categoria_dre');
+ return Object.entries(cats).sort((a,b)=>a[0].localeCompare(b[0],'pt-BR')).map(([cat,items])=>{
+   const subs=groupBy(items,'subcategoria_dre');
+   return {cat,items,total:sum(items),subs};
+ })
+}
+function render(){
+ const body=document.getElementById('dreBody');
+ const receita=sum(all.filter(x=>x.tipo==='Receita'&&x.grupo_dre==='Receita'));
+ const impostos=sum(all.filter(x=>x.grupo_dre==='Impostos/Deduções'));
+ const custos=sum(all.filter(x=>x.grupo_dre==='Custos'));
+ const despesas=sum(all.filter(x=>x.grupo_dre==='Despesas Operacionais'));
+ const financeiro=sum(all.filter(x=>x.grupo_dre==='Resultado Financeiro'));
+ const rb=receita-impostos, bruto=rb-custos, ebitda=bruto-despesas, liquido=ebitda+financeiro;
+ document.getElementById('receita').textContent=money(rb);
+ document.getElementById('bruto').textContent=money(bruto);
+ document.getElementById('ebitda').textContent=money(ebitda);
+ document.getElementById('margem').textContent=pct(rb?ebitda/rb*100:0);
+ document.getElementById('liquido').textContent=money(liquido);
+ const groups=[
+  {key:'Receita',label:'RECEITA BRUTA',sign:1,cls:'line-main'},
+  {key:'Impostos/Deduções',label:'(-) IMPOSTOS / DEDUÇÕES',sign:-1,cls:''},
+  {key:'Receita Líquida',label:'RECEITA LÍQUIDA',calc:rb,cls:'line-total'},
+  {key:'Custos',label:'(-) CUSTOS DOS SERVIÇOS',sign:-1,cls:''},
+  {key:'Lucro Bruto',label:'LUCRO BRUTO',calc:bruto,cls:'line-total'},
+  {key:'Despesas Operacionais',label:'(-) DESPESAS OPERACIONAIS',sign:-1,cls:''},
+  {key:'EBITDA',label:'EBITDA',calc:ebitda,cls:'line-result'},
+  {key:'Resultado Financeiro',label:'(+/-) RESULTADO FINANCEIRO',sign:1,cls:''},
+  {key:'Resultado Líquido',label:'RESULTADO LÍQUIDO',calc:liquido,cls:'line-result'}
+ ];
+ let out='';
+ groups.forEach(g=>{
+   if(g.calc!==undefined){out+=`<tr class="${g.cls}"><td>${g.label}</td><td class="value">${money(g.calc)}</td></tr>`;return}
+   const total=amountByGroup(all,g.key); const open=openGroups.has(g.key);
+   const signed=g.sign<0?-total:total;
+   out+=`<tr class="group-row ${g.cls}" onclick="toggle('${esc(g.key)}')"><td>${open?'▾':'▸'} ${g.label}</td><td class="value ${signed<0?'negative':''}">${money(signed)}</td></tr>`;
+   if(open){
+    categoryRows(all,g.key).forEach(c=>{
+      out+=`<tr><td class="indent1">${esc(c.cat)}</td><td class="value">${money(g.sign<0?-c.total:c.total)}</td></tr>`;
+      const subs=Object.entries(c.subs).sort((a,b)=>a[0].localeCompare(b[0],'pt-BR'));
+      subs.forEach(([sub,items])=>{
+        const v=sum(items);out+=`<tr><td class="indent2">${esc(sub)}</td><td class="value muted">${money(g.sign<0?-v:v)}</td></tr>`;
+      });
+    });
+   }
+ });
+ body.innerHTML=out;
+}
+function toggle(k){openGroups.has(k)?openGroups.delete(k):openGroups.add(k);render()}
+async function loadDRE(){
+ const comp=document.getElementById('mes').value;
+ const {data,error}=await sb.from('lancamentos_financeiros').select('tipo,valor,competencia,data_emissao,grupo_dre,categoria_dre,subcategoria_dre,status').eq('competencia',comp+'-01');
+ if(error){notice('Não foi possível carregar o DRE: '+error.message);all=[]} else all=(data||[]).filter(x=>x.status!=='Cancelado');
+ render();
+}
+(async()=>{
+ setupMonths();
+ const {data}=await sb.auth.getSession();
+ if(!data.session){notice('Faça login na Intranet para acessar o DRE.');return}
+ await loadDRE();
+})();
+</script>
+</body>
+</html>

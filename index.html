@@ -223,6 +223,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 .meet-view-title{font-size:15px;color:#123f68;font-weight:700}.meet-view-close{border:0;background:transparent;font-size:20px;color:#6d7d92;cursor:pointer}
 .meet-view-section{margin-top:15px}.meet-view-section h4{font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:#1976d2;margin:0 0 7px}.meet-view-text{font-size:10px;color:#49627a;line-height:1.55;white-space:pre-wrap}
 .meet-view-list{border:1px solid #e3eaf2;border-radius:7px;overflow:hidden}.meet-view-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:8px 10px;border-bottom:1px solid #eef2f6;font-size:9px;color:#294968}.meet-view-row:last-child{border-bottom:0}.meet-view-row.action{grid-template-columns:40px 1.7fr 1fr 90px 95px}.meet-view-headrow{background:#f7f9fc;font-size:8px;font-weight:700;color:#71839a}
+.meet-action-editor{border:1px solid #e3eaf2;border-radius:7px;overflow:auto}.meet-action-editor table{width:100%;border-collapse:collapse;min-width:900px}.meet-action-editor th{background:#f7f9fc;color:#71839a;font-size:8px;text-align:left;padding:8px;border-bottom:1px solid #e3eaf2}.meet-action-editor td{padding:7px;border-bottom:1px solid #eef2f6;vertical-align:top}.meet-action-editor tr:last-child td{border-bottom:0}.meet-action-editor input,.meet-action-editor textarea,.meet-action-editor select{width:100%;border:1px solid #dce4ed;border-radius:5px;padding:7px;font-size:9px;outline:none;background:#fff;color:#294968}.meet-action-editor textarea{min-height:48px;resize:vertical}.meet-action-editor input:focus,.meet-action-editor textarea:focus,.meet-action-editor select:focus{border-color:#79aee3;box-shadow:0 0 0 3px rgba(25,118,210,.08)}.meet-action-status{font-weight:700}.meet-status-nao{background:#eef2f5!important;color:#697586!important;border-color:#d9e0e7!important}.meet-status-andamento{background:#e6f3ff!important;color:#1475c8!important;border-color:#b8dcf8!important}.meet-status-pendente{background:#fff4dc!important;color:#9a6900!important;border-color:#f0d59b!important}.meet-status-concluido{background:#e5f7ed!important;color:#16834f!important;border-color:#b8e2cb!important}.meet-action-row.status-concluido{background:#f5fbf7}.meet-action-row.status-pendente{background:#fffaf0}.meet-action-row.status-andamento{background:#f7fbff}.meet-action-row.status-nao{background:#fff}.meet-action-save{display:flex;justify-content:flex-end;align-items:center;gap:9px;margin-top:10px}.meet-action-save-msg{font-size:9px;min-height:14px;color:#16834f}.meet-updated{font-size:8px;color:#8a98a8;margin-top:3px}.meet-view-actions-title{display:flex;align-items:center;justify-content:space-between;gap:8px}.meet-view-actions-title h4{margin:0!important}
 @media(max-width:950px){.meet-kpis{grid-template-columns:repeat(2,1fr)}.meet-form-grid{grid-template-columns:repeat(2,1fr)}.meet-item{grid-template-columns:90px 75px 1fr 90px 20px}}
 @media(max-width:600px){.meet-kpis{grid-template-columns:1fr 1fr}.meet-form-grid{grid-template-columns:1fr}.meet-field.full{grid-column:auto}.meet-item{grid-template-columns:1fr auto}.meet-item .meet-time,.meet-item .meet-pauta,.meet-item .meet-badge{grid-column:1/-1}}
 
@@ -429,8 +430,6 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
 
     <div class="nav-title">CLIENTES</div>
     <button class="nav-btn"><span class="ico">♙</span>Clientes</button>
-    <button class="nav-btn"><span class="ico">◫</span>Reuniões</button>
-
     <div class="nav-title">OPERAÇÃO</div>
     <button class="nav-btn"><span class="ico">▱</span>Projetos</button>
     <button class="nav-btn"><span class="ico">☑</span>Tarefas</button>
@@ -660,7 +659,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
       <div class="meet-view-section"><h4>Pauta</h4><div id="meet-view-pauta" class="meet-view-text">—</div></div>
       <div class="meet-view-section"><h4>Participantes</h4><div id="meet-view-participants" class="meet-view-list"></div></div>
       <div class="meet-view-section"><h4>Decisões</h4><div id="meet-view-decisoes" class="meet-view-text">—</div></div>
-      <div class="meet-view-section"><h4>Plano de Ação</h4><div id="meet-view-actions" class="meet-view-list"></div></div>
+      <div class="meet-view-section"><div class="meet-view-actions-title"><h4>Plano de Ação — Acompanhamento</h4></div><div id="meet-view-actions" class="meet-action-editor"></div><div class="meet-action-save"><span id="meet-action-save-msg" class="meet-action-save-msg"></span><button id="meet-action-save" class="primary-btn" type="button">SALVAR ACOMPANHAMENTO</button></div></div>
     </div>
   </div>
 
@@ -1295,26 +1294,121 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     await loadHistory(clientId);
   }
 
+  let currentMeetingForView = null;
+
+  function actionStatusClass(status) {
+    const s = String(status || 'Não iniciado');
+    if (s === 'Em andamento') return 'meet-status-andamento';
+    if (s === 'Pendente') return 'meet-status-pendente';
+    if (s === 'Concluído') return 'meet-status-concluido';
+    return 'meet-status-nao';
+  }
+
+  function actionRowClass(status) {
+    const s = String(status || 'Não iniciado');
+    if (s === 'Em andamento') return 'status-andamento';
+    if (s === 'Pendente') return 'status-pendente';
+    if (s === 'Concluído') return 'status-concluido';
+    return 'status-nao';
+  }
+
+  function renderMeetingActionEditor(actions) {
+    const box = document.getElementById('meet-view-actions');
+    if (!box) return;
+    if (!(actions || []).length) {
+      box.innerHTML = '<div class="meet-view-text" style="padding:12px">Nenhuma ação registrada nesta ata.</div>';
+      document.getElementById('meet-action-save').style.display = 'none';
+      return;
+    }
+    document.getElementById('meet-action-save').style.display = '';
+    box.innerHTML = `<table><thead><tr><th style="width:42px">ITEM</th><th style="min-width:210px">AÇÃO</th><th style="min-width:140px">RESPONSÁVEL</th><th style="width:120px">PRAZO</th><th style="width:145px">STATUS</th><th style="width:125px">DATA FINALIZAÇÃO</th><th style="min-width:180px">OBSERVAÇÕES</th></tr></thead><tbody>` +
+      actions.map(a => `<tr class="meet-action-row ${actionRowClass(a.status)}" data-action-id="${a.id}">
+        <td style="font-weight:700;color:#173e67;text-align:center">${escapeHtml(a.item)}</td>
+        <td><textarea class="meet-action-field meet-action-text" data-field="acao">${escapeHtml(a.acao || '')}</textarea></td>
+        <td><input class="meet-action-field" data-field="responsavel" value="${escapeHtml(a.responsavel || '')}"></td>
+        <td><input class="meet-action-field" data-field="prazo" type="date" value="${escapeHtml(a.prazo || '')}"></td>
+        <td><select class="meet-action-field meet-action-status ${actionStatusClass(a.status)}" data-field="status">${['Não iniciado','Em andamento','Pendente','Concluído'].map(v => `<option ${v === (a.status || 'Não iniciado') ? 'selected' : ''}>${v}</option>`).join('')}</select></td>
+        <td><input class="meet-action-field" data-field="data_conclusao" type="date" value="${escapeHtml(a.data_conclusao || '')}"></td>
+        <td><textarea class="meet-action-field" data-field="observacoes" placeholder="Observações do acompanhamento">${escapeHtml(a.observacoes || '')}</textarea><div class="meet-updated">Atualizado: ${a.updated_at ? formatDateTimeBR(a.updated_at) : '—'}</div></td>
+      </tr>`).join('') + '</tbody></table>';
+
+    box.querySelectorAll('[data-field="status"]').forEach(sel => {
+      sel.addEventListener('change', () => {
+        sel.className = `meet-action-field meet-action-status ${actionStatusClass(sel.value)}`;
+        const row = sel.closest('.meet-action-row');
+        row.className = `meet-action-row ${actionRowClass(sel.value)}`;
+        const conclusion = row.querySelector('[data-field="data_conclusao"]');
+        if (sel.value === 'Concluído' && conclusion && !conclusion.value) conclusion.value = todayISO();
+      });
+    });
+  }
+
+  function formatDateTimeBR(value) {
+    if (!value) return '—';
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
+    return d.toLocaleString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  }
+
   async function openMeetingView(m) {
+    currentMeetingForView = m;
     document.getElementById('meet-view-code').textContent = m.codigo || 'MNE-REU-—';
     document.getElementById('meet-view-title').textContent = 'Ata de Reunião';
-    document.getElementById('meet-view-client').textContent = selectedClientForDetail?.nome_fantasia || selectedClientForDetail?.razao_social || '—';
+    const clientName = selectedClientForDetail?.nome_fantasia || selectedClientForDetail?.razao_social || '—';
+    document.getElementById('meet-view-client').textContent = clientName;
     document.getElementById('meet-view-date').textContent = formatDateBR(m.data_reuniao);
     document.getElementById('meet-view-time').textContent = formatTimeBR(m.hora_reuniao);
     document.getElementById('meet-view-created').textContent = responsibleName(m.criado_por);
     document.getElementById('meet-view-pauta').textContent = m.pauta || '—';
     document.getElementById('meet-view-decisoes').textContent = m.decisoes || '—';
+    document.getElementById('meet-action-save-msg').textContent = '';
     const [{data: participants}, {data: actions}] = await Promise.all([
       supabase.from('reuniao_participantes').select('nome,empresa,funcao').eq('reuniao_id',m.id).order('id'),
-      supabase.from('reuniao_acoes').select('item,acao,responsavel,prazo,status').eq('reuniao_id',m.id).order('item')
+      supabase.from('reuniao_acoes').select('id,item,acao,responsavel,prazo,status,data_conclusao,observacoes,updated_at').eq('reuniao_id',m.id).order('item')
     ]);
     document.getElementById('meet-view-participants').innerHTML = (participants||[]).length ? `<div class="meet-view-row meet-view-headrow"><span>NOME</span><span>EMPRESA</span><span>FUNÇÃO</span></div>`+(participants||[]).map(p=>`<div class="meet-view-row"><span>${escapeHtml(p.nome||'—')}</span><span>${escapeHtml(p.empresa||'—')}</span><span>${escapeHtml(p.funcao||'—')}</span></div>`).join('') : '<div class="meet-view-text" style="padding:10px">Nenhum participante registrado.</div>';
-    document.getElementById('meet-view-actions').innerHTML = (actions||[]).length ? `<div class="meet-view-row action meet-view-headrow"><span>ITEM</span><span>AÇÃO</span><span>RESPONSÁVEL</span><span>PRAZO</span><span>STATUS</span></div>`+(actions||[]).map(a=>`<div class="meet-view-row action"><span>${escapeHtml(a.item)}</span><span>${escapeHtml(a.acao||'—')}</span><span>${escapeHtml(a.responsavel||'—')}</span><span>${formatDateBR(a.prazo)}</span><span>${escapeHtml(a.status||'—')}</span></div>`).join('') : '<div class="meet-view-text" style="padding:10px">Nenhuma ação registrada.</div>';
+    renderMeetingActionEditor(actions || []);
     const modal=document.getElementById('meet-view-modal'); modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
   }
 
+  async function saveMeetingActionFollowup() {
+    if (!currentMeetingForView) return;
+    const rows = [...document.querySelectorAll('#meet-view-actions tbody tr[data-action-id]')];
+    if (!rows.length) return;
+    const btn = document.getElementById('meet-action-save');
+    const msg = document.getElementById('meet-action-save-msg');
+    btn.disabled = true; btn.textContent = 'SALVANDO...'; msg.textContent = '';
+    try {
+      for (const row of rows) {
+        const status = row.querySelector('[data-field="status"]').value;
+        const payload = {
+          acao: row.querySelector('[data-field="acao"]').value.trim(),
+          responsavel: row.querySelector('[data-field="responsavel"]').value.trim(),
+          prazo: row.querySelector('[data-field="prazo"]').value || null,
+          status,
+          data_conclusao: row.querySelector('[data-field="data_conclusao"]').value || null,
+          observacoes: row.querySelector('[data-field="observacoes"]').value.trim() || null
+        };
+        if (status === 'Concluído' && !payload.data_conclusao) payload.data_conclusao = todayISO();
+        if (!payload.acao || !payload.responsavel) throw new Error('Preencha ação e responsável em todos os itens.');
+        const { error } = await supabase.from('reuniao_acoes').update(payload).eq('id', row.dataset.actionId);
+        if (error) throw error;
+      }
+      msg.textContent = 'Acompanhamento atualizado com sucesso.';
+      await updateMeetingActionKpi(selectedClientForDetail?.id || currentMeetingForView.cliente_id);
+      if (selectedClientForDetail) await loadHistory(selectedClientForDetail.id);
+      const refreshed = await supabase.from('reuniao_acoes').select('id,item,acao,responsavel,prazo,status,data_conclusao,observacoes,updated_at').eq('reuniao_id',currentMeetingForView.id).order('item');
+      if (!refreshed.error) renderMeetingActionEditor(refreshed.data || []);
+    } catch (e) {
+      console.error(e); msg.textContent = e.message || 'Não foi possível atualizar o plano de ação.'; msg.style.color = '#d92d3d';
+    } finally {
+      btn.disabled = false; btn.textContent = 'SALVAR ACOMPANHAMENTO';
+      setTimeout(()=>{msg.style.color='';}, 2500);
+    }
+  }
+
   function closeMeetingView() {
-    const m=document.getElementById('meet-view-modal'); m.classList.remove('show'); m.setAttribute('aria-hidden','true');
+    const m=document.getElementById('meet-view-modal'); m.classList.remove('show'); m.setAttribute('aria-hidden','true'); currentMeetingForView = null;
   }
 
   let solicitationCache = [];
@@ -1806,6 +1900,7 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     syncMeetingDrafts(); meetingActionsDraft.push({acao:'',responsavel:'',prazo:'',status:'Não iniciado'}); renderMeetingDraftRows();
   });
   document.getElementById('meet-view-close').addEventListener('click', closeMeetingView);
+  document.getElementById('meet-action-save').addEventListener('click', saveMeetingActionFollowup);
   document.getElementById('meet-view-modal').addEventListener('click', event => {
     if (event.target.id === 'meet-view-modal') closeMeetingView();
   });
@@ -1849,12 +1944,11 @@ h1{font-size:29px;letter-spacing:-.7px;margin:0 0 4px}
     }
   });
 
-  // Navegação: apenas Clientes e Início ficam funcionais nesta etapa.
+  // Navegação principal: Clientes e Início. Reuniões é acessada dentro da Ficha 360º do cliente.
   document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const label = btn.textContent.trim();
       if (label.endsWith('Clientes')) openClientsView();
-      if (label.endsWith('Reuniões')) openMeetingsView();
       if (label.endsWith('Dashboard')) openDashboardView();
     });
   });

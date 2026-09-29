@@ -990,7 +990,7 @@ async function saveOpportunity(){
     contato_nome:document.getElementById('opContato').value.trim()||null,
     interesse,
     etapa:document.getElementById('opEtapa').value,
-    valor_estimado:valor,
+    potencial_valor:valor,
     probabilidade:prob,
     valor_ponderado:valor*(prob/100),
     responsavel_nome:document.getElementById('opResponsavel').value.trim()||null,
@@ -998,7 +998,6 @@ async function saveOpportunity(){
     proxima_acao_data:document.getElementById('opProximaAcaoData').value||null,
     necessidade:document.getElementById('opNecessidade').value.trim()||null,
     observacoes:document.getElementById('opObservacoes').value.trim()||null,
-    status:'Aberta'
   };
   try{
     const {data,error}=await supabaseClient.from('oportunidades_comerciais').insert(payload).select().single();
@@ -1029,14 +1028,14 @@ function renderOpportunityPipeline(){
   });
   box.innerHTML=OP_STAGES.map(stage=>{
     const items=filtered.filter(o=>o.etapa===stage);
-    const total=items.reduce((a,o)=>a+Number(o.valor_estimado||0),0);
+    const total=items.reduce((a,o)=>a+Number(o.potencial_valor||0),0);
     return `<div class="pipeline-col"><div class="pipeline-head"><div><strong>${escapeHtml(stage)}</strong><div class="pipeline-value">${moneyOp(total)}</div></div><span class="pipeline-count">${items.length}</span></div>${items.length?items.map(opportunityCard).join(''):'<div class="op-empty">Nenhuma oportunidade</div>'}</div>`;
   }).join('');
 }
 
 function opportunityCard(o){
   const p=Math.max(0,Math.min(100,Number(o.probabilidade)||0));
-  return `<div class="op-card"><div class="op-card-title">${escapeHtml(o.empresa_nome||'Sem empresa')}</div><div class="op-card-meta">${escapeHtml(o.codigo||'—')} · ${escapeHtml(o.interesse||'—')}<br>${escapeHtml(o.responsavel_nome||'Sem responsável')}</div><div class="op-card-value">${moneyOp(o.valor_estimado)} <span style="font-size:10px;color:var(--muted);font-weight:600">· ${p}%</span></div><div class="op-card-meta">${o.proxima_acao?`Próxima ação: ${escapeHtml(o.proxima_acao)}`:'Sem próxima ação'}${o.proxima_acao_data?` · ${formatDateBR(o.proxima_acao_data)}`:''}</div><div class="op-card-actions"><select onchange="changeOpportunityStage('${escapeHtml(o.id)}',this.value)">${OP_STAGES.map(s=>`<option value="${escapeHtml(s)}" ${s===o.etapa?'selected':''}>Mover para: ${escapeHtml(s)}</option>`).join('')}</select></div></div>`;
+  return `<div class="op-card"><div class="op-card-title">${escapeHtml(o.empresa_nome||'Sem empresa')}</div><div class="op-card-meta">${escapeHtml(o.codigo||'—')} · ${escapeHtml(o.interesse||'—')}<br>${escapeHtml(o.responsavel_nome||'Sem responsável')}</div><div class="op-card-value">${moneyOp(o.potencial_valor)} <span style="font-size:10px;color:var(--muted);font-weight:600">· ${p}%</span></div><div class="op-card-meta">${o.proxima_acao?`Próxima ação: ${escapeHtml(o.proxima_acao)}`:'Sem próxima ação'}${o.proxima_acao_data?` · ${formatDateBR(o.proxima_acao_data)}`:''}</div><div class="op-card-actions"><select onchange="changeOpportunityStage('${escapeHtml(o.id)}',this.value)">${OP_STAGES.map(s=>`<option value="${escapeHtml(s)}" ${s===o.etapa?'selected':''}>Mover para: ${escapeHtml(s)}</option>`).join('')}</select></div></div>`;
 }
 
 async function changeOpportunityStage(id,stage){
@@ -1047,10 +1046,10 @@ async function changeOpportunityStage(id,stage){
 }
 
 function updateOpportunityKpis(){
-  const open=opportunities.filter(o=>String(o.status||'Aberta').toLowerCase()!=='perdida'&&String(o.status||'Aberta').toLowerCase()!=='ganha');
+  const open=opportunities.filter(o=>o.etapa!=='Decisão');
   const proposal=opportunities.filter(o=>o.etapa==='Proposta / Orçamento');
-  const value=open.reduce((a,o)=>a+Number(o.valor_estimado||0),0);
-  const weighted=open.reduce((a,o)=>a+Number(o.valor_ponderado??(Number(o.valor_estimado||0)*Number(o.probabilidade||0)/100)),0);
+  const value=open.reduce((a,o)=>a+Number(o.potencial_valor||0),0);
+  const weighted=open.reduce((a,o)=>a+Number(o.valor_ponderado??(Number(o.potencial_valor||0)*Number(o.probabilidade||0)/100)),0);
   document.getElementById('opKpiTotal').textContent=open.length;
   document.getElementById('opKpiProposta').textContent=proposal.length;
   document.getElementById('opKpiValor').textContent=moneyOp(value);

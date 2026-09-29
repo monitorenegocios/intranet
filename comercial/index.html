@@ -73,6 +73,16 @@
 @media(max-width:900px){.flow-grid{grid-template-columns:repeat(2,1fr)}.budget-current{align-items:flex-start;flex-direction:column}.current-actions{justify-content:flex-start}}
 @media(max-width:600px){.flow-grid{grid-template-columns:1fr}}
 </style>
+
+<style>
+.op-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.op-kpi{background:#f7f9fb;border:1px solid var(--border);border-radius:8px;padding:14px}.op-kpi small{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase}.op-kpi strong{display:block;font-size:22px;margin-top:5px;color:var(--azul)}
+.op-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.op-toolbar .field,.op-toolbar .select{min-width:190px}
+.pipeline-wrap{overflow-x:auto;padding-bottom:8px}.pipeline{display:grid;grid-template-columns:repeat(8,minmax(235px,1fr));gap:10px;min-width:1900px}
+.pipeline-col{background:#f5f7fa;border:1px solid var(--border);border-radius:10px;min-height:360px;padding:10px}.pipeline-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:4px 2px 10px}.pipeline-head strong{font-size:12px;line-height:1.25}.pipeline-count{background:#e8f0f8;color:#205f94;border-radius:999px;padding:3px 7px;font-size:10px;font-weight:800}.pipeline-value{font-size:10px;color:var(--muted);margin-top:4px}.op-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:11px;margin-bottom:9px;box-shadow:0 2px 7px rgba(20,45,75,.05)}.op-card-title{font-size:13px;font-weight:800;color:#17324f;margin-bottom:5px}.op-card-meta{font-size:10px;color:var(--muted);line-height:1.55}.op-card-value{font-size:14px;font-weight:800;color:var(--azul);margin:7px 0}.op-card-actions{display:flex;gap:6px;margin-top:9px}.op-card-actions select{width:100%;font-size:10px;padding:6px;border:1px solid var(--border);border-radius:6px;background:#fff}.op-empty{padding:20px 8px;text-align:center;color:var(--muted);font-size:10px}.op-error{padding:13px;border-radius:8px;background:#fff4f4;border:1px solid #f1c5c5;color:#8a2020;font-size:12px;margin-bottom:15px}.op-flow{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-bottom:18px}.op-flow-step{padding:9px 6px;text-align:center;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:9px;color:var(--muted);font-weight:800}.op-flow-step span{display:block;color:#2c478b;font-size:10px;margin-bottom:3px}.op-total{font-size:18px;font-weight:800;color:var(--azul)}
+@media(max-width:1100px){.op-kpis{grid-template-columns:repeat(2,1fr)}.op-flow{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:600px){.op-kpis{grid-template-columns:1fr}.op-toolbar .field,.op-toolbar .select{width:100%;min-width:0}.op-flow{grid-template-columns:repeat(2,1fr)}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -97,10 +107,10 @@
 <div class="head"><div><h1>Comercial</h1><p>Gestão comercial e formação de preços</p></div><div class="actions"><button class="btn primary" onclick="openView('orcamentos')">+ NOVO ORÇAMENTO</button></div></div>
 <div class="cards">
 <div class="card"><div class="label">Leads</div><div class="value">0</div><div class="sub">Ativos</div></div>
-<div class="card"><div class="label">Oportunidades</div><div class="value">0</div><div class="sub">Em andamento</div></div>
+<div class="card"><div class="label">Oportunidades</div><div class="value" id="dashOpTotal">0</div><div class="sub">Em andamento</div></div>
 <div class="card"><div class="label">Orçamentos</div><div class="value">0</div><div class="sub">Cadastrados</div></div>
 <div class="card"><div class="label">Propostas</div><div class="value">0</div><div class="sub">Em aberto</div></div>
-<div class="card"><div class="label">Pipeline</div><div class="value">R$ 0,00</div><div class="sub">Valor estimado</div></div>
+<div class="card"><div class="label">Pipeline</div><div class="value" id="dashOpPipeline">R$ 0,00</div><div class="sub">Valor estimado</div></div>
 </div>
 <div class="grid2">
 <div class="panel"><div class="panel-title"><h2>Formação de Preços</h2><span class="badge">Baseada na planilha MNE</span></div>
@@ -307,7 +317,45 @@
   </div>
 </div>
 </section>
-<section id="oportunidades" class="view"><div class="head"><div><h1>Oportunidades</h1><p>Pipeline comercial</p></div><button class="btn primary">+ NOVA OPORTUNIDADE</button></div><div class="panel"><div class="empty">Pipeline será conectado ao Supabase na próxima etapa.</div></div></section>
+<section id="oportunidades" class="view">
+<div class="head">
+  <div><h1>Oportunidades</h1><p>Pipeline comercial da Monitore</p></div>
+  <div class="actions"><button class="btn" onclick="loadOpportunities()">↻ ATUALIZAR</button><button class="btn primary" onclick="openOpportunityModal()">+ NOVA OPORTUNIDADE</button></div>
+</div>
+
+<div id="opError" class="op-error" style="display:none"></div>
+
+<div class="op-kpis">
+  <div class="op-kpi"><small>Oportunidades abertas</small><strong id="opKpiTotal">0</strong></div>
+  <div class="op-kpi"><small>Em proposta</small><strong id="opKpiProposta">0</strong></div>
+  <div class="op-kpi"><small>Pipeline estimado</small><strong id="opKpiValor">R$ 0,00</strong></div>
+  <div class="op-kpi"><small>Pipeline ponderado</small><strong id="opKpiPonderado">R$ 0,00</strong></div>
+</div>
+
+<div class="panel" style="margin-bottom:16px">
+  <div class="panel-title"><div><h2>Etapas do Pipeline</h2><p style="margin:4px 0 0;color:var(--muted);font-size:12px">Da oportunidade qualificada até a decisão do cliente.</p></div><span class="badge">MONITORE</span></div>
+  <div class="op-flow">
+    <div class="op-flow-step"><span>01</span>Lead Qualificado</div>
+    <div class="op-flow-step"><span>02</span>Diagnóstico / Descoberta</div>
+    <div class="op-flow-step"><span>03</span>Oportunidade Qualificada</div>
+    <div class="op-flow-step"><span>04</span>GO / NO GO</div>
+    <div class="op-flow-step"><span>05</span>Solução</div>
+    <div class="op-flow-step"><span>06</span>Proposta / Orçamento</div>
+    <div class="op-flow-step"><span>07</span>Negociação</div>
+    <div class="op-flow-step"><span>08</span>Decisão</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-title"><h2>Pipeline Comercial</h2></div>
+  <div class="op-toolbar" style="margin-bottom:16px">
+    <input id="opSearch" class="field" type="search" placeholder="Buscar empresa, oportunidade...">
+    <select id="opResponsavelFilter" class="select"><option value="">Todos os responsáveis</option></select>
+    <select id="opEtapaFilter" class="select"><option value="">Todas as etapas</option></select>
+  </div>
+  <div class="pipeline-wrap"><div id="opPipeline" class="pipeline"></div></div>
+</div>
+</section>
 <section id="propostas" class="view">
 <div class="head">
   <div><h1>Propostas</h1><p>Propostas vinculadas aos orçamentos e armazenadas no Google Drive.</p></div>
@@ -418,6 +466,30 @@
     <button class="btn" onclick="closeModal('modalLead')">Cancelar</button>
     <button class="btn primary" id="saveLeadBtn" onclick="saveLead()">SALVAR LEAD</button>
   </div>
+</div>
+</div>
+
+
+<div class="modal-bg" id="modalOportunidade">
+<div class="modal" style="max-width:900px">
+  <h2>Nova Oportunidade</h2>
+  <p style="color:var(--muted);font-size:13px;margin-top:-6px">Registre uma oportunidade comercial real da Monitore e acompanhe sua evolução no pipeline.</p>
+  <div id="opFormError" class="op-error" style="display:none"></div>
+  <div class="formgrid">
+    <div class="formgroup full"><label>Lead de origem</label><select id="opLead"><option value="">Selecione um Lead...</option></select></div>
+    <div class="formgroup"><label>Empresa *</label><input id="opEmpresa" placeholder="Nome da empresa"></div>
+    <div class="formgroup"><label>Contato</label><input id="opContato" placeholder="Nome do contato"></div>
+    <div class="formgroup"><label>Serviço / Solução *</label><select id="opInteresse"><option>Consultoria</option><option>Mentoria</option><option>Cursos e Treinamentos</option><option>Palestras</option><option>Gestão / Melhoria de Processos</option><option>Excelência Operacional</option><option>Inteligência de Negócios</option><option>Desenvolvimento de Pessoas</option><option>Outro</option></select></div>
+    <div class="formgroup"><label>Etapa inicial</label><select id="opEtapa"></select></div>
+    <div class="formgroup"><label>Valor estimado (R$)</label><input id="opValor" type="number" min="0" step="0.01" placeholder="0,00"></div>
+    <div class="formgroup"><label>Probabilidade (%)</label><input id="opProbabilidade" type="number" min="0" max="100" value="30"></div>
+    <div class="formgroup"><label>Responsável</label><input id="opResponsavel" value="Gracilea"></div>
+    <div class="formgroup"><label>Próxima ação</label><input id="opProximaAcao" placeholder="Ex.: Apresentar proposta"></div>
+    <div class="formgroup"><label>Data da próxima ação</label><input id="opProximaAcaoData" type="date"></div>
+    <div class="formgroup full"><label>Desafio / necessidade</label><textarea id="opNecessidade" rows="3" placeholder="Qual problema a Monitore deverá ajudar a resolver?"></textarea></div>
+    <div class="formgroup full"><label>Observações</label><textarea id="opObservacoes" rows="3"></textarea></div>
+  </div>
+  <div class="modal-actions"><button class="btn" onclick="closeModal('modalOportunidade')">Cancelar</button><button class="btn primary" id="saveOpportunityBtn" onclick="saveOpportunity()">SALVAR OPORTUNIDADE</button></div>
 </div>
 </div>
 
@@ -831,6 +903,7 @@ async function saveLead(){
 
     closeModal('modalLead');
     await loadLeads();
+    await loadOpportunities();
     alert(`Lead ${data?.codigo||''} cadastrado com sucesso.`);
   }catch(error){
     console.error('Erro ao salvar lead:',error);
@@ -847,6 +920,161 @@ document.getElementById('leadOrigemFilter')?.addEventListener('change',renderLea
 document.getElementById('modalLead')?.addEventListener('click',e=>{
   if(e.target.id==='modalLead')closeModal('modalLead');
 });
+
+const OP_STAGES = [
+  'Lead Qualificado',
+  'Diagnóstico / Descoberta',
+  'Oportunidade Qualificada',
+  'GO / NO GO',
+  'Solução',
+  'Proposta / Orçamento',
+  'Negociação',
+  'Decisão'
+];
+let opportunities = [];
+let opportunityLeads = [];
+
+function moneyOp(v){ return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+function showOpError(msg,form=false){ const el=document.getElementById(form?'opFormError':'opError'); if(!el)return; el.textContent=msg||'Ocorreu um erro.'; el.style.display='block'; }
+function clearOpError(form=false){ const el=document.getElementById(form?'opFormError':'opError'); if(el){el.textContent='';el.style.display='none';} }
+
+async function loadOpportunityLeads(){
+  const sel=document.getElementById('opLead'); if(!sel)return;
+  const ok=await ensureCommercialSession(); if(!ok)return;
+  const {data,error}=await supabaseClient.from('leads_comerciais').select('id,codigo,empresa_nome,contato_nome,status,interesse,potencial_valor').order('created_at',{ascending:false});
+  if(error){console.warn('Não foi possível carregar Leads para oportunidade:',error.message);return;}
+  opportunityLeads=data||[];
+  sel.innerHTML='<option value="">Selecione um Lead...</option>'+opportunityLeads.map(l=>`<option value="${escapeHtml(l.id)}">${escapeHtml(l.codigo||'Lead')} — ${escapeHtml(l.empresa_nome||'')}</option>`).join('');
+}
+
+function fillOpportunityFromLead(){
+  const lead=opportunityLeads.find(x=>String(x.id)===String(document.getElementById('opLead')?.value));
+  if(!lead)return;
+  document.getElementById('opEmpresa').value=lead.empresa_nome||'';
+  document.getElementById('opContato').value=lead.contato_nome||'';
+  if(lead.interesse)document.getElementById('opInteresse').value=lead.interesse;
+  if(lead.potencial_valor)document.getElementById('opValor').value=lead.potencial_valor;
+  document.getElementById('opNecessidade').value='';
+}
+
+function openOpportunityModal(){
+  clearOpError(true);
+  document.getElementById('opEtapa').innerHTML=OP_STAGES.map((x,i)=>`<option value="${escapeHtml(x)}" ${i===0?'selected':''}>${escapeHtml(x)}</option>`).join('');
+  document.getElementById('opLead').value='';
+  document.getElementById('opEmpresa').value='';
+  document.getElementById('opContato').value='';
+  document.getElementById('opValor').value='';
+  document.getElementById('opProbabilidade').value='30';
+  document.getElementById('opResponsavel').value='Gracilea';
+  document.getElementById('opProximaAcao').value='';
+  document.getElementById('opProximaAcaoData').value='';
+  document.getElementById('opNecessidade').value='';
+  document.getElementById('opObservacoes').value='';
+  loadOpportunityLeads();
+  openModal('modalOportunidade');
+}
+
+async function saveOpportunity(){
+  clearOpError(true);
+  const empresa=document.getElementById('opEmpresa').value.trim();
+  const interesse=document.getElementById('opInteresse').value;
+  if(!empresa){showOpError('Informe a empresa.',true);return;}
+  if(!interesse){showOpError('Informe a solução de interesse.',true);return;}
+  const ok=await ensureCommercialSession(); if(!ok){showOpError('Sua sessão não está ativa. Faça login novamente.',true);return;}
+  const btn=document.getElementById('saveOpportunityBtn'); btn.disabled=true;btn.textContent='SALVANDO...';
+  const valor=Number(document.getElementById('opValor').value)||0;
+  const prob=Math.max(0,Math.min(100,Number(document.getElementById('opProbabilidade').value)||0));
+  const payload={
+    lead_id:document.getElementById('opLead').value||null,
+    empresa_nome:empresa,
+    contato_nome:document.getElementById('opContato').value.trim()||null,
+    interesse,
+    etapa:document.getElementById('opEtapa').value,
+    valor_estimado:valor,
+    probabilidade:prob,
+    valor_ponderado:valor*(prob/100),
+    responsavel_nome:document.getElementById('opResponsavel').value.trim()||null,
+    proxima_acao:document.getElementById('opProximaAcao').value.trim()||null,
+    proxima_acao_data:document.getElementById('opProximaAcaoData').value||null,
+    necessidade:document.getElementById('opNecessidade').value.trim()||null,
+    observacoes:document.getElementById('opObservacoes').value.trim()||null,
+    status:'Aberta'
+  };
+  try{
+    const {data,error}=await supabaseClient.from('oportunidades_comerciais').insert(payload).select().single();
+    if(error)throw error;
+    closeModal('modalOportunidade');
+    await loadOpportunities();
+    alert(`Oportunidade ${data?.codigo||''} cadastrada com sucesso.`);
+  }catch(error){console.error(error);showOpError(error?.message||'Não foi possível salvar a oportunidade.',true);}finally{btn.disabled=false;btn.textContent='SALVAR OPORTUNIDADE';}
+}
+
+function renderOpportunityFilters(){
+  const r=document.getElementById('opResponsavelFilter'); const e=document.getElementById('opEtapaFilter'); if(!r||!e)return;
+  const rs=[...new Set(opportunities.map(o=>o.responsavel_nome).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const rv=r.value, ev=e.value;
+  r.innerHTML='<option value="">Todos os responsáveis</option>'+rs.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('');
+  e.innerHTML='<option value="">Todas as etapas</option>'+OP_STAGES.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('');
+  r.value=rs.includes(rv)?rv:'';e.value=OP_STAGES.includes(ev)?ev:'';
+}
+
+function renderOpportunityPipeline(){
+  const box=document.getElementById('opPipeline'); if(!box)return;
+  const q=(document.getElementById('opSearch')?.value||'').toLowerCase().trim();
+  const rf=document.getElementById('opResponsavelFilter')?.value||'';
+  const ef=document.getElementById('opEtapaFilter')?.value||'';
+  const filtered=opportunities.filter(o=>{
+    const hay=[o.codigo,o.empresa_nome,o.contato_nome,o.interesse,o.responsavel_nome,o.proxima_acao].join(' ').toLowerCase();
+    return (!q||hay.includes(q))&&(!rf||o.responsavel_nome===rf)&&(!ef||o.etapa===ef);
+  });
+  box.innerHTML=OP_STAGES.map(stage=>{
+    const items=filtered.filter(o=>o.etapa===stage);
+    const total=items.reduce((a,o)=>a+Number(o.valor_estimado||0),0);
+    return `<div class="pipeline-col"><div class="pipeline-head"><div><strong>${escapeHtml(stage)}</strong><div class="pipeline-value">${moneyOp(total)}</div></div><span class="pipeline-count">${items.length}</span></div>${items.length?items.map(opportunityCard).join(''):'<div class="op-empty">Nenhuma oportunidade</div>'}</div>`;
+  }).join('');
+}
+
+function opportunityCard(o){
+  const p=Math.max(0,Math.min(100,Number(o.probabilidade)||0));
+  return `<div class="op-card"><div class="op-card-title">${escapeHtml(o.empresa_nome||'Sem empresa')}</div><div class="op-card-meta">${escapeHtml(o.codigo||'—')} · ${escapeHtml(o.interesse||'—')}<br>${escapeHtml(o.responsavel_nome||'Sem responsável')}</div><div class="op-card-value">${moneyOp(o.valor_estimado)} <span style="font-size:10px;color:var(--muted);font-weight:600">· ${p}%</span></div><div class="op-card-meta">${o.proxima_acao?`Próxima ação: ${escapeHtml(o.proxima_acao)}`:'Sem próxima ação'}${o.proxima_acao_data?` · ${formatDateBR(o.proxima_acao_data)}`:''}</div><div class="op-card-actions"><select onchange="changeOpportunityStage('${escapeHtml(o.id)}',this.value)">${OP_STAGES.map(s=>`<option value="${escapeHtml(s)}" ${s===o.etapa?'selected':''}>Mover para: ${escapeHtml(s)}</option>`).join('')}</select></div></div>`;
+}
+
+async function changeOpportunityStage(id,stage){
+  const o=opportunities.find(x=>String(x.id)===String(id)); if(!o||o.etapa===stage)return;
+  const {error}=await supabaseClient.from('oportunidades_comerciais').update({etapa:stage,updated_at:new Date().toISOString()}).eq('id',id);
+  if(error){showOpError(error.message);renderOpportunityPipeline();return;}
+  o.etapa=stage;renderOpportunityPipeline();updateOpportunityKpis();
+}
+
+function updateOpportunityKpis(){
+  const open=opportunities.filter(o=>String(o.status||'Aberta').toLowerCase()!=='perdida'&&String(o.status||'Aberta').toLowerCase()!=='ganha');
+  const proposal=opportunities.filter(o=>o.etapa==='Proposta / Orçamento');
+  const value=open.reduce((a,o)=>a+Number(o.valor_estimado||0),0);
+  const weighted=open.reduce((a,o)=>a+Number(o.valor_ponderado??(Number(o.valor_estimado||0)*Number(o.probabilidade||0)/100)),0);
+  document.getElementById('opKpiTotal').textContent=open.length;
+  document.getElementById('opKpiProposta').textContent=proposal.length;
+  document.getElementById('opKpiValor').textContent=moneyOp(value);
+  document.getElementById('opKpiPonderado').textContent=moneyOp(weighted);
+  const d1=document.getElementById('dashOpTotal'); if(d1)d1.textContent=open.length;
+  const d2=document.getElementById('dashOpPipeline'); if(d2)d2.textContent=moneyOp(value);
+}
+
+async function loadOpportunities(){
+  clearOpError();
+  const body=document.getElementById('opPipeline');if(!body)return;
+  const ok=await ensureCommercialSession();if(!ok){showOpError('Faça login para visualizar as oportunidades.');return;}
+  body.innerHTML='<div class="op-empty" style="grid-column:1/-1">Carregando pipeline...</div>';
+  const {data,error}=await supabaseClient.from('oportunidades_comerciais').select('*').order('created_at',{ascending:false});
+  if(error){opportunities=[];updateOpportunityKpis();body.innerHTML='';showOpError(`Não foi possível carregar o pipeline. ${error.message}`);return;}
+  opportunities=(data||[]).map(o=>({...o,etapa:OP_STAGES.includes(o.etapa)?o.etapa:OP_STAGES[0]}));
+  renderOpportunityFilters();updateOpportunityKpis();renderOpportunityPipeline();
+}
+
+document.getElementById('opLead')?.addEventListener('change',fillOpportunityFromLead);
+document.getElementById('opSearch')?.addEventListener('input',renderOpportunityPipeline);
+document.getElementById('opResponsavelFilter')?.addEventListener('change',renderOpportunityPipeline);
+document.getElementById('opEtapaFilter')?.addEventListener('change',renderOpportunityPipeline);
+document.getElementById('modalOportunidade')?.addEventListener('click',e=>{if(e.target.id==='modalOportunidade')closeModal('modalOportunidade')});
 
 async function loadProposals(){
   const body=document.getElementById('proposalsBody');if(!body)return;

@@ -26,6 +26,25 @@
 .modal-bg{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:20;padding:20px}.modal-bg.show{display:flex}.modal{width:min(1000px,100%);max-height:94vh;overflow:auto;background:#fff;border-radius:12px;padding:24px}.modal h2{margin:0 0 18px;font-size:18px}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
 @media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.sidebar{width:215px}.main{margin-left:215px;width:calc(100% - 215px)}}
 @media(max-width:700px){.sidebar{display:none}.main{margin-left:0;width:100%}.search{width:180px}.content{padding:20px}.cards,.formgrid{grid-template-columns:1fr}.head{align-items:flex-start;gap:15px;flex-direction:column}}
+
+/* ============================================================
+   LEADS — módulo integrado ao Comercial
+   Ajuste mínimo: preserva o layout e a identidade existentes.
+   ============================================================ */
+.leads-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.leads-toolbar .field,.leads-toolbar .select{min-width:180px}
+.leads-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.lead-kpi{background:#f7f9fb;border:1px solid var(--borda);border-radius:8px;padding:14px}
+.lead-kpi small{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase}
+.lead-kpi strong{display:block;font-size:22px;margin-top:5px;color:var(--azul)}
+.lead-actions{display:flex;gap:8px;align-items:center}
+.lead-actions .btn{white-space:nowrap}
+.lead-status{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#e9f2fb;color:#205f94;font-size:10px;font-weight:800}
+.lead-empty{padding:36px;text-align:center;color:var(--muted)}
+.lead-error{padding:13px;border-radius:8px;background:#fff4f4;border:1px solid #f1c5c5;color:#8a2020;font-size:12px;margin-bottom:15px}
+.lead-loading{padding:30px;text-align:center;color:var(--muted)}
+@media(max-width:900px){.leads-kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.leads-kpis{grid-template-columns:1fr}.leads-toolbar{align-items:stretch}.leads-toolbar .field,.leads-toolbar .select{width:100%;min-width:0}}
 </style>
 
 <style>
@@ -225,7 +244,69 @@
 </section>
 
 
-<section id="leads" class="view"><div class="head"><div><h1>Leads</h1><p>Gestão de potenciais clientes</p></div><button class="btn primary">+ NOVO LEAD</button></div><div class="panel"><div class="empty">Cadastro de Leads será conectado ao Supabase na próxima etapa.</div></div></section>
+<section id="leads" class="view">
+<div class="head">
+  <div><h1>Leads</h1><p>Gestão de potenciais clientes</p></div>
+  <div class="actions">
+    <button class="btn" onclick="loadLeads()">↻ ATUALIZAR</button>
+    <button class="btn primary" onclick="openLeadModal()">+ NOVO LEAD</button>
+  </div>
+</div>
+
+<div id="leadsError" class="lead-error" style="display:none"></div>
+
+<div class="leads-kpis">
+  <div class="lead-kpi"><small>Total de Leads</small><strong id="leadKpiTotal">0</strong></div>
+  <div class="lead-kpi"><small>Novos</small><strong id="leadKpiNovos">0</strong></div>
+  <div class="lead-kpi"><small>Em Qualificação</small><strong id="leadKpiQualificacao">0</strong></div>
+  <div class="lead-kpi"><small>Qualificados</small><strong id="leadKpiQualificados">0</strong></div>
+</div>
+
+<div class="panel">
+  <div class="panel-title">
+    <h2>Base de Leads</h2>
+    <span class="badge">SUPABASE</span>
+  </div>
+
+  <div class="leads-toolbar" style="margin-bottom:16px">
+    <input id="leadSearch" class="field" type="search" placeholder="Buscar empresa, contato, e-mail...">
+    <select id="leadStatusFilter" class="select">
+      <option value="">Todos os status</option>
+      <option value="Novo">Novo</option>
+      <option value="Em qualificação">Em qualificação</option>
+      <option value="Qualificado">Qualificado</option>
+      <option value="Convertido">Convertido</option>
+      <option value="Perdido">Perdido</option>
+    </select>
+    <select id="leadOrigemFilter" class="select">
+      <option value="">Todas as origens</option>
+      <option>Indicação</option><option>Instagram</option><option>LinkedIn</option>
+      <option>Site</option><option>WhatsApp</option><option>Prospecção</option>
+      <option>Evento</option><option>Outro</option>
+    </select>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Empresa / Lead</th>
+          <th>Contato</th>
+          <th>Origem</th>
+          <th>Interesse</th>
+          <th>Potencial</th>
+          <th>Status</th>
+          <th>Próxima ação</th>
+        </tr>
+      </thead>
+      <tbody id="leadsBody">
+        <tr><td colspan="8" class="lead-loading">Carregando leads...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
 <section id="oportunidades" class="view"><div class="head"><div><h1>Oportunidades</h1><p>Pipeline comercial</p></div><button class="btn primary">+ NOVA OPORTUNIDADE</button></div><div class="panel"><div class="empty">Pipeline será conectado ao Supabase na próxima etapa.</div></div></section>
 <section id="propostas" class="view">
 <div class="head">
@@ -244,6 +325,101 @@
 </section>
 
 </div></main></div>
+
+
+<div class="modal-bg" id="modalLead">
+<div class="modal" style="max-width:900px">
+  <h2>Novo Lead</h2>
+  <p style="color:var(--muted);font-size:13px;margin-top:-6px">Cadastre o potencial cliente para iniciar o processo comercial.</p>
+
+  <div id="leadFormError" class="lead-error" style="display:none"></div>
+
+  <div class="formgrid">
+    <div class="formgroup">
+      <label>Empresa *</label>
+      <input id="leadEmpresa" placeholder="Nome da empresa">
+    </div>
+    <div class="formgroup">
+      <label>CNPJ</label>
+      <input id="leadCnpj" placeholder="00.000.000/0000-00">
+    </div>
+
+    <div class="formgroup">
+      <label>Nome do contato *</label>
+      <input id="leadContato" placeholder="Nome completo">
+    </div>
+    <div class="formgroup">
+      <label>Cargo</label>
+      <input id="leadCargo" placeholder="Ex.: Gerente">
+    </div>
+
+    <div class="formgroup">
+      <label>Telefone</label>
+      <input id="leadTelefone" placeholder="(98) 99999-9999">
+    </div>
+    <div class="formgroup">
+      <label>E-mail</label>
+      <input id="leadEmail" type="email" placeholder="contato@empresa.com.br">
+    </div>
+
+    <div class="formgroup">
+      <label>Origem</label>
+      <select id="leadOrigem">
+        <option value="Indicação">Indicação</option>
+        <option value="Instagram">Instagram</option>
+        <option value="LinkedIn">LinkedIn</option>
+        <option value="Site">Site</option>
+        <option value="WhatsApp">WhatsApp</option>
+        <option value="Prospecção">Prospecção</option>
+        <option value="Evento">Evento</option>
+        <option value="Outro">Outro</option>
+      </select>
+    </div>
+    <div class="formgroup">
+      <label>Responsável</label>
+      <input id="leadResponsavel" value="Gracilea">
+    </div>
+
+    <div class="formgroup">
+      <label>Interesse</label>
+      <select id="leadInteresse">
+        <option value="Consultoria">Consultoria</option>
+        <option value="Mentoria">Mentoria</option>
+        <option value="Cursos e Treinamentos">Cursos e Treinamentos</option>
+        <option value="Palestras">Palestras</option>
+        <option value="Outro">Outro</option>
+      </select>
+    </div>
+    <div class="formgroup">
+      <label>Potencial estimado (R$)</label>
+      <input id="leadPotencial" type="number" min="0" step="0.01" placeholder="0,00">
+    </div>
+
+    <div class="formgroup">
+      <label>Próxima ação</label>
+      <input id="leadProximaAcao" placeholder="Ex.: Agendar reunião">
+    </div>
+    <div class="formgroup">
+      <label>Data da próxima ação</label>
+      <input id="leadProximaAcaoData" type="date">
+    </div>
+
+    <div class="formgroup full">
+      <label>Necessidade</label>
+      <textarea id="leadNecessidade" rows="3" placeholder="Descreva a necessidade identificada"></textarea>
+    </div>
+    <div class="formgroup full">
+      <label>Observações</label>
+      <textarea id="leadObservacoes" rows="3" placeholder="Informações adicionais"></textarea>
+    </div>
+  </div>
+
+  <div class="modal-actions">
+    <button class="btn" onclick="closeModal('modalLead')">Cancelar</button>
+    <button class="btn primary" id="saveLeadBtn" onclick="saveLead()">SALVAR LEAD</button>
+  </div>
+</div>
+</div>
 
 <div class="modal-bg" id="modalOrcamento">
 <div class="modal" style="max-width:720px">
@@ -479,6 +655,199 @@ async function saveMneLines(){
   const vars=[['Impostos',num('mneImp')],['Comissão',num('mneCom')],['Custo Administrativo',num('mneAdm')],['Inadimplência',num('mneInad')],['Outros Custos Diretos',num('mneOutroPct')]];
   await supabaseClient.from('orcamentos_custos_variaveis').insert(vars.map((v,i)=>({orcamento_id:currentBudget.id,descricao:v[0],percentual:v[1],ordem:i})));
 }
+
+/* ============================================================
+   LEADS — Supabase
+   ============================================================ */
+let leadsCache = [];
+
+function showLeadError(message, form=false){
+  const el=document.getElementById(form?'leadFormError':'leadsError');
+  if(!el)return;
+  el.textContent=message||'Ocorreu um erro.';
+  el.style.display='block';
+}
+function clearLeadError(form=false){
+  const el=document.getElementById(form?'leadFormError':'leadsError');
+  if(el){el.textContent='';el.style.display='none';}
+}
+function leadDate(v){
+  if(!v)return '—';
+  const d=new Date(v+'T00:00:00');
+  return Number.isNaN(d.getTime())?escapeHtml(v):d.toLocaleDateString('pt-BR');
+}
+function leadStatusBadge(v){
+  return `<span class="lead-status">${escapeHtml(v||'Novo')}</span>`;
+}
+function renderLeads(){
+  const body=document.getElementById('leadsBody');
+  if(!body)return;
+
+  const search=(document.getElementById('leadSearch')?.value||'').trim().toLowerCase();
+  const status=document.getElementById('leadStatusFilter')?.value||'';
+  const origem=document.getElementById('leadOrigemFilter')?.value||'';
+
+  const filtered=leadsCache.filter(l=>{
+    const hay=[
+      l.codigo,l.empresa_nome,l.contato_nome,l.email,l.telefone,
+      l.interesse,l.origem,l.responsavel_nome,l.necessidade
+    ].join(' ').toLowerCase();
+    return (!search||hay.includes(search))
+      && (!status||String(l.status||'Novo')===status)
+      && (!origem||String(l.origem||'')===origem);
+  });
+
+  document.getElementById('leadKpiTotal').textContent=leadsCache.length;
+  document.getElementById('leadKpiNovos').textContent=leadsCache.filter(x=>String(x.status||'Novo')==='Novo').length;
+  document.getElementById('leadKpiQualificacao').textContent=leadsCache.filter(x=>String(x.status||'')==='Em qualificação').length;
+  document.getElementById('leadKpiQualificados').textContent=leadsCache.filter(x=>String(x.status||'')==='Qualificado').length;
+
+  if(!filtered.length){
+    body.innerHTML='<tr><td colspan="8" class="lead-empty">Nenhum lead encontrado.</td></tr>';
+    return;
+  }
+
+  body.innerHTML=filtered.map(l=>`
+    <tr>
+      <td><strong>${escapeHtml(l.codigo||'—')}</strong></td>
+      <td>
+        <strong>${escapeHtml(l.empresa_nome||'—')}</strong>
+        ${l.cnpj?`<br><small style="color:var(--muted)">${escapeHtml(l.cnpj)}</small>`:''}
+      </td>
+      <td>
+        ${escapeHtml(l.contato_nome||'—')}
+        ${l.contato_cargo?`<br><small style="color:var(--muted)">${escapeHtml(l.contato_cargo)}</small>`:''}
+      </td>
+      <td>${escapeHtml(l.origem||'—')}</td>
+      <td>${escapeHtml(l.interesse||'—')}</td>
+      <td class="money">${money(l.potencial_valor||0)}</td>
+      <td>${leadStatusBadge(l.status)}</td>
+      <td>
+        ${escapeHtml(l.proxima_acao||'—')}
+        ${l.proxima_acao_data?`<br><small style="color:var(--muted)">${leadDate(l.proxima_acao_data)}</small>`:''}
+      </td>
+    </tr>
+  `).join('');
+}
+async function loadLeads(){
+  const body=document.getElementById('leadsBody');
+  if(!body)return;
+  clearLeadError();
+
+  const ok=await ensureCommercialSession();
+  if(!ok){
+    body.innerHTML='<tr><td colspan="8" class="lead-error">Faça login para visualizar os Leads.</td></tr>';
+    return;
+  }
+
+  body.innerHTML='<tr><td colspan="8" class="lead-loading">Carregando leads...</td></tr>';
+
+  try{
+    const {data,error}=await supabaseClient
+      .from('leads_comerciais')
+      .select('*')
+      .order('created_at',{ascending:false});
+
+    if(error)throw error;
+    leadsCache=data||[];
+    renderLeads();
+  }catch(error){
+    console.error('Erro ao carregar leads:',error);
+    leadsCache=[];
+    document.getElementById('leadKpiTotal').textContent='0';
+    document.getElementById('leadKpiNovos').textContent='0';
+    document.getElementById('leadKpiQualificacao').textContent='0';
+    document.getElementById('leadKpiQualificados').textContent='0';
+    body.innerHTML='<tr><td colspan="8" class="lead-error">Não foi possível carregar os Leads.</td></tr>';
+    showLeadError(error?.message||'Erro ao consultar a tabela leads_comerciais.');
+  }
+}
+function openLeadModal(){
+  clearLeadError(true);
+  document.getElementById('leadEmpresa').value='';
+  document.getElementById('leadCnpj').value='';
+  document.getElementById('leadContato').value='';
+  document.getElementById('leadCargo').value='';
+  document.getElementById('leadTelefone').value='';
+  document.getElementById('leadEmail').value='';
+  document.getElementById('leadOrigem').value='Indicação';
+  document.getElementById('leadResponsavel').value='Gracilea';
+  document.getElementById('leadInteresse').value='Consultoria';
+  document.getElementById('leadPotencial').value='';
+  document.getElementById('leadProximaAcao').value='';
+  document.getElementById('leadProximaAcaoData').value='';
+  document.getElementById('leadNecessidade').value='';
+  document.getElementById('leadObservacoes').value='';
+  document.getElementById('saveLeadBtn').disabled=false;
+  openModal('modalLead');
+}
+async function saveLead(){
+  clearLeadError(true);
+  const btn=document.getElementById('saveLeadBtn');
+
+  const empresa_nome=document.getElementById('leadEmpresa').value.trim();
+  const contato_nome=document.getElementById('leadContato').value.trim();
+
+  if(!empresa_nome||!contato_nome){
+    showLeadError('Informe a empresa e o nome do contato.',true);
+    return;
+  }
+
+  const ok=await ensureCommercialSession();
+  if(!ok){
+    showLeadError('Sua sessão não está ativa. Faça login novamente.',true);
+    return;
+  }
+
+  const payload={
+    empresa_nome,
+    cnpj:document.getElementById('leadCnpj').value.trim()||null,
+    contato_nome,
+    contato_cargo:document.getElementById('leadCargo').value.trim()||null,
+    telefone:document.getElementById('leadTelefone').value.trim()||null,
+    email:document.getElementById('leadEmail').value.trim()||null,
+    origem:document.getElementById('leadOrigem').value||null,
+    responsavel_nome:document.getElementById('leadResponsavel').value.trim()||null,
+    interesse:document.getElementById('leadInteresse').value||null,
+    potencial_valor:Number(document.getElementById('leadPotencial').value)||0,
+    status:'Novo',
+    proxima_acao:document.getElementById('leadProximaAcao').value.trim()||null,
+    proxima_acao_data:document.getElementById('leadProximaAcaoData').value||null,
+    necessidade:document.getElementById('leadNecessidade').value.trim()||null,
+    observacoes:document.getElementById('leadObservacoes').value.trim()||null
+  };
+
+  btn.disabled=true;
+  btn.textContent='SALVANDO...';
+
+  try{
+    const {data,error}=await supabaseClient
+      .from('leads_comerciais')
+      .insert(payload)
+      .select()
+      .single();
+
+    if(error)throw error;
+
+    closeModal('modalLead');
+    await loadLeads();
+    alert(`Lead ${data?.codigo||''} cadastrado com sucesso.`);
+  }catch(error){
+    console.error('Erro ao salvar lead:',error);
+    showLeadError(error?.message||'Não foi possível salvar o Lead.',true);
+  }finally{
+    btn.disabled=false;
+    btn.textContent='SALVAR LEAD';
+  }
+}
+
+document.getElementById('leadSearch')?.addEventListener('input',renderLeads);
+document.getElementById('leadStatusFilter')?.addEventListener('change',renderLeads);
+document.getElementById('leadOrigemFilter')?.addEventListener('change',renderLeads);
+document.getElementById('modalLead')?.addEventListener('click',e=>{
+  if(e.target.id==='modalLead')closeModal('modalLead');
+});
+
 async function loadProposals(){
   const body=document.getElementById('proposalsBody');if(!body)return;
   const ok=await ensureCommercialSession();if(!ok)return;
@@ -508,9 +877,12 @@ async function initCommercial(){
     await loadClientsForBudget();
     await loadBudgets();
     await loadProposals();
+    await loadLeads();
   } else {
     const sel=document.getElementById('newBudgetClient');
     if(sel) sel.innerHTML='<option value="">Faça login para carregar os clientes</option>';
+    const body=document.getElementById('leadsBody');
+    if(body) body.innerHTML='<tr><td colspan="8" class="lead-error">Faça login para visualizar os Leads.</td></tr>';
   }
 }
 initCommercial();

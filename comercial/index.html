@@ -28,6 +28,22 @@
 @media(max-width:700px){.sidebar{display:none}.main{margin-left:0;width:100%}.search{width:180px}.content{padding:20px}.cards,.formgrid{grid-template-columns:1fr}.head{align-items:flex-start;gap:15px;flex-direction:column}}
 
 /* ============================================================
+   AJUSTE DE LAYOUT — LEADS
+   Mais respiro visual sem alterar a identidade da Monitore.
+   ============================================================ */
+#leads{padding:10px 8px 40px}
+#leads .head{margin-bottom:30px;padding:0 4px}
+#leads .head h1{font-size:27px}
+#leads .head p{font-size:14px}
+#leads .leads-kpis{gap:16px;margin:0 4px 24px}
+#leads .lead-kpi{padding:18px 20px;min-height:72px}
+#leads .panel{padding:24px 28px;margin:0 4px 24px}
+#leads .panel-title{margin-bottom:20px}
+#leads .leads-toolbar{gap:14px;margin-bottom:20px!important}
+#leads .leads-toolbar .field,#leads .leads-toolbar .select{min-height:44px}
+#leads .table-wrap{margin-top:4px}
+
+/* ============================================================
    LEADS — módulo integrado ao Comercial
    Ajuste mínimo: preserva o layout e a identidade existentes.
    ============================================================ */
@@ -476,7 +492,7 @@
   <p style="color:var(--muted);font-size:13px;margin-top:-6px">Registre uma oportunidade comercial real da Monitore e acompanhe sua evolução no pipeline.</p>
   <div id="opFormError" class="op-error" style="display:none"></div>
   <div class="formgrid">
-    <div class="formgroup full"><label>Lead de origem</label><select id="opLead"><option value="">Selecione um Lead...</option></select></div>
+    <div class="formgroup full"><label>Lead de origem</label><select id="opLead"><option value="">Selecione um Lead...</option></select><small style="display:block;color:var(--muted);margin-top:6px">Opcional. O Lead será vinculado à oportunidade quando selecionado.</small></div>
     <div class="formgroup"><label>Empresa *</label><input id="opEmpresa" placeholder="Nome da empresa"></div>
     <div class="formgroup"><label>Contato</label><input id="opContato" placeholder="Nome do contato"></div>
     <div class="formgroup"><label>Serviço / Solução *</label><select id="opInteresse"><option>Consultoria</option><option>Mentoria</option><option>Cursos e Treinamentos</option><option>Palestras</option><option>Gestão / Melhoria de Processos</option><option>Excelência Operacional</option><option>Inteligência de Negócios</option><option>Desenvolvimento de Pessoas</option><option>Outro</option></select></div>
@@ -943,7 +959,10 @@ async function loadOpportunityLeads(){
   const ok=await ensureCommercialSession(); if(!ok)return;
   const {data,error}=await supabaseClient.from('leads_comerciais').select('id,codigo,empresa_nome,contato_nome,status,interesse,potencial_valor').order('created_at',{ascending:false});
   if(error){console.warn('Não foi possível carregar Leads para oportunidade:',error.message);return;}
-  opportunityLeads=data||[];
+  // A relação oportunidades_comerciais.lead_id é UUID.
+  // Ignoramos registros antigos com IDs incompatíveis para não enviar valores como "1" ao Supabase.
+  const uuidRe=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  opportunityLeads=(data||[]).filter(l=>uuidRe.test(String(l.id||'')));
   sel.innerHTML='<option value="">Selecione um Lead...</option>'+opportunityLeads.map(l=>`<option value="${escapeHtml(l.id)}">${escapeHtml(l.codigo||'Lead')} — ${escapeHtml(l.empresa_nome||'')}</option>`).join('');
 }
 
@@ -984,8 +1003,15 @@ async function saveOpportunity(){
   const btn=document.getElementById('saveOpportunityBtn'); btn.disabled=true;btn.textContent='SALVANDO...';
   const valor=Number(document.getElementById('opValor').value)||0;
   const prob=Math.max(0,Math.min(100,Number(document.getElementById('opProbabilidade').value)||0));
+  const selectedLeadId=document.getElementById('opLead').value.trim();
+  const uuidRe=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  if(selectedLeadId && !uuidRe.test(selectedLeadId)){
+    showOpError('O Lead selecionado possui um identificador inválido. Selecione novamente um Lead da lista.',true);
+    btn.disabled=false; btn.textContent='SALVAR OPORTUNIDADE';
+    return;
+  }
   const payload={
-    lead_id:document.getElementById('opLead').value||null,
+    lead_id:selectedLeadId||null,
     empresa_nome:empresa,
     contato_nome:document.getElementById('opContato').value.trim()||null,
     interesse,

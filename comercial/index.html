@@ -62,7 +62,7 @@
 .lead-kpi strong{display:block;font-size:22px;margin-top:5px;color:var(--azul)}
 .lead-actions{display:flex;gap:8px;align-items:center}
 .lead-actions .btn{white-space:nowrap}
-.lead-status{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#e9f2fb;color:#205f94;font-size:10px;font-weight:800}
+.lead-convert-btn{padding:7px 9px;font-size:10px;white-space:nowrap}.lead-status{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#e9f2fb;color:#205f94;font-size:10px;font-weight:800}
 .lead-empty{padding:36px;text-align:center;color:var(--muted)}
 .lead-error{padding:13px;border-radius:8px;background:#fff4f4;border:1px solid #f1c5c5;color:#8a2020;font-size:12px;margin-bottom:15px}
 .lead-loading{padding:30px;text-align:center;color:var(--muted)}
@@ -102,9 +102,13 @@
 .op-kpi{background:#f7f9fb;border:1px solid var(--border);border-radius:8px;padding:14px}.op-kpi small{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase}.op-kpi strong{display:block;font-size:22px;margin-top:5px;color:var(--azul)}
 .op-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.op-toolbar .field,.op-toolbar .select{min-width:190px}
 .pipeline-wrap{overflow-x:auto;padding-bottom:8px}.pipeline{display:grid;grid-template-columns:repeat(8,minmax(235px,1fr));gap:10px;min-width:1900px}
-.pipeline-col{background:#f5f7fa;border:1px solid var(--border);border-radius:10px;min-height:360px;padding:10px}.pipeline-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:4px 2px 10px}.pipeline-head strong{font-size:12px;line-height:1.25}.pipeline-count{background:#e8f0f8;color:#205f94;border-radius:999px;padding:3px 7px;font-size:10px;font-weight:800}.pipeline-value{font-size:10px;color:var(--muted);margin-top:4px}.op-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:11px;margin-bottom:9px;box-shadow:0 2px 7px rgba(20,45,75,.05)}.op-card-title{font-size:13px;font-weight:800;color:#17324f;margin-bottom:5px}.op-card-meta{font-size:10px;color:var(--muted);line-height:1.55}.op-card-value{font-size:14px;font-weight:800;color:var(--azul);margin:7px 0}.op-card-actions{display:flex;gap:6px;margin-top:9px}.op-card-actions select{width:100%;font-size:10px;padding:6px;border:1px solid var(--border);border-radius:6px;background:#fff}.op-empty{padding:20px 8px;text-align:center;color:var(--muted);font-size:10px}.op-error{padding:13px;border-radius:8px;background:#fff4f4;border:1px solid #f1c5c5;color:#8a2020;font-size:12px;margin-bottom:15px}.op-flow{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-bottom:18px}.op-flow-step{padding:9px 6px;text-align:center;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:9px;color:var(--muted);font-weight:800}.op-flow-step span{display:block;color:#2c478b;font-size:10px;margin-bottom:3px}.op-total{font-size:18px;font-weight:800;color:var(--azul)}
+.pipeline-col{background:#f5f7fa;transition:background .15s,border-color .15s;border:1px solid var(--border);border-radius:10px;min-height:360px;padding:10px}.pipeline-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:4px 2px 10px}.pipeline-head strong{font-size:12px;line-height:1.25}.pipeline-count{background:#e8f0f8;color:#205f94;border-radius:999px;padding:3px 7px;font-size:10px;font-weight:800}.pipeline-value{font-size:10px;color:var(--muted);margin-top:4px}.op-card{background:#fff;cursor:grab;border:1px solid var(--border);border-radius:9px;padding:11px;margin-bottom:9px;box-shadow:0 2px 7px rgba(20,45,75,.05)}.op-card.dragging{opacity:.55}.pipeline-col.drop-target{background:#eaf3fb;border-color:#2b6699}.op-card:active{cursor:grabbing}.op-card-title{font-size:13px;font-weight:800;color:#17324f;margin-bottom:5px}.op-card-meta{font-size:10px;color:var(--muted);line-height:1.55}.op-card-value{font-size:14px;font-weight:800;color:var(--azul);margin:7px 0}.op-card-actions{display:flex;gap:6px;margin-top:9px}.op-card-actions select{width:100%;font-size:10px;padding:6px;border:1px solid var(--border);border-radius:6px;background:#fff}.op-empty{padding:20px 8px;text-align:center;color:var(--muted);font-size:10px}.op-error{padding:13px;border-radius:8px;background:#fff4f4;border:1px solid #f1c5c5;color:#8a2020;font-size:12px;margin-bottom:15px}.op-flow{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-bottom:18px}.op-flow-step{padding:9px 6px;text-align:center;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:9px;color:var(--muted);font-weight:800}.op-flow-step span{display:block;color:#2c478b;font-size:10px;margin-bottom:3px}.op-total{font-size:18px;font-weight:800;color:var(--azul)}
 @media(max-width:1100px){.op-kpis{grid-template-columns:repeat(2,1fr)}.op-flow{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:600px){.op-kpis{grid-template-columns:1fr}.op-toolbar .field,.op-toolbar .select{width:100%;min-width:0}.op-flow{grid-template-columns:repeat(2,1fr)}}
+
+<style>
+#leads,#oportunidades,#propostas{margin-left:30px;margin-right:6px}
+@media(max-width:700px){#leads,#oportunidades,#propostas{margin-left:0;margin-right:0}}
 </style>
 </head>
 <body>
@@ -139,7 +143,7 @@
 <div class="panel"><div class="panel-title"><h2>Formação de Preços</h2><span class="badge">Baseada na planilha MNE</span></div>
 <p style="font-size:13px;color:var(--muted);line-height:1.7">Centralize a formação de preços de serviços, cursos, treinamentos e palestras. O sistema calcula custos, margem desejada, preço final e bônus.</p>
 <button class="btn primary" onclick="openView('orcamentos')">Acessar Orçamentos de Serviços</button></div>
-<div class="panel"><div class="panel-title"><h2>Pipeline Comercial</h2></div><div class="kpi-line"><div class="kpi" style="flex:1"><small>Leads</small><strong>0</strong></div><div class="kpi" style="flex:1"><small>Oportunidades</small><strong>0</strong></div><div class="kpi" style="flex:1"><small>Propostas</small><strong>0</strong></div></div></div>
+<div class="panel"><div class="panel-title"><div><h2>Pipeline Comercial</h2><p style="margin:4px 0 0;color:var(--muted);font-size:12px">Arraste uma oportunidade para outra etapa ou use o seletor no cartão.</p></div><span class="badge">ARRASTE PARA MOVER</span></div><div class="kpi-line"><div class="kpi" style="flex:1"><small>Leads</small><strong>0</strong></div><div class="kpi" style="flex:1"><small>Oportunidades</small><strong>0</strong></div><div class="kpi" style="flex:1"><small>Propostas</small><strong>0</strong></div></div></div>
 </div>
 </section>
 
@@ -331,10 +335,11 @@
           <th>Potencial</th>
           <th>Status</th>
           <th>Próxima ação</th>
+          <th>Ação</th>
         </tr>
       </thead>
       <tbody id="leadsBody">
-        <tr><td colspan="8" class="lead-loading">Carregando leads...</td></tr>
+        <tr><td colspan="9" class="lead-loading">Carregando leads...</td></tr>
       </tbody>
     </table>
   </div>
@@ -370,7 +375,7 @@
 </div>
 
 <div class="panel">
-  <div class="panel-title"><h2>Pipeline Comercial</h2></div>
+  <div class="panel-title"><div><h2>Pipeline Comercial</h2><p style="margin:4px 0 0;color:var(--muted);font-size:12px">Arraste uma oportunidade para outra etapa ou use o seletor no cartão.</p></div><span class="badge">ARRASTE PARA MOVER</span></div>
   <div class="op-toolbar" style="margin-bottom:16px">
     <input id="opSearch" class="field" type="search" placeholder="Buscar empresa, oportunidade...">
     <select id="opResponsavelFilter" class="select"><option value="">Todos os responsáveis</option></select>
@@ -385,7 +390,11 @@
   <button class="btn" onclick="loadProposals()">↻ Atualizar</button>
 </div>
 <div class="panel">
-  <div class="panel-title"><h2>Propostas cadastradas</h2><span class="badge">LINK GOOGLE DRIVE</span></div>
+  <div class="panel-title"><div><h2>Propostas cadastradas</h2><p style="margin:4px 0 0;color:var(--muted);font-size:12px">Acompanhe as propostas vinculadas aos orçamentos e acesse o documento no Google Drive.</p></div><span class="badge">LINK GOOGLE DRIVE</span></div>
+  <div class="op-toolbar" style="margin-bottom:16px">
+    <input id="proposalSearch" class="field" type="search" placeholder="Buscar proposta, cliente, título...">
+    <select id="proposalStatusFilter" class="select"><option value="">Todos os status</option><option>Em elaboração</option><option>Enviada</option><option>Aprovada</option><option>Recusada</option></select>
+  </div>
   <div class="table-wrap">
     <table>
       <thead><tr><th>Proposta</th><th>Orçamento</th><th>Cliente</th><th>Título</th><th>Status</th><th>Acesso</th></tr></thead>
@@ -798,7 +807,7 @@ function renderLeads(){
   document.getElementById('leadKpiQualificados').textContent=leadsCache.filter(x=>String(x.status||'')==='Qualificado').length;
 
   if(!filtered.length){
-    body.innerHTML='<tr><td colspan="8" class="lead-empty">Nenhum lead encontrado.</td></tr>';
+    body.innerHTML='<tr><td colspan="9" class="lead-empty">Nenhum lead encontrado.</td></tr>';
     return;
   }
 
@@ -821,6 +830,7 @@ function renderLeads(){
         ${escapeHtml(l.proxima_acao||'—')}
         ${l.proxima_acao_data?`<br><small style="color:var(--muted)">${leadDate(l.proxima_acao_data)}</small>`:''}
       </td>
+      <td><button class="btn lead-convert-btn" onclick="openOpportunityFromLead('${escapeHtml(String(l.id))}')">${String(l.status||'Novo')==='Convertido'?'Ver oportunidade':'Criar oportunidade'}</button></td>
     </tr>
   `).join('');
 }
@@ -831,7 +841,7 @@ async function loadLeads(){
 
   const ok=await ensureCommercialSession();
   if(!ok){
-    body.innerHTML='<tr><td colspan="8" class="lead-error">Faça login para visualizar os Leads.</td></tr>';
+    body.innerHTML='<tr><td colspan="9" class="lead-error">Faça login para visualizar os Leads.</td></tr>';
     return;
   }
 
@@ -853,7 +863,7 @@ async function loadLeads(){
     document.getElementById('leadKpiNovos').textContent='0';
     document.getElementById('leadKpiQualificacao').textContent='0';
     document.getElementById('leadKpiQualificados').textContent='0';
-    body.innerHTML='<tr><td colspan="8" class="lead-error">Não foi possível carregar os Leads.</td></tr>';
+    body.innerHTML='<tr><td colspan="9" class="lead-error">Não foi possível carregar os Leads.</td></tr>';
     showLeadError(error?.message||'Erro ao consultar a tabela leads_comerciais.');
   }
 }
@@ -969,7 +979,7 @@ async function loadOpportunityLeads(){
   // O lead_id da oportunidade acompanha o identificador real do cadastro de Leads.
   // A base atual de Leads possui identificadores numéricos; por isso o vínculo é tratado como texto.
   opportunityLeads=(data||[]).filter(l=>l.id!==null && l.id!==undefined && String(l.id).trim()!=='');
-  sel.innerHTML='<option value="">Selecione um Lead...</option>'+opportunityLeads.map(l=>`<option value="${escapeHtml(String(l.id))}">${escapeHtml(l.codigo||'Lead')} — ${escapeHtml(l.empresa_nome||'')}</option>`).join('');
+  sel.innerHTML='<option value="">'+(opportunityLeads.length?'Selecione um Lead...':'Nenhum Lead cadastrado')+'</option>'+opportunityLeads.map(l=>`<option value="${escapeHtml(String(l.id))}">${escapeHtml(l.codigo||'Lead')} — ${escapeHtml(l.empresa_nome||'')}</option>`).join('');
 }
 
 function fillOpportunityFromLead(){
@@ -980,6 +990,15 @@ function fillOpportunityFromLead(){
   if(lead.interesse)document.getElementById('opInteresse').value=lead.interesse;
   if(lead.potencial_valor)document.getElementById('opValor').value=lead.potencial_valor;
   document.getElementById('opNecessidade').value='';
+}
+
+async function openOpportunityFromLead(id){
+  const lead=leadsCache.find(x=>String(x.id)===String(id));
+  if(!lead){showLeadError('Lead não encontrado na base atual.');return;}
+  openOpportunityModal();
+  await loadOpportunityLeads();
+  const sel=document.getElementById('opLead');
+  if(sel){sel.value=String(lead.id);fillOpportunityFromLead();}
 }
 
 function openOpportunityModal(){
@@ -1027,8 +1046,13 @@ async function saveOpportunity(){
   try{
     const {data,error}=await supabaseClient.from('oportunidades_comerciais').insert(payload).select().single();
     if(error)throw error;
+    if(selectedLeadId!=='') {
+      const leadUpdate=await supabaseClient.from('leads_comerciais').update({status:'Convertido',updated_at:new Date().toISOString()}).eq('id',selectedLeadId);
+      if(leadUpdate.error) console.warn('Oportunidade criada, mas não foi possível atualizar o status do Lead:',leadUpdate.error.message);
+    }
     closeModal('modalOportunidade');
     await loadOpportunities();
+    await loadLeads();
     alert(`Oportunidade ${data?.codigo||''} cadastrada com sucesso.`);
   }catch(error){console.error(error);showOpError(error?.message||'Não foi possível salvar a oportunidade.',true);}finally{btn.disabled=false;btn.textContent='SALVAR OPORTUNIDADE';}
 }
@@ -1054,20 +1078,65 @@ function renderOpportunityPipeline(){
   box.innerHTML=OP_STAGES.map(stage=>{
     const items=filtered.filter(o=>o.etapa===stage);
     const total=items.reduce((a,o)=>a+Number(o.potencial_valor||0),0);
-    return `<div class="pipeline-col"><div class="pipeline-head"><div><strong>${escapeHtml(stage)}</strong><div class="pipeline-value">${moneyOp(total)}</div></div><span class="pipeline-count">${items.length}</span></div>${items.length?items.map(opportunityCard).join(''):'<div class="op-empty">Nenhuma oportunidade</div>'}</div>`;
+    return `<div class="pipeline-col" data-stage="${escapeHtml(stage)}" ondragover="allowOpportunityDrop(event)" ondrop="dropOpportunity(event,'${escapeHtml(stage)}')">
+      <div class="pipeline-head"><div><strong>${escapeHtml(stage)}</strong><div class="pipeline-value">${moneyOp(total)}</div></div><span class="pipeline-count">${items.length}</span></div>
+      <div class="pipeline-cards">${items.length?items.map(opportunityCard).join(''):'<div class="op-empty">Nenhuma oportunidade</div>'}</div>
+    </div>`;
   }).join('');
 }
 
 function opportunityCard(o){
   const p=Math.max(0,Math.min(100,Number(o.probabilidade)||0));
-  return `<div class="op-card"><div class="op-card-title">${escapeHtml(o.empresa_nome||'Sem empresa')}</div><div class="op-card-meta">${escapeHtml(o.codigo||'—')} · ${escapeHtml(o.interesse||'—')}<br>${escapeHtml(o.responsavel_nome||'Sem responsável')}</div><div class="op-card-value">${moneyOp(o.potencial_valor)} <span style="font-size:10px;color:var(--muted);font-weight:600">· ${p}%</span></div><div class="op-card-meta">${o.proxima_acao?`Próxima ação: ${escapeHtml(o.proxima_acao)}`:'Sem próxima ação'}${o.proxima_acao_data?` · ${formatDateBR(o.proxima_acao_data)}`:''}</div><div class="op-card-actions"><select onchange="changeOpportunityStage('${escapeHtml(o.id)}',this.value)">${OP_STAGES.map(s=>`<option value="${escapeHtml(s)}" ${s===o.etapa?'selected':''}>Mover para: ${escapeHtml(s)}</option>`).join('')}</select></div></div>`;
+  const lead=o.lead_id ? 'Lead vinculado' : 'Sem Lead vinculado';
+  return `<div class="op-card" draggable="true" data-opportunity-id="${escapeHtml(String(o.id))}" ondragstart="startOpportunityDrag(event,'${escapeHtml(String(o.id))}')">
+    <div class="op-card-title">${escapeHtml(o.empresa_nome||'Sem empresa')}</div>
+    <div class="op-card-meta"><strong>${escapeHtml(o.codigo||'—')}</strong> · ${escapeHtml(o.interesse||'—')}<br>${escapeHtml(o.responsavel_nome||'Sem responsável')} · ${lead}</div>
+    <div class="op-card-value">${moneyOp(o.potencial_valor)} <span style="font-size:10px;color:var(--muted);font-weight:600">· ${p}%</span></div>
+    <div class="op-card-meta">${o.proxima_acao?`Próxima ação: ${escapeHtml(o.proxima_acao)}`:'Sem próxima ação'}${o.proxima_acao_data?` · ${formatDateBR(o.proxima_acao_data)}`:''}</div>
+    <div class="op-card-actions"><select aria-label="Mover oportunidade" onchange="changeOpportunityStage('${escapeHtml(String(o.id))}',this.value)">${OP_STAGES.map(s=>`<option value="${escapeHtml(s)}" ${s===o.etapa?'selected':''}>Mover para: ${escapeHtml(s)}</option>`).join('')}</select></div>
+  </div>`;
+}
+
+let draggingOpportunityId=null;
+function startOpportunityDrag(event,id){
+  draggingOpportunityId=String(id);
+  event.dataTransfer.effectAllowed='move';
+  event.dataTransfer.setData('text/plain',String(id));
+  event.currentTarget.classList.add('dragging');
+}
+function allowOpportunityDrop(event){
+  event.preventDefault();
+  event.dataTransfer.dropEffect='move';
+  event.currentTarget.classList.add('drop-target');
+}
+function clearOpportunityDropState(){
+  document.querySelectorAll('.pipeline-col.drop-target').forEach(el=>el.classList.remove('drop-target'));
+  document.querySelectorAll('.op-card.dragging').forEach(el=>el.classList.remove('dragging'));
+}
+async function dropOpportunity(event,stage){
+  event.preventDefault();
+  const id=draggingOpportunityId||event.dataTransfer.getData('text/plain');
+  clearOpportunityDropState();
+  draggingOpportunityId=null;
+  if(!id)return;
+  await changeOpportunityStage(id,stage);
 }
 
 async function changeOpportunityStage(id,stage){
-  const o=opportunities.find(x=>String(x.id)===String(id)); if(!o||o.etapa===stage)return;
-  const {error}=await supabaseClient.from('oportunidades_comerciais').update({etapa:stage,updated_at:new Date().toISOString()}).eq('id',id);
-  if(error){showOpError(error.message);renderOpportunityPipeline();return;}
-  o.etapa=stage;renderOpportunityPipeline();updateOpportunityKpis();
+  const o=opportunities.find(x=>String(x.id)===String(id));
+  if(!o||o.etapa===stage)return;
+  clearOpError();
+  const previous=o.etapa;
+  o.etapa=stage;
+  renderOpportunityPipeline();
+  updateOpportunityKpis();
+  const {error}=await supabaseClient.from('oportunidades_comerciais').update({etapa:stage,data_entrada_etapa:new Date().toISOString(),updated_at:new Date().toISOString()}).eq('id',id);
+  if(error){
+    o.etapa=previous;
+    renderOpportunityPipeline();
+    updateOpportunityKpis();
+    showOpError(`Não foi possível mover a oportunidade: ${error.message}`);
+  }
 }
 
 function updateOpportunityKpis(){
@@ -1098,20 +1167,40 @@ document.getElementById('opLead')?.addEventListener('change',fillOpportunityFrom
 document.getElementById('opSearch')?.addEventListener('input',renderOpportunityPipeline);
 document.getElementById('opResponsavelFilter')?.addEventListener('change',renderOpportunityPipeline);
 document.getElementById('opEtapaFilter')?.addEventListener('change',renderOpportunityPipeline);
+document.getElementById('proposalSearch')?.addEventListener('input',renderProposals);
+document.getElementById('proposalStatusFilter')?.addEventListener('change',renderProposals);
+document.addEventListener('dragend',clearOpportunityDropState);
 document.getElementById('modalOportunidade')?.addEventListener('click',e=>{if(e.target.id==='modalOportunidade')closeModal('modalOportunidade')});
 
+let proposalsCache=[];
+function renderProposals(){
+  const body=document.getElementById('proposalsBody'); if(!body)return;
+  const q=(document.getElementById('proposalSearch')?.value||'').toLowerCase().trim();
+  const status=document.getElementById('proposalStatusFilter')?.value||'';
+  const filtered=proposalsCache.filter(p=>{
+    const o=p.orcamentos_comerciais||{}, c=o.clientes||{};
+    const hay=[p.codigo_proposta,p.orcamento_codigo,o.codigo,c.nome_fantasia,c.razao_social,p.titulo,p.status].join(' ').toLowerCase();
+    return (!q||hay.includes(q))&&(!status||String(p.status||'')===status);
+  });
+  if(!filtered.length){body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:30px">Nenhuma proposta encontrada.</td></tr>';return;}
+  body.innerHTML=filtered.map(p=>{
+    const o=p.orcamentos_comerciais||{}, c=o.clientes||{};
+    return `<tr><td><strong>${escapeHtml(p.codigo_proposta||'—')}</strong></td><td>${escapeHtml(p.orcamento_codigo||o.codigo||'—')}</td><td>${escapeHtml(c.nome_fantasia||c.razao_social||p.cliente_nome||'—')}</td><td>${escapeHtml(p.titulo||'—')}</td><td><span class="status-badge">${escapeHtml(p.status||'—')}</span></td><td><a class="proposal-btn ${p.link_google_drive?'':'disabled'}" href="${p.link_google_drive?escapeHtml(p.link_google_drive):'#'}" target="_blank" rel="noopener">${p.link_google_drive?'ABRIR PROPOSTA':'SEM LINK'}</a></td></tr>`;
+  }).join('');
+}
 async function loadProposals(){
   const body=document.getElementById('proposalsBody');if(!body)return;
-  const ok=await ensureCommercialSession();if(!ok)return;
+  const ok=await ensureCommercialSession();if(!ok){body.innerHTML='<tr><td colspan="6" style="text-align:center;color:#8a2020;padding:24px">Faça login para visualizar as propostas.</td></tr>';return;}
+  body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:24px">Carregando propostas...</td></tr>';
   const {data,error}=await supabaseClient.from('propostas_comerciais').select('*,orcamentos_comerciais(id,codigo,descricao,clientes(nome_fantasia,razao_social))').order('created_at',{ascending:false});
-  if(error){body.innerHTML=`<tr><td colspan="6" style="text-align:center;color:#8a2020;padding:24px">${escapeHtml(error.message)}</td></tr>`;return;}
-  if(!data?.length){body.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:30px">Nenhuma proposta vinculada.</td></tr>';return;}
-  body.innerHTML=data.map(p=>{const o=p.orcamentos_comerciais||{};const c=o.clientes||{};return `<tr><td><strong>${escapeHtml(p.codigo_proposta||'—')}</strong></td><td>${escapeHtml(p.orcamento_codigo||o.codigo||'—')}</td><td>${escapeHtml(c.nome_fantasia||c.razao_social||'—')}</td><td>${escapeHtml(p.titulo||'—')}</td><td><span class="status-badge">${escapeHtml(p.status||'—')}</span></td><td><a class="proposal-btn ${p.link_google_drive?'':'disabled'}" href="${p.link_google_drive?escapeHtml(p.link_google_drive):'#'}" target="_blank" rel="noopener">${p.link_google_drive?'ABRIR PROPOSTA':'SEM LINK'}</a></td></tr>`}).join('');
+  if(error){proposalsCache=[];body.innerHTML=`<tr><td colspan="6" style="text-align:center;color:#8a2020;padding:24px">Não foi possível carregar as propostas. ${escapeHtml(error.message)}</td></tr>`;return;}
+  proposalsCache=data||[];
+  renderProposals();
 }
 
 function openModal(id){document.getElementById(id)?.classList.add('show')}
 function closeModal(id){document.getElementById(id)?.classList.remove('show')}
-function openView(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(id)?.classList.add('active');document.querySelectorAll('.nav button[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===id));}
+function openView(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(id)?.classList.add('active');document.querySelectorAll('.nav button[data-view]').forEach(x=>x.classList.toggle('active',x.dataset.view===id));if(id==='oportunidades'){loadOpportunities();}if(id==='leads'){loadLeads();}if(id==='propostas'){loadProposals();}}
 document.querySelectorAll('.nav button[data-view]').forEach(b=>b.addEventListener('click',()=>openView(b.dataset.view)));
 document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>selectTab(b.dataset.tab)));
 function selectTab(tab){document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));document.querySelectorAll('.tab-content').forEach(x=>x.style.display='none');document.getElementById('tab-'+tab).style.display='block';}

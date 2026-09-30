@@ -27,18 +27,21 @@
 @media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.sidebar{width:215px}.main{margin-left:215px;width:calc(100% - 215px)}}
 @media(max-width:700px){.sidebar{display:none}.main{margin-left:0;width:100%}.search{width:180px}.content{padding:20px}.cards,.formgrid{grid-template-columns:1fr}.head{align-items:flex-start;gap:15px;flex-direction:column}}
 /* ESPACAMENTO DOS MODULOS COMERCIAIS */
-#oportunidades, #propostas{padding:0 0 45px}
+#oportunidades, #propostas{padding:0 55px 45px 55px}
 #oportunidades .head, #propostas .head{margin-bottom:30px}
 #oportunidades .panel, #propostas .panel{margin-bottom:24px}
 #oportunidades .op-flow{margin-top:4px}
-@media(max-width:700px){.content{padding:28px 20px 45px}}
+@media(max-width:700px){
+  .content{padding:28px 20px 45px}
+  #leads, #oportunidades, #propostas{padding-left:0;padding-right:0}
+}
 
 
 /* ============================================================
    AJUSTE DE LAYOUT — LEADS
    Mais respiro visual sem alterar a identidade da Monitore.
    ============================================================ */
-#leads{padding:0 0 40px}
+#leads{padding:0 55px 40px 55px}
 #leads .head{margin-bottom:30px;padding:0}
 #leads .head h1{font-size:27px}
 #leads .head p{font-size:14px}

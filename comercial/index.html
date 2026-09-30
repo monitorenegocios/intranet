@@ -104,10 +104,9 @@
 .op-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .op-kpi{background:#f7f9fb;border:1px solid var(--border);border-radius:8px;padding:14px}.op-kpi small{display:block;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase}.op-kpi strong{display:block;font-size:22px;margin-top:5px;color:var(--azul)}
 .op-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.op-toolbar .field,.op-toolbar .select{min-width:190px}
-.pipeline-wrap{overflow-x:auto;padding-bottom:8px}.pipeline{display:grid;grid-template-columns:repeat(8,minmax(235px,1fr));gap:10px;min-width:1900px}
-.pipeline-col{background:#f5f7fa;transition:background .15s,border-color .15s;border:1px solid var(--border);border-radius:10px;min-height:360px;padding:10px}.pipeline-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:4px 2px 10px}.pipeline-head strong{font-size:12px;line-height:1.25}.pipeline-count{background:#e8f0f8;color:#205f94;border-radius:999px;padding:3px 7px;font-size:10px;font-weight:800}.pipeline-value{font-size:10px;color:var(--muted);margin-top:4px}.op-card{background:#fff;cursor:grab;border:1px solid var(--border);border-radius:9px;padding:11px;margin-bottom:9px;box-shadow:0 2px 7px rgba(20,45,75,.05)}.op-card.dragging{opacity:.55}.pipeline-col.drop-target{background:#eaf3fb;border-color:#2b6699}.op-card:active{cursor:grabbing}.op-card-title{font-size:13px;font-weight:800;color:#17324f;margin-bottom:5px}.op-card-meta{font-size:10px;color:var(--muted);line-height:1.55}.op-card-value{font-size:14px;font-weight:800;color:var(--azul);margin:7px 0}.op-card-actions{display:flex;gap:6px;margin-top:9px}.op-card-actions select{width:100%;font-size:10px;padding:6px;border:1px solid var(--border);border-radius:6px;background:#fff}.op-empty{padding:20px 8px;text-align:center;color:var(--muted);font-size:10px}.op-error{padding:13px;border-radius:8px;background:#fff4f4;border:1px solid #f1c5c5;color:#8a2020;font-size:12px;margin-bottom:15px}.op-flow{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-bottom:18px}.op-flow-step{padding:9px 6px;text-align:center;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:9px;color:var(--muted);font-weight:800}.op-flow-step span{display:block;color:#2c478b;font-size:10px;margin-bottom:3px}.op-total{font-size:18px;font-weight:800;color:var(--azul)}
-@media(max-width:1100px){.op-kpis{grid-template-columns:repeat(2,1fr)}.op-flow{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:600px){.op-kpis{grid-template-columns:1fr}.op-toolbar .field,.op-toolbar .select{width:100%;min-width:0}.op-flow{grid-template-columns:repeat(2,1fr)}}
+.pipeline-wrap{overflow:visible;padding-bottom:4px}.pipeline{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:12px;min-width:0}.pipeline-col{background:#f5f7fa;transition:background .15s,border-color .15s,transform .15s;border:1px solid var(--border);border-radius:10px;min-height:300px;padding:12px}.pipeline-col.drop-target{background:#eaf3fb;border-color:#2b6699;box-shadow:inset 0 0 0 2px rgba(43,102,153,.08)}.pipeline-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:4px 2px 10px}.pipeline-head strong{font-size:12px;line-height:1.25}.pipeline-count{background:#e8f0f8;color:#205f94;border-radius:999px;padding:3px 7px;font-size:10px;font-weight:800;white-space:nowrap}.pipeline-value{font-size:10px;color:var(--muted);margin-top:4px}.op-card{background:#fff;cursor:grab;border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:9px;box-shadow:0 2px 7px rgba(20,45,75,.05);user-select:none}.op-card.dragging{opacity:.5;transform:scale(.98)}.op-card:active{cursor:grabbing}.op-card-title{font-size:13px;font-weight:800;color:#17324f;margin-bottom:5px}.op-card-meta{font-size:10px;color:var(--muted);line-height:1.55}.op-card-value{font-size:15px;font-weight:800;color:var(--azul);margin:7px 0}.op-card-weighted{font-size:10px;color:#2c478b;font-weight:800}.op-card-actions{display:flex;gap:6px;margin-top:9px}.op-card-actions select{width:100%;font-size:10px;padding:7px;border:1px solid var(--border);border-radius:6px;background:#fff}.op-empty{padding:28px 8px;text-align:center;color:var(--muted);font-size:10px;border:1px dashed #d6dee8;border-radius:8px;background:#fff}.op-error{padding:13px;border-radius:8px;background:#fff4f4;border:1px solid #f1c5c5;color:#8a2020;font-size:12px;margin-bottom:15px}.op-flow{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;margin-bottom:4px}.op-flow-step{padding:10px 7px;text-align:center;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:9px;color:var(--muted);font-weight:800;min-height:68px}.op-flow-step.active{border-color:#2b6699;background:#f4f9fd}.op-flow-step span{display:block;color:#2c478b;font-size:10px;margin-bottom:4px}.op-flow-count{display:block;margin-top:5px;font-size:11px;color:#17324f}.op-flow-value{display:block;margin-top:2px;font-size:9px;color:var(--muted);font-weight:700}.op-total{font-size:18px;font-weight:800;color:var(--azul)}
+@media(max-width:1100px){.op-kpis{grid-template-columns:repeat(2,1fr)}.op-flow{grid-template-columns:repeat(4,1fr)}.pipeline{grid-template-columns:repeat(2,minmax(220px,1fr))}}
+@media(max-width:600px){.op-kpis{grid-template-columns:1fr}.op-toolbar .field,.op-toolbar .select{width:100%;min-width:0}.op-flow{grid-template-columns:1fr}.pipeline{grid-template-columns:1fr}}
 
 <style>
 #leads,#oportunidades,#propostas{margin-left:30px;margin-right:6px}
@@ -364,17 +363,8 @@
 </div>
 
 <div class="panel" style="margin-bottom:16px">
-  <div class="panel-title"><div><h2>Etapas do Pipeline</h2><p style="margin:4px 0 0;color:var(--muted);font-size:12px">Da oportunidade qualificada até a decisão do cliente.</p></div><span class="badge">MONITORE</span></div>
-  <div class="op-flow">
-    <div class="op-flow-step"><span>01</span>Lead Qualificado</div>
-    <div class="op-flow-step"><span>02</span>Diagnóstico / Descoberta</div>
-    <div class="op-flow-step"><span>03</span>Oportunidade Qualificada</div>
-    <div class="op-flow-step"><span>04</span>GO / NO GO</div>
-    <div class="op-flow-step"><span>05</span>Solução</div>
-    <div class="op-flow-step"><span>06</span>Proposta / Orçamento</div>
-    <div class="op-flow-step"><span>07</span>Negociação</div>
-    <div class="op-flow-step"><span>08</span>Decisão</div>
-  </div>
+  <div class="panel-title"><div><h2>Funil Comercial</h2><p style="margin:4px 0 0;color:var(--muted);font-size:12px">Acompanhe cada Lead/Oportunidade por etapa, valor e probabilidade.</p></div><span class="badge">FUNIL MONITORE</span></div>
+  <div id="opFlow" class="op-flow"></div>
 </div>
 
 <div class="panel">
@@ -1078,26 +1068,27 @@ function renderOpportunityPipeline(){
     const hay=[o.codigo,o.empresa_nome,o.contato_nome,o.interesse,o.responsavel_nome,o.proxima_acao].join(' ').toLowerCase();
     return (!q||hay.includes(q))&&(!rf||o.responsavel_nome===rf)&&(!ef||o.etapa===ef);
   });
+  const flow=document.getElementById('opFlow');
+  if(flow){
+    flow.innerHTML=OP_STAGES.map((stage,i)=>{
+      const items=filtered.filter(o=>o.etapa===stage);
+      const total=items.reduce((a,o)=>a+Number(o.potencial_valor||0),0);
+      return `<div class="op-flow-step ${items.length?'active':''}"><span>${String(i+1).padStart(2,'0')}</span>${escapeHtml(stage)}<strong class="op-flow-count">${items.length} ${items.length===1?'oportunidade':'oportunidades'}</strong><small class="op-flow-value">${moneyOp(total)}</small></div>`;
+    }).join('');
+  }
   box.innerHTML=OP_STAGES.map(stage=>{
     const items=filtered.filter(o=>o.etapa===stage);
     const total=items.reduce((a,o)=>a+Number(o.potencial_valor||0),0);
-    return `<div class="pipeline-col" data-stage="${escapeHtml(stage)}" ondragover="allowOpportunityDrop(event)" ondrop="dropOpportunity(event,'${escapeHtml(stage)}')">
-      <div class="pipeline-head"><div><strong>${escapeHtml(stage)}</strong><div class="pipeline-value">${moneyOp(total)}</div></div><span class="pipeline-count">${items.length}</span></div>
-      <div class="pipeline-cards">${items.length?items.map(opportunityCard).join(''):'<div class="op-empty">Nenhuma oportunidade</div>'}</div>
-    </div>`;
+    const weighted=items.reduce((a,o)=>a+Number(o.valor_ponderado ?? (Number(o.potencial_valor||0)*Number(o.probabilidade||0)/100)),0);
+    return `<div class="pipeline-col" data-stage="${escapeHtml(stage)}" ondragover="allowOpportunityDrop(event)" ondragleave="this.classList.remove('drop-target')" ondrop="dropOpportunity(event,'${escapeHtml(stage)}')"><div class="pipeline-head"><div><strong>${escapeHtml(stage)}</strong><div class="pipeline-value">${moneyOp(total)} · ${moneyOp(weighted)} ponderado</div></div><span class="pipeline-count">${items.length}</span></div><div class="pipeline-cards">${items.length?items.map(opportunityCard).join(''):'<div class="op-empty">Arraste uma oportunidade para esta etapa</div>'}</div></div>`;
   }).join('');
 }
 
 function opportunityCard(o){
   const p=Math.max(0,Math.min(100,Number(o.probabilidade)||0));
-  const lead=o.lead_id ? 'Lead vinculado' : 'Sem Lead vinculado';
-  return `<div class="op-card" draggable="true" data-opportunity-id="${escapeHtml(String(o.id))}" ondragstart="startOpportunityDrag(event,'${escapeHtml(String(o.id))}')">
-    <div class="op-card-title">${escapeHtml(o.empresa_nome||'Sem empresa')}</div>
-    <div class="op-card-meta"><strong>${escapeHtml(o.codigo||'—')}</strong> · ${escapeHtml(o.interesse||'—')}<br>${escapeHtml(o.responsavel_nome||'Sem responsável')} · ${lead}</div>
-    <div class="op-card-value">${moneyOp(o.potencial_valor)} <span style="font-size:10px;color:var(--muted);font-weight:600">· ${p}%</span></div>
-    <div class="op-card-meta">${o.proxima_acao?`Próxima ação: ${escapeHtml(o.proxima_acao)}`:'Sem próxima ação'}${o.proxima_acao_data?` · ${formatDateBR(o.proxima_acao_data)}`:''}</div>
-    <div class="op-card-actions"><select aria-label="Mover oportunidade" onchange="changeOpportunityStage('${escapeHtml(String(o.id))}',this.value)">${OP_STAGES.map(s=>`<option value="${escapeHtml(s)}" ${s===o.etapa?'selected':''}>Mover para: ${escapeHtml(s)}</option>`).join('')}</select></div>
-  </div>`;
+  const weighted=Number(o.valor_ponderado ?? (Number(o.potencial_valor||0)*p/100));
+  const lead=o.lead_id ? 'Lead vinculado' : 'Oportunidade sem Lead';
+  return `<div class="op-card" draggable="true" data-opportunity-id="${escapeHtml(String(o.id))}" ondragstart="startOpportunityDrag(event,'${escapeHtml(String(o.id))}')" title="Arraste para mover entre as etapas"><div class="op-card-title">${escapeHtml(o.empresa_nome||'Sem empresa')}</div><div class="op-card-meta"><strong>${escapeHtml(o.codigo||'—')}</strong> · ${escapeHtml(o.interesse||'—')}<br>${escapeHtml(o.contato_nome||'Sem contato')} · ${escapeHtml(o.responsavel_nome||'Sem responsável')}<br>${escapeHtml(lead)}</div><div class="op-card-value">${moneyOp(o.potencial_valor)} <span style="font-size:10px;color:var(--muted);font-weight:600">· ${p}%</span></div><div class="op-card-weighted">Valor ponderado: ${moneyOp(weighted)}</div><div class="op-card-meta" style="margin-top:6px">${o.proxima_acao?`Próxima ação: ${escapeHtml(o.proxima_acao)}`:'Sem próxima ação'}${o.proxima_acao_data?` · ${formatDateBR(o.proxima_acao_data)}`:''}</div><div class="op-card-actions"><select aria-label="Mover oportunidade" onchange="changeOpportunityStage('${escapeHtml(String(o.id))}',this.value)">${OP_STAGES.map(s=>`<option value="${escapeHtml(s)}" ${s===o.etapa?'selected':''}>Mover para: ${escapeHtml(s)}</option>`).join('')}</select></div></div>`;
 }
 
 let draggingOpportunityId=null;
@@ -1162,7 +1153,7 @@ async function loadOpportunities(){
   body.innerHTML='<div class="op-empty" style="grid-column:1/-1">Carregando pipeline...</div>';
   const {data,error}=await supabaseClient.from('oportunidades_comerciais').select('*').order('created_at',{ascending:false});
   if(error){opportunities=[];updateOpportunityKpis();body.innerHTML='';showOpError(`Não foi possível carregar o pipeline. ${error.message}`);return;}
-  opportunities=(data||[]).map(o=>({...o,etapa:OP_STAGES.includes(o.etapa)?o.etapa:OP_STAGES[0]}));
+  opportunities=(data||[]).map(o=>({...o,etapa:OP_STAGES.includes(o.etapa)?o.etapa:OP_STAGES[0],potencial_valor:Number(o.potencial_valor||0),probabilidade:Number(o.probabilidade||0),valor_ponderado:o.valor_ponderado===null||o.valor_ponderado===undefined?Number(o.potencial_valor||0)*Number(o.probabilidade||0)/100:Number(o.valor_ponderado)}));
   renderOpportunityFilters();updateOpportunityKpis();renderOpportunityPipeline();
 }
 
